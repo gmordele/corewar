@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/01 19:15:42 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/10 01:35:44 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,9 +14,10 @@ NAME			=	asm
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Werror -Wextra #-fsanitize=address
+CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 
-SRC				=	main.c
+SRC				=	main.c					err_exit.c			\
+					get_file_content.c		get_next_token.c	\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

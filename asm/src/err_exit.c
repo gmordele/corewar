@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   err_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 01:31:55 by gmordele         ###   ########.fr       */
+/*   Created: 2018/02/10 01:25:57 by gmordele          #+#    #+#             */
+/*   Updated: 2018/02/10 01:32:22 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
+#include <errno.h>
+#include "stdlib.h"
 #include "libft.h"
 #include "asm.h"
 
-static void init_data(t_data *data)
+void err_exit(t_data data)
 {
 	(void)data;
+	exit(EXIT_FAILURE);
 }
 
-int main(int argc, char **argv)
+void err_exit_str(char *str, t_data data)
 {
-	(void)argc;
-	(void)argv;
-	t_data data;
+	ft_dprintf(2, "error: %s\n", str);
+	err_exit(data);
+}
 
-	init_data(&data);
-	if (argc < 2)
-		err_exit_str("need argument", data);
-	ft_printf("%s\n", get_file_content(argv[1], data));
-
-	return (0);
+void err_exit_strerror(char *str, t_data data)
+{
+	ft_dprintf(2, "error: %s: %s\n", str, strerror(errno));
+	err_exit(data);
 }
