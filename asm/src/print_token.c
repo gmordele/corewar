@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 03:30:49 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 03:47:09 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 20:57:46 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,12 @@ void		print_token(int fd, t_token *token)
 		ft_dprintf(fd, "COMMAND_NAME \"%s\"", token->str_val);
 	else if (token->type == TOK_COMMAND_COMMENT)
 		ft_dprintf(fd, "COMMAND_COMMENT \"%s\"", token->str_val);
+	else if (token->type == TOK_STRING)
+		ft_dprintf(fd, "STRING \"\"%s\"\"", token->str_val);
+	else if (token->type == TOK_SEPARATOR)
+		ft_dprintf(fd, "SEPARATOR \"%s\"", token->str_val);
+	else if (token->type == TOK_LABEL)
+		ft_dprintf(fd, "LABEL \"%s\"", token->str_val);
+	else if (token->type == TOK_INSTRUCTION)
+		ft_dprintf(fd, "INSTRUCTION \"%s\"", token->str_val);
 }

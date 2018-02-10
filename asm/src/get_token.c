@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 02:46:39 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 04:02:07 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 21:38:14 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,54 +37,42 @@ static t_token		*token_command(char **str, int *i, int *row, t_data *data)
 {
 	t_token	*ret;
 
+	ret = NULL;
 	if (!ft_strncmp(*str + *i, NAME_CMD_STRING,
 				ft_strlen(NAME_CMD_STRING)))
 	{
-		ret = new_token(TOK_COMMAND_NAME, *row, *i + 1, data);
-		ret->str_val = ft_strdup(".name");
-		*i += ft_strlen(NAME_CMD_STRING);
+		if ((ret = new_token(TOK_COMMAND_NAME, *row, *i + 1, data)) != NULL)
+			if ((ret->str_val = ft_strdup(".name")) != NULL)
+				*i += ft_strlen(NAME_CMD_STRING);
 	}
 	else if (!ft_strncmp(*str + *i, COMMENT_CMD_STRING,
 				ft_strlen(COMMENT_CMD_STRING)))
 	{
-		ret = new_token(TOK_COMMAND_COMMENT, *row, *i + 1, data);
-		ret->str_val = ft_strdup(".comment");
-		*i += ft_strlen(COMMENT_CMD_STRING);
+		if ((ret = new_token(TOK_COMMAND_COMMENT, *row, *i + 1, data)) != NULL)
+			if ((ret->str_val = ft_strdup(".comment")) != NULL)
+				*i += ft_strlen(COMMENT_CMD_STRING);
 	}
-	else
+	if (ret != NULL && ret->str_val == NULL)
+	{
+		free(ret);
 		ret = NULL;
+	}
 	return (ret);
 }
 
-static t_token		*token_string(char **str, int *i, int *row, t_data *data)
+static t_token		*token_separator(int *i, int *row, t_data *data)
 {
-	char	*value;
-	int		i2;
-	int		row2;
+	t_token	*ret;
 
-	if ((value = ft_strdup(*str + *i + 1)) == NULL)
-		err_exit_str("error: ft_strdup()", data);
-	i2 = *i + 1;
-	while (value[i2] != '\"')
+	ret = new_token(TOK_SEPARATOR, *row, *i + 1, data);
+	ret->str_val = ft_strdup(",");
+	if (ret->str_val == NULL)
 	{
-		if (value[i2] == '\0')
-		{
-			ft_strdel(str);
-			if (get_next_line(data->fd, str) <= 0)
-			{
-				free(value);
-				return (NULL);
-			}
-			else
-			{
-				value = ft_strjoinfree(value, *str, 1);
-				++(*row);
-			}
-		}
-		else
-			++i2;
+		free(ret);
+		ret = NULL;
 	}
-	value[i2] = '\0';
+	++(*i);
+	return (ret);
 }
 
 t_token				*get_token(char **str, int *i, int *row, t_data *data)
@@ -96,7 +84,11 @@ t_token				*get_token(char **str, int *i, int *row, t_data *data)
 		ret = token_endl(str, i, row, data);
 	else if ((*str)[*i] == '.')
 		ret = token_command(str, i, row, data);
-	else if ((*str)[*i] == "\"")
-		ret = token_string(str, i, row);
+	else if ((*str)[*i] == '\"')
+		ret = token_string(str, i, row, data);
+	else if ((*str)[*i] == ',')
+		ret = token_separator(i, row, data);
+	else if (ft_strchr(LABEL_CHARS, (*str)[*i]) != NULL)
+		ret = token_instr_lab(str, i, row, data);
 	return (ret);
 }

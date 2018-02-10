@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 04:03:52 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 20:10:08 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 static void init_data(t_data *data)
 {
 	(void)data;
+}
+
+void		free_data(t_data *data)
+{
+	(void)data;
+	get_next_line(0, FREE_GNL);
 }
 
 int main(int argc, char **argv)
@@ -38,8 +44,11 @@ int main(int argc, char **argv)
 	{
 		print_token(1, token);
 		ft_putchar('\n');
+		free_token(token);
 		token = get_next_token(fd, &data);
 	}
+	free_token(token);
 	close(fd);
+	free_data(&data);
 	return (0);
 }

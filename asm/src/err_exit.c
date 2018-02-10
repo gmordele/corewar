@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:25:57 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 02:24:10 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 20:06:45 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 void err_exit(t_data *data)
 {
 	(void)data;
+	free_data(data);
 	exit(EXIT_FAILURE);
 }
 
