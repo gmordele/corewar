@@ -31,6 +31,7 @@ typedef struct	s_data
 # define TOK_END				2
 # define TOK_COMMAND_NAME 		3
 # define TOK_COMMAND_COMMENT	4
+# define TOK_STRING				5
 
 # define MAX_FILE_SIZE			1000000
 

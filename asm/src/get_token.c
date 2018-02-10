@@ -56,6 +56,37 @@ static t_token		*token_command(char **str, int *i, int *row, t_data *data)
 	return (ret);
 }
 
+static t_token		*token_string(char **str, int *i, int *row, t_data *data)
+{
+	char	*value;
+	int		i2;
+	int		row2;
+
+	if ((value = ft_strdup(*str + *i + 1)) == NULL)
+		err_exit_str("error: ft_strdup()", data);
+	i2 = *i + 1;
+	while (value[i2] != '\"')
+	{
+		if (value[i2] == '\0')
+		{
+			ft_strdel(str);
+			if (get_next_line(data->fd, str) <= 0)
+			{
+				free(value);
+				return (NULL);
+			}
+			else
+			{
+				value = ft_strjoinfree(value, *str, 1);
+				++(*row);
+			}
+		}
+		else
+			++i2;
+	}
+	value[i2] = '\0';
+}
+
 t_token				*get_token(char **str, int *i, int *row, t_data *data)
 {
 	t_token		*ret;
@@ -65,5 +96,7 @@ t_token				*get_token(char **str, int *i, int *row, t_data *data)
 		ret = token_endl(str, i, row, data);
 	else if ((*str)[*i] == '.')
 		ret = token_command(str, i, row, data);
+	else if ((*str)[*i] == "\"")
+		ret = token_string(str, i, row);
 	return (ret);
 }
