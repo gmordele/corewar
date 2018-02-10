@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:27:02 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 01:33:10 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 01:39:26 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "asm.h"
 #include "libft.h"
 
-static long	get_filed_size(int fd, t_data data)
+static long	get_filed_size(int fd, t_data *data)
 {
 	long	size;
 
@@ -27,7 +27,7 @@ static long	get_filed_size(int fd, t_data data)
 	return (size);
 }
 
-char		*get_file_content(char *file, t_data data)
+char		*get_file_content(char *file, t_data *data)
 {
 	long	size;
 	int		fd;

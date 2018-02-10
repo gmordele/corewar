@@ -6,17 +6,12 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 01:35:01 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/10 03:29:20 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEF_ASM_H
 # define DEF_ASM_H
-
-typedef struct	s_data
-{
-
-}				t_data;
 
 typedef struct	s_token
 {
@@ -27,11 +22,26 @@ typedef struct	s_token
 	char	*str_val;
 }				t_token;
 
-#define MAX_FILE_SIZE 100000
+typedef struct	s_data
+{
+	int		fd;
+}				t_data;
 
-void 			err_exit(t_data data);
-void 			err_exit_str(char *str, t_data data);
-void 			err_exit_strerror(char *str, t_data data);
-char			*get_file_content(char *file, t_data data);
+# define TOK_ENDLINE			1
+# define TOK_END				2
+# define TOK_COMMAND_NAME 		3
+# define TOK_COMMAND_COMMENT	4
+
+# define MAX_FILE_SIZE			1000000
+
+void 			err_exit(t_data *data);
+void 			err_exit_str(char *str, t_data *data);
+void 			err_exit_strerror(char *str, t_data *data);
+char			*get_file_content(char *file, t_data *data);
+t_token			*get_next_token(int fd, t_data *data);
+t_token			*new_token(int type, int row, int col, t_data *data);
+void			free_token(t_token *token);
+t_token			*get_token(char **str, int *i, int *row, t_data *data);
+void			print_token(int fd, t_token *token);
 
 #endif
