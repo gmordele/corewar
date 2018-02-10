@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/21 15:51:36 by gmordele          #+#    #+#             */
-/*   Updated: 2018/01/17 20:44:14 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/01 01:50:18 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static t_fd_buff	*select_fd_buff(t_list **lst, int fd)
 	new_fd_buff->buff = (char *)malloc(sizeof(char) * BUFF_SIZE_GNL);
 	if (new_fd_buff->buff == NULL)
 		return (NULL);
-	if ((new_lst = ft_lstnew(new_fd_buff, sizeof(t_list))) == NULL)
+	if ((new_lst = ft_lstnew(new_fd_buff, sizeof(t_fd_buff))) == NULL)
 		return (NULL);
 	ft_lstadd(lst, new_lst);
 	free(new_fd_buff);
@@ -99,6 +99,8 @@ int					get_next_line(const int fd, char **line)
 	static t_list	*lst = NULL;
 	t_fd_buff		*fd_buff;
 
+	if (line == FREE_GNL)
+		return (free_gnl_lst(&lst));
 	if (line == NULL)
 		return (-1);
 	*line = NULL;

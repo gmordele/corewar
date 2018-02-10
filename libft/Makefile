@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 16:55:22 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/10 18:47:40 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/01 02:02:45 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -53,7 +53,8 @@ SRC				=	ft_atoi.c				ft_bzero.c					ft_isalnum.c				\
 					ulong_bin_itoa.c		ullong_bin_itoa.c 			ft_isspace.c				\
 					skip_spaces.c			skip_word.c					ft_strndup.c				\
 					ft_strjoinfree.c		ft_dprintf.c				btree_create_node.c			\
-					btree_apply.c			btree_insert_data.c			btree_free.c
+					btree_apply.c			btree_insert_data.c			btree_free.c				\
+					free_gnl_lst.c
 
 DEST_SRC		=	./src/
 
@@ -64,6 +65,9 @@ OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 HEADERS			=	libft.h ft_printf.h
 
 all				: $(NAME)
+
+test      :
+	echo $(OBJ)
 
 $(NAME)			: $(DEST_OBJ) $(OBJ) $(DEST_INC)
 	ar rcs  $(NAME) $(OBJ)

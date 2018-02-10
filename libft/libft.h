@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/05 18:32:05 by gmordele          #+#    #+#             */
-/*   Updated: 2017/10/14 02:42:51 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/01 01:49:37 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #  include <sys/types.h>
 # endif
 
-# define BUFF_SIZE_GNL 10000
+# define BUFF_SIZE_GNL	10000
+# define FREE_GNL		(char **)1
 
 typedef struct		s_list
 {
@@ -124,4 +125,5 @@ void				btree_apply_postfix(t_btree *root, void (*applyf)(void *));
 void				btree_insert_data(t_btree **root, void *item,
 									int (*cmpt)(void *, void *));
 void				btree_free(t_btree **root, void (*del)(void *));
+int					free_gnl_lst(t_list **lst);
 #endif
