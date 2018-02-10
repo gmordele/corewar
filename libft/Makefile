@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 16:55:22 by gmordele          #+#    #+#              #
-#    Updated: 2017/12/14 01:00:18 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/10 18:47:40 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -64,9 +64,6 @@ OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 HEADERS			=	libft.h ft_printf.h
 
 all				: $(NAME)
-
-test      :
-	echo $(OBJ)
 
 $(NAME)			: $(DEST_OBJ) $(OBJ) $(DEST_INC)
 	ar rcs  $(NAME) $(OBJ)
