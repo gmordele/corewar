@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 05:00:12 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 05:43:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_token
 typedef struct	s_data
 {
 	int		fd;
+	char	*file_name;
 }				t_data;
 
 # define TOK_ENDLINE			1
@@ -43,9 +44,9 @@ typedef struct	s_data
 
 # define MAX_FILE_SIZE			1000000
 
-void 			err_exit(t_data *data);
-void 			err_exit_str(char *str, t_data *data);
-void 			err_exit_strerror(char *str, t_data *data);
+void			err_exit(t_data *data);
+void			err_exit_str(char *str, t_data *data);
+void			err_exit_strerror(char *str, t_data *data);
 char			*get_file_content(char *file, t_data *data);
 t_token			*get_next_token(int fd, t_data *data);
 t_token			*new_token(int type, int row, int col, t_data *data);

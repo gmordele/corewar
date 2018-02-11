@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 03:30:49 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 05:01:52 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 05:45:58 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	print_token2(int fd, t_token *token)
 
 void		print_token(int fd, t_token *token)
 {
-	ft_dprintf(fd, "[TOKEN][%03d:%03d] " , token->row, token->col);
+	ft_dprintf(fd, "[TOKEN][%03d:%03d] ", token->row, token->col);
 	if (token->type == TOK_ENDLINE)
 		ft_dprintf(fd, "ENDLINE");
 	else if (token->type == TOK_END)

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:35:22 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 21:36:15 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 05:48:02 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,20 @@ void			free_token(t_token *token)
 	free(token);
 }
 
-
-
 t_token			*get_next_token(int fd, t_data *data)
 {
-	static 	int 	i = 0;
-	static 	int		row = 1;
-	static	char	*str = NULL;
-	t_token	*token;
+	static int	i = 0;
+	static int	row = 1;
+	static char	*str = NULL;
+	t_token		*token;
 
 	data->fd = fd;
 	if (str == NULL)
 		if (get_next_line(data->fd, &str) < 0)
-			err_exit_str("Can't read source", data);
+		{
+			ft_dprintf(2, "Can't read source %s\n", data->file_name);
+			err_exit(data);
+		}
 	pass_space_com(&i, str);
 	token = get_token(&str, &i, &row, data);
 	if (token == NULL)
@@ -70,4 +71,3 @@ t_token			*get_next_token(int fd, t_data *data)
 	}
 	return (token);
 }
-

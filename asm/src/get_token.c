@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 02:46:39 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 04:59:45 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 05:47:01 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static t_token		*token_endl(char **str, int *i, int *row, t_data *data)
 	ret = NULL;
 	ft_strdel(str);
 	if ((ret_gnl = get_next_line(data->fd, str)) < 0)
-		err_exit_str("Can't read source", data);
+	{
+		ft_dprintf(2, "Can't read source %s\n", data->file_name);
+		err_exit(data);
+	}
 	else if (ret_gnl == 0)
 		ret = new_token(TOK_END, *row, *i + 1, data);
 	else
@@ -75,7 +78,8 @@ static t_token		*token_separator(int *i, int *row, t_data *data)
 	return (ret);
 }
 
-static t_token		*token_indirect_label(char **str, int *i, int *row, t_data *data)
+static t_token		*token_indirect_label(char **str, int *i, int *row,
+										t_data *data)
 {
 	t_token	*ret;
 	int		end;
@@ -83,7 +87,7 @@ static t_token		*token_indirect_label(char **str, int *i, int *row, t_data *data
 	end = *i + 1;
 	if ((*str)[end] == '\0' || ft_strchr(LABEL_CHARS, (*str)[end]) == NULL)
 		return (NULL);
-	while ((*str)[end] != '\0'  && ft_strchr(LABEL_CHARS, (*str)[end]) != NULL)
+	while ((*str)[end] != '\0' && ft_strchr(LABEL_CHARS, (*str)[end]) != NULL)
 		++end;
 	ret = new_token(TOK_INDIRECT_LABEL, *row, *i + 1, data);
 	if ((ret->str_val = ft_strndup(*str + *i, end - *i)) == NULL)

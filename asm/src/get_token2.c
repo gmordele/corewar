@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 03:18:33 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 04:59:25 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 05:46:25 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_token	*token_direct_label(char **str, int *i, int *row, t_data *data)
 	end = *i + 2;
 	if ((*str)[end] == '\0' || ft_strchr(LABEL_CHARS, (*str)[end]) == NULL)
 		return (NULL);
-	while ((*str)[end] != '\0'  && ft_strchr(LABEL_CHARS, (*str)[end]) != NULL)
+	while ((*str)[end] != '\0' && ft_strchr(LABEL_CHARS, (*str)[end]) != NULL)
 		++end;
 	ret = new_token(TOK_DIRECT_LABEL, *row, *i + 1, data);
 	if ((ret->str_val = ft_strndup(*str + *i, end - *i)) == NULL)
@@ -94,7 +94,7 @@ static t_token	*token_direct_int(char **str, int *i, int *row, t_data *data)
 		return (NULL);
 	}
 	*i = end;
-	return (ret);	
+	return (ret);
 }
 
 t_token			*token_direct(char **str, int *i, int *row, t_data *data)
