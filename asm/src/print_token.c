@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 03:30:49 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 20:57:46 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 03:39:56 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		print_token(int fd, t_token *token)
 	if (token->type == TOK_ENDLINE)
 		ft_dprintf(fd, "ENDLINE");
 	else if (token->type == TOK_END)
-		ft_dprintf(fd, "\"END\" (null)");
+		ft_dprintf(fd, "\"END \"(null)");
 	else if (token->type == TOK_COMMAND_NAME)
 		ft_dprintf(fd, "COMMAND_NAME \"%s\"", token->str_val);
 	else if (token->type == TOK_COMMAND_COMMENT)
@@ -33,4 +33,8 @@ void		print_token(int fd, t_token *token)
 		ft_dprintf(fd, "LABEL \"%s\"", token->str_val);
 	else if (token->type == TOK_INSTRUCTION)
 		ft_dprintf(fd, "INSTRUCTION \"%s\"", token->str_val);
+	else if (token->type == TOK_INDIRECT)
+		ft_dprintf(fd, "INDIRECT \"%s\"", token->str_val);
+	else if (token->type == TOK_REGISTER)
+		ft_dprintf(fd, "REGISTER \"%s\"", token->str_val);
 }

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 02:46:39 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 21:38:14 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 03:40:40 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,10 @@ t_token				*get_token(char **str, int *i, int *row, t_data *data)
 		ret = token_string(str, i, row, data);
 	else if ((*str)[*i] == ',')
 		ret = token_separator(i, row, data);
+	else if ((*str)[*i] == 'r')
+		ret = token_register(str, i, row, data);
+	else if (ft_isdigit((*str)[*i]) || (*str)[*i] == '-')
+		ret = token_indirect(str, i, row, data);
 	else if (ft_strchr(LABEL_CHARS, (*str)[*i]) != NULL)
 		ret = token_instr_lab(str, i, row, data);
 	return (ret);

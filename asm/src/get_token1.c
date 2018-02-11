@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 18:58:18 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/10 21:36:38 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/11 03:08:20 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_token			*token_string(char **str, int *i, int *row, t_data *data)
 {
 	int		end;
 	t_token	*ret;
-	
+
 	end = *i + 1;
 	while ((*str)[end] != '\"')
 	{
@@ -43,11 +43,11 @@ t_token			*token_instr_lab(char **str, int *i, int *row, t_data *data)
 	t_token	*ret;
 
 	end = *i + 1;
-	while (ft_strchr(LABEL_CHARS, (*str)[end]) != NULL && (*str)[end] != '\0')
+	while ((*str)[end] != '\0' && ft_strchr(LABEL_CHARS, (*str)[end]) != NULL)
 		++end;
-	if ((*str)[end] == ':')
+	if ((*str)[end] == LABEL_CHAR)
 	{
-		ret = new_token(TOK_LABEL, *row,  *i + 1, data);
+		ret = new_token(TOK_LABEL, *row, *i + 1, data);
 		++end;
 	}
 	else
@@ -56,6 +56,42 @@ t_token			*token_instr_lab(char **str, int *i, int *row, t_data *data)
 	{
 		free(ret);
 		ret = NULL;
+	}
+	*i = end;
+	return (ret);
+}
+
+static int		is_indirect(char *str, int i)
+{
+	while (str[i] != '\0' && ft_isdigit(str[i]))
+		++i;
+	if (str[i] == '\0')
+		return (1);
+	if (ft_strchr(LABEL_CHARS, str[i]) != NULL || str[i] == LABEL_CHAR)
+		return (0);
+	return (1);
+}
+
+t_token			*token_indirect(char **str, int *i, int *row, t_data *data)
+{
+	int		end;
+	t_token	*ret;
+
+	if ((*str)[*i] == '-' && !ft_isdigit((*str)[*i + 1]))
+		return (NULL);
+	if ((*str)[*i] != '-')
+		if (!is_indirect(*str, *i))
+			return (token_instr_lab(str, i, row, data));
+	end = *i + 1;
+	if ((*str)[*i] == '-')
+		++end;
+	while ((*str)[*i] != '\0' && ft_isdigit((*str)[end]))
+		++end;
+	ret = new_token(TOK_INDIRECT, *row, *i + 1, data);
+	if ((ret->str_val = ft_strndup(*str + *i, end - *i)) == NULL)
+	{
+		free(ret);
+		return (NULL);
 	}
 	*i = end;
 	return (ret);

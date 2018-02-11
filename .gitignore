@@ -6,3 +6,4 @@ obj
 libft.a
 corewar/corewar
 asm/asm
+*.dSYM
