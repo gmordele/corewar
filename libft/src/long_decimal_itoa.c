@@ -83,7 +83,7 @@ int			long_decimal_itoa(char **buff, long n, t_conv_spec cs)
 	else
 		bi.total_size = cs.min_field;
 	*buff = malloc(bi.total_size);
-	if (buff == NULL)
+	if (*buff == NULL)
 		return (-1);
 	bi.start = (cs.flags & MINUS) ? bi.len + bi.add - 1 : bi.total_size - 1;
 	fill_number(*buff, n, bi.start, bi.len);

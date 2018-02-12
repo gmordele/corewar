@@ -91,7 +91,7 @@ int				ullong_hex_itoa(char **buff, unsigned long long n,
 	else
 		bi.total_size = cs.min_field;
 	*buff = malloc(bi.total_size);
-	if (buff == NULL)
+	if (*buff == NULL)
 		return (-1);
 	bi.start = (cs.flags & MINUS) ? bi.len + bi.add - 1 : bi.total_size - 1;
 	if (cs.conv == 'x')

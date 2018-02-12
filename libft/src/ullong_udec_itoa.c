@@ -65,7 +65,7 @@ int				ullong_udec_itoa(char **buff, unsigned long long n,
 	else
 		bi.total_size = cs.min_field;
 	*buff = malloc(bi.total_size);
-	if (buff == NULL)
+	if (*buff == NULL)
 		return (-1);
 	bi.start = (cs.flags & MINUS) ? bi.len - 1 : bi.total_size - 1;
 	fill_number(*buff, n, bi.start, bi.len);
