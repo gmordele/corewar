@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 05:43:59 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/12 23:54:53 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_data
 {
 	int		fd;
 	char	*file_name;
+	char	*new_file_name;
 }				t_data;
 
 # define TOK_ENDLINE			1
