@@ -56,7 +56,7 @@ t_token			*get_next_token(int fd, t_data *data)
 
 	data->fd = fd;
 	if (str == NULL)
-		if (get_next_line(data->fd, &str) < 0)
+		if (get_next_line(data->fd, &str) <= 0)
 		{
 			ft_dprintf(2, "Can't read source %s\n", data->file_name);
 			err_exit(data);
