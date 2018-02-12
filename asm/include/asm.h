@@ -22,6 +22,14 @@ typedef struct	s_token
 	char	*str_val;
 }				t_token;
 
+typedef struct	s_get_string
+{
+	int		end;
+	int		begin;
+	int		n_row;
+	char	*ret;
+}				t_get_string;
+
 typedef struct	s_data
 {
 	int		fd;
