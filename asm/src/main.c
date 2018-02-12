@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 05:29:08 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/12 03:24:21 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int main(int argc, char **argv)
 	token = get_next_token(fd, &data);
 	while (token != NULL && token->type != TOK_END)
 	{
-//		print_token(1, token);
-//		ft_putchar('\n');
+		print_token(1, token);
+		ft_putchar('\n');
 		free_token(token);
 		token = get_next_token(fd, &data);
 	}
