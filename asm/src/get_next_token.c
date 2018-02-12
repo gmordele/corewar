@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:35:22 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/11 05:48:02 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/12 23:20:39 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,31 @@ void			free_token(t_token *token)
 	free(token);
 }
 
+static t_token	*end_gnl(int ret_gnl, int i, int row, t_data *data)
+{
+	t_token		*ret;
+
+	if (ret_gnl < 0)
+	{
+		ft_dprintf(2, "Can't read source %s\n", data->file_name);
+		err_exit(data);
+	}
+	ret = new_token(TOK_END, row, i + 1, data);
+	return (ret);
+}
+
 t_token			*get_next_token(int fd, t_data *data)
 {
 	static int	i = 0;
 	static int	row = 1;
 	static char	*str = NULL;
 	t_token		*token;
+	int			ret_gnl;
 
 	data->fd = fd;
 	if (str == NULL)
-		if (get_next_line(data->fd, &str) <= 0)
-		{
-			ft_dprintf(2, "Can't read source %s\n", data->file_name);
-			err_exit(data);
-		}
+		if ((ret_gnl = get_next_line(data->fd, &str)) <= 0)
+			return (end_gnl(ret_gnl, i, row, data));
 	pass_space_com(&i, str);
 	token = get_token(&str, &i, &row, data);
 	if (token == NULL)
