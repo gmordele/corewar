@@ -30,4 +30,9 @@ fclean	:
 	make -C ./corewar fclean
 	make -C ./asm fclean
 
-.PHONY:	all asm corewar clean fclean
+re		:
+	make -C ./libft re
+	make -C ./corewar re
+	make -C ./asm re
+
+.PHONY:	all asm corewar clean fclean re
