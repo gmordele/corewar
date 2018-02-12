@@ -19,7 +19,8 @@ CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 SRC				=	main.c					err_exit.c			\
 					get_file_content.c		get_next_token.c	\
 					get_token.c				print_token.c		\
-					get_token1.c			get_token2.c
+					get_token1.c			get_token2.c		\
+					get_token_string.c
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
