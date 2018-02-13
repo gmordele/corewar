@@ -38,6 +38,7 @@ static void init_data(t_data *data, char *file_name)
 	(void)data;
 	data->file_name = NULL;
 	data->new_file_name = NULL;
+	data->str = NULL;
 	ft_bzero(&(data->header), sizeof(data->header));
 	if ((data->file_name = ft_strdup(file_name)) == NULL)
 		err_exit_str("init_data(): ft_strdup() failed", data);
@@ -51,6 +52,7 @@ void		free_data(t_data *data)
 		free(data->file_name);
 	if (data->new_file_name != NULL)
 		free(data->new_file_name);
+	ft_strdel(&(data->str));
 	get_next_line(0, FREE_GNL);
 }
 
@@ -67,12 +69,12 @@ int main(int argc, char **argv)
 	init_data(&data, argv[1]);
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		err_exit_strerror("open()", &data);
-	/*
+
 	get_header(fd, &data);
 	ft_printf("name = %s\ncomment = %s\n", data.header.prog_name, data.header.comment);
-	*/
-	/*
-	token = get_next_token(fd, &data);
+
+/*
+	t_token *token = get_next_token(fd, &data);
 	while (token != NULL && token->type != TOK_END)
 	{
 		print_token(1, token);
@@ -83,12 +85,22 @@ int main(int argc, char **argv)
 	print_token(1, token);
 	ft_putchar('\n');
 	free_token(token);
-	*/
-//	t_token *token = pass_endl_token(fd, &data);
-	t_token *token;
-	token = get_next_token(fd, &data);
-	print_token(1, token);
+*/
+/*
+	t_token *token = pass_endl_token(fd, &data);
+	while (token->type != TOK_END)
+	{
+		print_token(1, token);
+		ft_putchar('\n');
+		free_token(token);
+		token = pass_endl_token(fd, &data);
+	}
 	free_token(token);
+*/
+//	t_token *token;
+//	token = get_next_token(fd, &data);
+//	print_token(1, token);
+//	free_token(token);
 	close(fd);
 	free_data(&data);
 	return (0);

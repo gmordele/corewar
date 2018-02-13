@@ -52,7 +52,6 @@ void		get_header(int fd, t_data *data)
 
 	data->header.magic = COREWAR_EXEC_MAGIC;
 	token = pass_endl_token(fd, data);
-	free_token(token);
 	if (token->type == TOK_COMMAND_NAME)
 	{
 		free_token(token);

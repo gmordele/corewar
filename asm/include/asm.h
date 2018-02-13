@@ -37,6 +37,7 @@ typedef struct	s_data
 	int			fd;
 	char		*file_name;
 	char		*new_file_name;
+	char		*str;
 	t_header	header;
 }				t_data;
 
