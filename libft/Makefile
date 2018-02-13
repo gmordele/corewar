@@ -54,7 +54,17 @@ SRC				=	ft_atoi.c				ft_bzero.c					ft_isalnum.c				\
 					skip_spaces.c			skip_word.c					ft_strndup.c				\
 					ft_strjoinfree.c		ft_dprintf.c				btree_create_node.c			\
 					btree_apply.c			btree_insert_data.c			btree_free.c				\
-					free_gnl_lst.c
+					free_gnl_lst.c																	\
+					ft_pf.c					pf_0_buffer.c				pf_1_get_conv.c				\
+					pf_2_conv.c				pf_3_conv.c					pf_4_tools.c				\
+					pf_5_alias.c			ft_atoi_next.c				ft_atol.c					\
+					ft_capital.c			ft_free.c					ft_ftoa.c					\
+					ft_int.c				ft_isspc.c					ft_l_new.c					\
+					ft_l_add_bck.c			ft_l_add_frt.c				ft_l_del.c					\
+					ft_l_del_one.c			ft_malloc.c											\
+					ft_ptr.c				ft_pow.c					ft_round.c					\
+					ft_strjf.c				ft_strjf3.c					ft_strnewof.c				\
+					ft_utoa_base.c					\
 
 DEST_SRC		=	./src/
 
@@ -62,7 +72,7 @@ DEST_OBJ		=	./obj/
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
-HEADERS			=	libft.h ft_printf.h
+HEADERS			=	libft.h ft_printf.h ft_pf.h
 
 all				: $(NAME)
 

@@ -16,7 +16,10 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 
-SRC				=	main.c
+SRC				=	vm_0_main.c				\
+					vm_1_get_params.c		\
+					vm_2_get_champs.c		\
+					vm_3_list_tools.c		\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
@@ -47,9 +50,11 @@ mklib			:
 	make -C $(DEST_LIB)
 
 clean			:
+	make clean -C $(DEST_LIB)
 	rm -rf $(DEST_OBJ)
 
 fclean			:	clean
+	make fclean -C $(DEST_LIB)
 	rm -f $(NAME)
 
 re				:	fclean all

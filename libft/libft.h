@@ -13,7 +13,16 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "ft_pf.h"
 # include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stdarg.h>
+# include <errno.h>
+# include <limits.h>
+# include <stdio.h>
+# include <sys/wait.h>
 
 # ifdef linux
 #  include <sys/types.h>
@@ -29,6 +38,16 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_lst
+{
+	char			*str;
+	void			*ptr;
+	int				i;
+	long			l;
+	struct s_lst	*prev;
+	struct s_lst	*next;
+}					t_lst;
+
 typedef struct		s_fd_buff
 {
 	int				fd;
@@ -43,6 +62,27 @@ typedef struct		s_btree
 	struct s_btree	*right;
 	void			*item;
 }					t_btree;
+
+int					ft_atoi_next(char **s);
+long				ft_atol(const char *s);
+char				*ft_capital(char *str);
+void				ft_free(int nb_ptr, ...);
+char				*ft_ftoa(long double ld);
+int					ft_int(int nb_int, int value, ...);
+int					ft_isspc(int c);
+t_lst				*ft_l_add_bck(t_lst **list, t_lst *new);
+t_lst				*ft_l_add_frt(t_lst **list, t_lst *new);
+void				ft_l_del(t_lst **list);
+t_lst				*ft_l_del_one(t_lst **list, t_lst *target);
+t_lst				*ft_l_new(char *str, void *ptr, int i, long l);
+void				*ft_malloc(int n);
+long				ft_pow(long nb, int power);
+void				*ft_ptr(void *address, int nb_ptr, ...);
+char				*ft_round(char *s, int precision);
+char				*ft_strjf(char *s1, char *s2, int nb_free);
+char				*ft_strjf3(char *s1, char *s2, char *s3, int nbf);
+char				*ft_strnewof(size_t size, char c);
+char				*ft_utoa_base(unsigned long nb, int base, char *s);
 
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
