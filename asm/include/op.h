@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/02/10 01:22:59 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/13 00:19:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ typedef char	t_arg_type;
 # define T_DIR					2
 # define T_IND					4
 # define T_LAB					8
+
+typedef struct	s_op
+{
+	char		*name;
+	int			n_args;
+	t_arg_type	args[3];
+	int			opcode;
+	int			cycles;
+	char		*comment;
+	int			encod_byte;
+	int			index;
+}				t_op;
 
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)

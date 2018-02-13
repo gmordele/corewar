@@ -6,12 +6,14 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/12 23:54:53 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/13 02:35:04 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEF_ASM_H
 # define DEF_ASM_H
+
+# include "op.h"
 
 typedef struct	s_token
 {
@@ -32,9 +34,10 @@ typedef struct	s_get_string
 
 typedef struct	s_data
 {
-	int		fd;
-	char	*file_name;
-	char	*new_file_name;
+	int			fd;
+	char		*file_name;
+	char		*new_file_name;
+	t_header	header;
 }				t_data;
 
 # define TOK_ENDLINE			1
@@ -68,5 +71,8 @@ t_token			*token_instr_lab(char **str, int *i, int *row, t_data *data);
 t_token			*token_indirect(char **str, int *i, int *row, t_data *data);
 t_token			*token_register(char **str, int *i, int *row, t_data *data);
 t_token			*token_direct(char **str, int *i, int *row, t_data *data);
+void			get_header(int fd, t_data *data);
+void			syntax_error(t_token *token, t_data *data);
+t_token			*pass_endl_token(int fd, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:35:22 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/12 23:20:39 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/13 01:08:24 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_token			*new_token(int type, int row, int col, t_data *data)
 
 void			free_token(t_token *token)
 {
+	if (token == NULL)
+		return ;
 	if (token->str_val != NULL)
 		free(token->str_val);
 	free(token);
