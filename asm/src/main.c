@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/13 03:06:44 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/14 02:33:16 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ static void init_data(t_data *data, char *file_name)
 	data->file_name = NULL;
 	data->new_file_name = NULL;
 	data->str = NULL;
+	data->statement_lst = NULL;
 	ft_bzero(&(data->header), sizeof(data->header));
 	if ((data->file_name = ft_strdup(file_name)) == NULL)
 		err_exit_str("init_data(): ft_strdup() failed", data);
 	if ((data->new_file_name = new_file_name(file_name, data)) == NULL)
-		err_exit_str("Bad file name", data);
+		err_exit_str("bad file name", data);
 }
 
 void		free_data(t_data *data)
@@ -53,6 +54,7 @@ void		free_data(t_data *data)
 	if (data->new_file_name != NULL)
 		free(data->new_file_name);
 	ft_strdel(&(data->str));
+	statement_lst_free(data);
 	get_next_line(0, FREE_GNL);
 }
 
@@ -63,7 +65,6 @@ int main(int argc, char **argv)
 	t_data 	data;
 	int		fd;
 //	t_token	*token;
-
 	if (argc < 2)
 		err_exit_str("missing argument", &data);
 	init_data(&data, argv[1]);
@@ -72,7 +73,7 @@ int main(int argc, char **argv)
 
 	get_header(fd, &data);
 	ft_printf("name = %s\ncomment = %s\n", data.header.prog_name, data.header.comment);
-
+	get_statements(fd, &data);
 /*
 	t_token *token = get_next_token(fd, &data);
 	while (token != NULL && token->type != TOK_END)

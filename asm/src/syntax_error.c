@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 01:05:59 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/13 01:09:28 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/14 00:21:53 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	syntax_error(t_token *token, t_data *data)
 {
-	ft_dprintf(2, "Syntax error at token");
+	ft_dprintf(2, "Syntax error at token ");
 	print_token(2, token);
 	ft_dprintf(2, "\n");
 	free_token(token);
