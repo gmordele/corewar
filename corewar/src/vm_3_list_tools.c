@@ -27,10 +27,12 @@ t_champ	*vm_l_add_bck(t_champ **list, t_champ *new)
 {
 	t_champ *tmp;
 
+	ft_ptr(NULL, 2, &new->next, &new->prev);
 	if ((tmp = *list))
 	{
 		while (tmp->next)
 			tmp = tmp->next;
+		new->prev = tmp;
 		tmp->next = new;
 	}
 	else
@@ -40,27 +42,32 @@ t_champ	*vm_l_add_bck(t_champ **list, t_champ *new)
 
 t_champ	*vm_l_add_frt(t_champ **list, t_champ *new)
 {
+	ft_ptr(NULL, 2, &new->next, &new->prev);
 	if (*list)
+	{
+		(*list)->prev = new;
 		new->next = *list;
+	}
 	*list = new;
 	return (*list);
 }
 
 t_champ	*vm_l_del_one(t_champ **list, t_champ *target)
 {
-	t_champ *tmp;
-
-	if (target == *list)
-		*list = (*list)->next;
-	else
+	if (list && *list && target && *list == target)
 	{
-		tmp = *list;
-		while (tmp && tmp->next != target)
-			tmp = tmp->next;
-		if (tmp)
-			tmp->next = target->next;
+		if ((*list = (*list)->next))
+			(*list)->prev = NULL;
+		ft_free(1, &target);
 	}
-	ft_free(1, &target);
+	else if (list && *list && target && *list != target)
+	{
+		if (target->prev)
+			target->prev->next = target->next;
+		if (target->next)
+			target->next->prev = target->prev;
+		ft_free(1, &target);
+	}
 	return (*list);
 }
 

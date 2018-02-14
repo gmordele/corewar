@@ -66,6 +66,7 @@ typedef struct		s_btree
 int					ft_atoi_next(char **s);
 long				ft_atol(const char *s);
 char				*ft_capital(char *str);
+int					ft_char(int value, int nb_char, ...);
 void				ft_free(int nb_ptr, ...);
 char				*ft_ftoa(long double ld);
 int					ft_int(int nb_int, int value, ...);

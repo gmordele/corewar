@@ -12,41 +12,12 @@
 
 # include "vm_0.h"
 
-void	vm_sort_champs(t_all *all)
-{
-	t_champ	*champ;
-//	t_champ	*tmp;
+/*
+**	vm_rev_endian()
+**	Renvoie un int avec les octets inversés
+*/
 
-	champ = all->champs;
-}
-
-void	vm_number_champs(t_all *all)
-{
-	t_champ	*champ;
-	t_champ	*tmp;
-	int		n;
-
-	if (all->nb_champs > MAX_PLAYERS)
-		vm_exit(all, "Too much champs in params\n");
-	champ = all->champs;
-	n = 1;
-	while (champ)
-	{
-		if (!champ->nb && (tmp = all->champs))
-			while (tmp)
-			{
-				if (tmp->nb == n && n++)
-					tmp = all->champs;
-				tmp = tmp->next;
-			}
-		if (!champ->nb)
-			champ->nb = n++;
-		champ = champ->next;
-	}
-	vm_sort_champs(all);
-}
-
-int		reverse_endian(unsigned int big)
+int		rev_endian(int big)
 {
 	int		little;
 	char	*ptr1;
@@ -61,13 +32,92 @@ int		reverse_endian(unsigned int big)
 	return (little);
 }
 
-void	vm_get_champs(t_all *all, int buf_size)
+/*
+**	vm_sort_champs()
+**	Crée une nouvelle liste triée par nb de champions à partir de all->champs
+*/
+
+void	vm_sort_champs(t_all *all, t_champ *old_list)
 {
-	char	buf[buf_size];
+	t_champ	*target;
+	t_champ	*tmp;
+	int		n;
+
+	all->champs = NULL;
+	n = all->nb_champs;
+	while (n-- > 0 && old_list)
+	{
+		ft_ptr(old_list, 2, &target, &tmp);
+		while (tmp)
+		{
+			if (tmp->nb > target->nb)
+				target = tmp;
+			tmp = tmp->next;
+		}
+		if (target == old_list)
+			old_list = old_list->next;
+		if (target->prev)
+			target->prev->next = target->next;
+		if (target->next)
+			target->next->prev = target->prev;
+		target->color = all->color + (n * 6);
+		vm_l_add_frt(&all->champs, target);
+	}
+	tmp = all->champs;			//	Debug
+	while (tmp)					//	Debug
+	{
+		pf("Champ %d %s%s %d octets\n", tmp->nb, tmp->color, tmp->header.prog_name, tmp->prog_size);			//	Debug
+		pf("Magic %#x\n", rev_endian(tmp->header.magic));			//	Debug
+		pf("%s\n{0}", tmp->header.comment);						//	Debug
+		tmp = tmp->next;
+	}
+}
+
+/*
+**	vm_number_champs()
+**	Pour chaque champion de all->champs :
+**		defini un nb si il n'est pas déjà défini dans les params
+**		vérifie qu'il n'y ait pas de doublon
+*/
+
+void	vm_number_champs(t_all *all)
+{
 	t_champ	*champ;
-	int		ret;
+	t_champ	*tmp;
+	int		n;
 
 	champ = all->champs;
+	n = 1;
+	while (champ)
+	{
+		if (!champ->nb && (tmp = all->champs))
+			while (tmp)
+			{
+				if (tmp->nb == n && ++n)
+					tmp = all->champs;
+				else
+					tmp = tmp->next;
+			}
+		if (!champ->nb)
+			champ->nb = n++;
+		champ = champ->next;
+	}
+	vm_sort_champs(all, all->champs);
+}
+
+/*
+**	vm_get_champs()
+**	Pour chaque champ_path de all->champs :
+**		récupère la struct t_header et check la validité (taille du header et magic)
+**		place un '\0' a la fin de prog_name et prog_comment par sécurité
+**		récupère le programme binaire et check la validité (taille du prog)
+*/
+
+void	vm_get_champs(t_all *all, t_champ *champ, int buf_size)
+{
+	char	buf[buf_size];
+	int		ret;
+
 	while (champ)
 	{
 		ft_bzero(buf, buf_size);
@@ -75,20 +125,17 @@ void	vm_get_champs(t_all *all, int buf_size)
 		champ->header = *((t_header*)buf);
 		if (ret != sizeof(t_header))
 			vm_exit(all, "Not valid size of header\n");
-		if (reverse_endian(champ->header.magic) != COREWAR_EXEC_MAGIC)
+		if (rev_endian(champ->header.magic) != COREWAR_EXEC_MAGIC)
 			vm_exit(all, "Not valid magic number in header\n");
+		champ->header.prog_name[PROG_NAME_LENGTH] = '\0';
+		champ->header.comment[COMMENT_LENGTH] = '\0';
 		ft_bzero(buf, buf_size);
 		ret = read(champ->fd, buf, CHAMP_MAX_SIZE);
-		if (ret != reverse_endian(champ->header.prog_size)
+		if (ret != rev_endian(champ->header.prog_size)
 			|| ret > CHAMP_MAX_SIZE)
 			vm_exit(all, "Not valid prog_size\n");
-		champ->prog = ft_strndup(buf, ret);
+		ft_memcpy(champ->prog, buf, ret);
 		champ->prog_size = ret;
-				pf("Magic {y}%#x\n{0}", reverse_endian(champ->header.magic));
-				pf("Prog_size {y}%u\n{0}", reverse_endian(champ->header.prog_size));
-				pf("Name {y}%s\n{0}", champ->header.prog_name);
-				pf("Comment {y}%s\n{0}", champ->header.comment);
-		all->nb_champs++;
 		champ = champ->next;
 	}
 	vm_number_champs(all);
