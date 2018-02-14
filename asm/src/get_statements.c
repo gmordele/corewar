@@ -15,20 +15,20 @@
 #include "libft.h"
 #include "op.h"
 
-void		add_label(int fd, t_token **token, t_data *data)
+void		add_label(t_token *token, t_data *data)
 {
 	char			*name;
 	t_statement		stat_label;
 	t_statement_lst	*new_lst;
 
 	name = NULL;
-	if ((*token)->str_val == NULL
-		|| (name = ft_strdup((*token)->str_val)) == NULL)
+	if (token->str_val == NULL
+		|| (name = ft_strdup(token->str_val)) == NULL)
 	{
-		free_token(*token);
+		free_token(token);
 		err_exit_str("error add_label()", data);
 	}
-	free_token(*token);
+	free_token(token);
 	stat_label.type = LABEL;
 	stat_label.label.name = name;
 	if ((new_lst = malloc(sizeof(t_statement_lst))) == NULL)
@@ -39,7 +39,6 @@ void		add_label(int fd, t_token **token, t_data *data)
 	new_lst->statement = stat_label;
 	new_lst->next = NULL;
 	statement_lst_add(new_lst, data);
-	*token = get_next_token(fd, data);
 }
 
 t_op		get_op(char *name)
@@ -106,21 +105,23 @@ static void	invalid_parameter(t_token *token, int i,
 							t_instruction *state_instruct, t_data *data)
 {
 	free_parameters(i, state_instruct);
-	ft_dprintf(2, "Invalid parameter %d type %s for instruction %s",
+	ft_dprintf(2, "Invalid parameter %d type %s for instruction %s\n",
 			   i, param_type_str(token), state_instruct->op_instruc.name);
-	free(token);
+	free_token(token);
 	err_exit(data);
 }
 
 static int	correct_param(int type, t_arg_type arg_type)
 {
-	if (arg_type == T_REG)
-		return (type == TOK_REGISTER);
-	else if (arg_type == T_DIR)
-		return (type == TOK_DIRECT_LABEL || type == TOK_DIRECT);
-	else if (arg_type == T_IND)
-		return (type == TOK_INDIRECT_LABEL || type == TOK_INDIRECT);
-	return (0);
+	int		int_type;
+
+	if (type == TOK_INDIRECT || type == TOK_LABEL)
+		int_type =  T_IND;
+	else if (type == TOK_DIRECT || type == TOK_DIRECT_LABEL)
+		int_type = T_DIR;
+	else
+		int_type = T_REG;
+	return (int_type & arg_type);
 }
 
 static void	get_parameter(t_token *token, t_instruction *stat_instruct, int i,
@@ -151,9 +152,9 @@ static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 	t_token		*token;
 	int			i;
 
-	i = 0;
 	token = get_next_token(fd, data);
-	get_parameter(token, stat_instruc, i, data);
+	i = 0;
+	get_parameter(token, stat_instruc, i++, data);
 	free_token(token);
 	while (i < stat_instruc->op_instruc.n_args)
 	{
@@ -168,29 +169,33 @@ static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 	}
 }
 
-void		add_instruction(t_token **token, int fd, t_data *data)
+void		add_instruction(t_token *token, int fd, t_data *data)
 {
 	t_statement		stat_instruc;
-//	t_statement_lst	*new_lst;
+	t_statement_lst	*new_lst;
 	t_op			instruc_op;
 
-	if ((*token)->str_val == NULL)
+	if (token->str_val == NULL)
 	{
-		free_token(*token);
+		free_token(token);
 		err_exit_str("error add_label()", data);
 	}
-	instruc_op = get_op((*token)->str_val);
+	instruc_op = get_op(token->str_val);
 	if (instruc_op.name == 0)
-		invalid_instruction(*token, data);
-	free_token(*token);
+		invalid_instruction(token, data);
+	free_token(token);
 	ft_bzero(&stat_instruc, sizeof(t_statement));
 	stat_instruc.instruction.op_instruc = instruc_op;
 	stat_instruc.type = INSTRUCTION;
 	get_parameters(&(stat_instruc.instruction), fd, data);
-	*token = get_next_token(fd, data);
-	if ((*token)->type != TOK_END || (*token)->type != TOK_ENDLINE)
-		syntax_error(*token, data);
-	*token = pass_endl_token(fd, data);
+	if ((new_lst = malloc(sizeof(t_statement_lst))) == NULL)
+	{
+		free_parameters(2, &(stat_instruc.instruction));
+		err_exit_strerror("malloc{}", data);
+	}
+	new_lst->statement = stat_instruc;
+	new_lst->next = NULL;
+	statement_lst_add(new_lst, data);
 }
 
 void		get_statements(int fd, t_data *data)
@@ -201,10 +206,24 @@ void		get_statements(int fd, t_data *data)
 	while (token->type != TOK_END)
 	{
 		if (token->type == TOK_LABEL)
-			add_label(fd, &token, data);
+		{
+			add_label(token, data);
+			token = get_next_token(fd, data);
+//			print_token(1, token);
+			if (token->type == TOK_INSTRUCTION)
+				continue ;
+		}
 		else if (token->type == TOK_INSTRUCTION)
-			add_instruction(&token, fd, data);
+		{
+			add_instruction(token, fd, data);
+			token = get_next_token(fd, data);			
+		}
 		else
 			syntax_error(token, data);
+		if (token->type != TOK_END && token->type != TOK_ENDLINE)
+			syntax_error(token, data);
+		free_token(token);
+		token = pass_endl_token(fd, data);
 	}
+	free_token(token);
 }
