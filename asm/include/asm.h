@@ -112,5 +112,11 @@ t_token			*pass_endl_token(int fd, t_data *data);
 void			get_statements(int fd, t_data *data);
 void			statement_lst_add(t_statement_lst *statement, t_data *data);
 void			statement_lst_free(t_data *data);
+void			get_parameter(t_token *token, t_instruction *stat_instruct, int i,
+							t_data *data);
+char			*param_type_str(t_token *token);
+int				is_parameter(int type);
+void			invalid_instruction(t_token *token, t_data *data);
+void			free_parameters(int i, t_instruction *state_instruct);
 
 #endif

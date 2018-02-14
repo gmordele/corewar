@@ -14,7 +14,7 @@ NAME			=	asm
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
+CFLAGS			=	-Wall -Werror -Wextra #-fsanitize=address
 
 SRC				=	main.c					err_exit.c			\
 					get_next_token.c		get_statements.c	\
@@ -23,6 +23,7 @@ SRC				=	main.c					err_exit.c			\
 					get_token_string.c		op.c				\
 					get_header.c			syntax_error.c		\
 					pass_endl_token.c		statement_lst.c		\
+					get_parameter.c			get_parameter1.c
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
