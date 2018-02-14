@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/01 19:15:42 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/14 20:46:25 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -29,7 +29,9 @@ DEST_INC		=	./include/
 
 DEST_OBJ		=	./obj/
 
-HEADERS			=	$(DEST_INC) $(DEST_LIB)
+HEADERS_INC		=	op.h		vm_0.h
+
+HEADERS			=	$(addprefix $(DEST_INC), $(HEADERS_INC)) $(DEST_LIB)/libft.h
 
 DEST_LIB		=	../libft
 
