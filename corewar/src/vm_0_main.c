@@ -20,8 +20,9 @@
 
 int		vm_exit(t_all *all, char *error_mail)
 {
-	vm_l_del(&all->champs);
 	/*ft_free();*/
+	while (all->nb_champ-- > 0)
+		close(all->champ[all->nb_champ].fd);
 	if (error_mail)
 		fpf(2, "{r}%s{0}", error_mail);
 	exit(0);
@@ -80,10 +81,11 @@ void	vm_init(t_all *all, int ac, char **av)
 {
 	int		n;
 
-	ft_int(0, 3, &all->nb_champs, &all->flag, &all->dump);
-	ft_ptr(NULL, 1, &all->champs);
-	ft_strcpy(all->color, "\x1b[32m_\x1b[36m_\x1b[31m_\x1b[33m");
-	ft_char(0, 3, all->color + 5, all->color + 11, all->color + 17);
+	ft_bzero(all, sizeof(t_all));
+	ft_strcpy(all->champ[0].color, "\x1b[32m");
+	ft_strcpy(all->champ[1].color, "\x1b[36m");
+	ft_strcpy(all->champ[2].color, "\x1b[31m");
+	ft_strcpy(all->champ[3].color, "\x1b[33m");
 	n = 0;
 	while (++n < ac)
 	{
@@ -92,10 +94,8 @@ void	vm_init(t_all *all, int ac, char **av)
 		else
 			vm_get_flag(all, &n, av);
 	}
-	if (!all->champs)
+	if (!all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
-	if (all->nb_champs > MAX_PLAYERS)
-		vm_exit(all, "Too much champs in params\n");
 }
 
 /*
@@ -108,6 +108,6 @@ int		main(int ac, char **av)
 	t_all	all;
 
 	vm_init(&all, ac, av);
-	vm_get_champs(&all, all.champs, sizeof(t_header));
+	vm_get_champs(&all, sizeof(t_header));
 	return (0);
 }

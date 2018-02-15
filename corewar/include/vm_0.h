@@ -25,16 +25,27 @@ typedef	struct		s_champ
 	int				prog_size;
 	int				fd;
 	int				nb;
-	char			*color;
+	char			color[10];
 	struct s_champ	*prev;
 	struct s_champ	*next;
 }					t_champ;
 
+typedef	struct		s_process
+{
+	t_champ			*champ;
+	int				pc;
+	int				r[17];
+	int				carry;
+	int				cycle;
+	int				nb_live;
+	struct s_champ	*prev;
+	struct s_champ	*next;
+}					t_process;
+
 typedef	struct		s_all
 {
-	t_champ			*champs;
-	char			color[40];
-	int				nb_champs;
+	t_champ			champ[MAX_PLAYERS + 1];
+	int				nb_champ;
 	int				dump;
 	int				flag;
 }					t_all;
@@ -42,13 +53,8 @@ typedef	struct		s_all
 void				vm_usage(t_all *all, char *error_mail);
 int					vm_exit(t_all *all, char *error_mail);
 void				*vm_malloc(t_all *all, int size);
-t_champ				*vm_l_add_frt(t_champ **list, t_champ *new);
-t_champ				*vm_l_add_bck(t_champ **list, t_champ *new);
-void				vm_l_del(t_champ **list);
-t_champ				*vm_l_del_one(t_champ **list, t_champ *target);
-t_champ				*vm_l_new(t_all *all, char *path, int fd, int nb);
 void				vm_get_flag(t_all *all, int *n, char **av);
 void				vm_get_champ_path(t_all *all, int *n, char **av);
-void				vm_get_champs(t_all *all, t_champ *champ, int buf_size);
+void				vm_get_champs(t_all *all, int buf_size);
 
 #endif

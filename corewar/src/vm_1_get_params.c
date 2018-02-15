@@ -23,7 +23,6 @@
 
 int		vm_get_champ_nb(t_all *all, int *n, char **av)
 {
-	t_champ	*tmp;
 	int		champ_nb;
 	long	l;
 	char	*s;
@@ -34,15 +33,11 @@ int		vm_get_champ_nb(t_all *all, int *n, char **av)
 		s = av[++n[0]];
 		l = (s ? ft_atol(s) : 0);
 		champ_nb = (s ? ft_atoi_next(&s) : 0);
-		if (!s || *s || champ_nb < 1 || champ_nb != l)
+		if (!s || *s || !champ_nb || champ_nb != l)
 			vm_usage(all, spf("corewar: '%s' is not a valid champ number\n", av[*n]));
-		tmp = all->champs;
-		while (tmp)
-		{
-			if (tmp->nb == champ_nb)
-				vm_usage(all, spf("corewar: many champs have the same number '%s'\n", av[*n]));
-			tmp = tmp->next;
-		}
+		if (champ_nb == all->champ[0].nb || champ_nb == all->champ[1].nb
+			|| champ_nb == all->champ[2].nb)
+			vm_usage(all, spf("corewar: many champs have the same number '%s'\n", av[*n]));
 		n[0]++;
 	}
 	return (champ_nb);
@@ -60,24 +55,17 @@ int		vm_get_champ_nb(t_all *all, int *n, char **av)
 
 void	vm_get_champ_path(t_all *all, int *n, char **av)
 {
-	int		champ_nb;
-	int		path_len;
-	int		fd;
-	char	*s;
-
-	champ_nb = vm_get_champ_nb(all, n, av);
-	path_len = (av[*n] ? ft_strlen(av[*n]) : 0);
-	fd = 0;
-	if (path_len > 4)
-	{
-		s = av[*n] + path_len - 4;
-		if (!ft_strcmp(s, ".cor"))
-			fd = open(av[*n], O_RDONLY);
-	}
-	if (fd < 1)
-		vm_usage(all, spf("corewar: '%s' is not a valid champ path\n", av[*n]));
-	vm_l_add_frt(&all->champs, vm_l_new(all, av[*n], fd, champ_nb));
-	all->nb_champs++;
+	all->champ[all->nb_champ].nb = vm_get_champ_nb(all, n, av);
+	if (all->nb_champ >= MAX_PLAYERS)
+		vm_exit(all, "Too much champ_path in params\n");
+	all->champ[all->nb_champ].path = av[*n];
+	if (av[*n] && (!ft_strstr(av[*n], ".cor")
+		|| ft_strcmp(av[*n] + ft_strlen(av[*n]) - 4, ".cor")))
+		vm_usage(all, spf("corewar: '%s' has not a .cor extention\n", av[*n]));
+	all->champ[all->nb_champ].fd = open(av[*n], O_RDONLY);
+	if (all->champ[all->nb_champ].fd < 1)
+		vm_usage(all, spf("corewar: '%s' is not a valid path\n", av[*n]));
+	all->nb_champ++;
 }
 
 /*

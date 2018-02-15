@@ -37,7 +37,7 @@ int		rev_endian(int big)
 **	Crée une nouvelle liste triée par nb de champions à partir de all->champs
 */
 
-void	vm_sort_champs(t_all *all, t_champ *old_list)
+/*void	vm_sort_champs(t_all *all, t_champ *old_list)
 {
 	t_champ	*target;
 	t_champ	*tmp;
@@ -71,7 +71,7 @@ void	vm_sort_champs(t_all *all, t_champ *old_list)
 		pf("%s\n{0}", tmp->header.comment);						//	Debug
 		tmp = tmp->next;
 	}
-}
+}*/
 
 /*
 **	vm_number_champs()
@@ -82,61 +82,68 @@ void	vm_sort_champs(t_all *all, t_champ *old_list)
 
 void	vm_number_champs(t_all *all)
 {
-	t_champ	*champ;
-	t_champ	*tmp;
+	int		champ_nb;
 	int		n;
+	int		i;
 
-	champ = all->champs;
-	n = 1;
-	while (champ)
+	champ_nb = -1;
+	n = 0;
+	while (n < all->nb_champ)
 	{
-		if (!champ->nb && (tmp = all->champs))
-			while (tmp)
+		if (!all->champ[n].nb)
+		{
+			i = 0;
+			while (i < all->nb_champ)
 			{
-				if (tmp->nb == n && ++n)
-					tmp = all->champs;
-				else
-					tmp = tmp->next;
+				if (champ_nb == all->champ[i].nb)
+				{
+					champ_nb--;
+					i = 0;
+				}
+				i++;
 			}
-		if (!champ->nb)
-			champ->nb = n++;
-		champ = champ->next;
+			all->champ[n].nb = champ_nb;
+		}
+		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
+		n++;
 	}
-	vm_sort_champs(all, all->champs);
+//	vm_sort_champs(all, all->champs);
 }
 
 /*
 **	vm_get_champs()
-**	Pour chaque champ_path de all->champs :
+**	Pour chaque champ_path de all->champ :
 **		récupère la struct t_header et check la validité (taille du header et magic)
 **		place un '\0' a la fin de prog_name et prog_comment par sécurité
 **		récupère le programme binaire et check la validité (taille du prog)
 */
 
-void	vm_get_champs(t_all *all, t_champ *champ, int buf_size)
+void	vm_get_champs(t_all *all, int buf_size)
 {
 	char	buf[buf_size];
 	int		ret;
+	int		n;
 
-	while (champ)
+	n = 0;
+	while (n < all->nb_champ)
 	{
 		ft_bzero(buf, buf_size);
-		ret = read(champ->fd, buf, sizeof(t_header));
-		champ->header = *((t_header*)buf);
+		ret = read(all->champ[n].fd, buf, sizeof(t_header));
+		all->champ[n].header = *((t_header*)buf);
 		if (ret != sizeof(t_header))
 			vm_exit(all, "Not valid size of header\n");
-		if (rev_endian(champ->header.magic) != COREWAR_EXEC_MAGIC)
+		if (rev_endian(all->champ[n].header.magic) != COREWAR_EXEC_MAGIC)
 			vm_exit(all, "Not valid magic number in header\n");
-		champ->header.prog_name[PROG_NAME_LENGTH] = '\0';
-		champ->header.comment[COMMENT_LENGTH] = '\0';
+		all->champ[n].header.prog_name[PROG_NAME_LENGTH] = '\0';
+		all->champ[n].header.comment[COMMENT_LENGTH] = '\0';
 		ft_bzero(buf, buf_size);
-		ret = read(champ->fd, buf, CHAMP_MAX_SIZE);
-		if (ret != rev_endian(champ->header.prog_size)
+		ret = read(all->champ[n].fd, buf, CHAMP_MAX_SIZE);
+		if (ret != rev_endian(all->champ[n].header.prog_size)
 			|| ret > CHAMP_MAX_SIZE)
 			vm_exit(all, "Not valid prog_size\n");
-		ft_memcpy(champ->prog, buf, ret);
-		champ->prog_size = ret;
-		champ = champ->next;
+		ft_memcpy(all->champ[n].prog, buf, ret);
+		all->champ[n].prog_size = ret;
+		n++;
 	}
 	vm_number_champs(all);
 }
