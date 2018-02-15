@@ -122,7 +122,7 @@ void		get_statements(int fd, t_data *data)
 		else if (token->type == TOK_INSTRUCTION)
 		{
 			add_instruction(token, fd, data);
-			token = get_next_token(fd, data);			
+			token = get_next_token(fd, data);
 		}
 		else
 			syntax_error(token, data);
