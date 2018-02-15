@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 12:03:23 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 17:57:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct	s_get_string
 # define TOK_DIRECT_LABEL		12
 # define TOK_DIRECT				13
 
+typedef int		t_offset;
+
 typedef struct	s_param
 {
 	int		type;
@@ -54,15 +56,19 @@ typedef struct	s_param
 
 typedef struct	s_instruction
 {
-	int			type;
-	t_op		op_instruc;
-	t_param		param[3];
+	int				type;
+	t_op			op_instruc;
+	t_param			param[3];
+	char			*write_buf;
+	t_offset		offset;
+	t_offset		size;
 }				t_instruction;
 
 typedef struct	s_label
 {
-	int		type;
-	char	*name;
+	int				type;
+	t_offset		offset;
+	char			*name;
 }				t_label;
 
 typedef union	u_statement
@@ -72,12 +78,10 @@ typedef union	u_statement
 	t_label			label;
 }				t_statement;
 
-typedef short	t_offset;
-
 typedef struct	s_statement_lst
 {
 	t_statement				statement;
-	t_offset				offset;
+
 	struct s_statement_lst	*next;
 }				t_statement_lst;
 
@@ -123,5 +127,11 @@ void			free_parameters(int i, t_instruction *state_instruct);
 int				reverse_endian_int(int n);
 short			reverse_endian_short(short n);
 void			get_offsets(t_data *data);
+void			get_write_buf(t_data *data);
+void			write_buf_label(int *i, int j, t_instruction instruction,
+								t_data *data);
+int				reverse_endian_int(int	n);
+short			reverse_endian_short(short n);
+void			write_buf_dir_indir(int *i, int j, t_instruction instruction);
 
 #endif

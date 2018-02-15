@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 11:59:02 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 18:13:58 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,32 @@ void		free_data(t_data *data)
 	get_next_line(0, FREE_GNL);
 }
 
+void	test(t_data *data)
+{
+	t_statement_lst	*p;
+	int	i, j;
+
+	p = data->statement_lst;
+	j = 0;
+	while (p != NULL)
+	{
+		if (p->statement.type == INSTRUCTION)
+		{
+			i = 0;
+			while (i < p->statement.instruction.size)
+			{
+				ft_printf("%02hhx ", p->statement.instruction.write_buf[i]);
+				if (j % 16 == 15)
+					ft_putchar('\n');
+				++i;
+				++j;
+			}
+		}
+		p = p->next;
+	}
+	ft_putchar('\n');
+}
+
 int main(int argc, char **argv)
 {
 	t_data 	data;
@@ -74,6 +100,8 @@ int main(int argc, char **argv)
 	ft_printf("name = %s\ncomment = %s\n", data.header.prog_name, data.header.comment);
 	get_statements(fd, &data);
 	get_offsets(&data);
+	get_write_buf(&data);
+	test(&data);
 	close(fd);
 	close(fd_write);
 	free_data(&data);

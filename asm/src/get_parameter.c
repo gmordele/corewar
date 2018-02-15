@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_parameter.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/15 13:42:24 by gmordele          #+#    #+#             */
+/*   Updated: 2018/02/15 14:19:15 by gmordele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "asm.h"
 #include "libft.h"
@@ -5,15 +17,18 @@
 
 static t_arg_type	param_type_int(t_token *token)
 {
-	if (token->type == TOK_INDIRECT || token->type == TOK_LABEL)
+	if (token->type == TOK_INDIRECT)
 		return (T_IND);
-	if (token->type == TOK_DIRECT || token->type == TOK_DIRECT_LABEL)
+	if (token->type == TOK_LABEL)
+		return (T_IND | T_LAB);
+	if (token->type == TOK_DIRECT)
 		return (T_DIR);
-	else
-		return (T_REG);
+	if (token->type == TOK_DIRECT_LABEL)
+		return (T_DIR | T_LAB);
+	return (T_REG);
 }
 
-void		free_parameters(int i, t_instruction *state_instruct)
+void				free_parameters(int i, t_instruction *state_instruct)
 {
 	int	j;
 
@@ -26,7 +41,7 @@ void		free_parameters(int i, t_instruction *state_instruct)
 	}
 }
 
-static void	invalid_parameter(t_token *token, int i,
+static void			invalid_parameter(t_token *token, int i,
 							t_instruction *state_instruct, t_data *data)
 {
 	free_parameters(i, state_instruct);
@@ -36,7 +51,7 @@ static void	invalid_parameter(t_token *token, int i,
 	err_exit(data);
 }
 
-static int	correct_param(int type, t_arg_type arg_type)
+static int			correct_param(int type, t_arg_type arg_type)
 {
 	int		int_type;
 
@@ -49,8 +64,8 @@ static int	correct_param(int type, t_arg_type arg_type)
 	return (int_type & arg_type);
 }
 
-void		get_parameter(t_token *token, t_instruction *stat_instruct, int i,
-						t_data *data)
+void				get_parameter(t_token *token, t_instruction *stat_instruct,
+								int i, t_data *data)
 {
 	if (!is_parameter(token->type))
 	{
@@ -58,7 +73,8 @@ void		get_parameter(t_token *token, t_instruction *stat_instruct, int i,
 		syntax_error(token, data);
 	}
 	if (token->str_val == NULL
-		|| ((stat_instruct->param[i].value = ft_strdup(token->str_val)) == NULL))
+		|| ((stat_instruct->param[i].value = ft_strdup(token->str_val))
+			== NULL))
 	{
 		free_parameters(i, stat_instruct);
 		free_token(token);
@@ -70,4 +86,6 @@ void		get_parameter(t_token *token, t_instruction *stat_instruct, int i,
 		err_exit(data);
 	}
 	stat_instruct->param[i].type = param_type_int(token);
+	if ((stat_instruct->param[i].value = ft_strdup(token->str_val)) == NULL)
+		err_exit_str("error ft_strdup()", data);
 }

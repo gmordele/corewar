@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 11:59:34 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 12:20:43 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 16:27:50 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_offset	instruction_size(t_instruction instruc)
 	{
 		if (instruc.param[i].type == T_REG)
 			++size;
-		else if (instruc.param[i].type == T_IND)
+		else if (instruc.param[i].type & T_IND)
 			size += 2;
 		else
 		{
@@ -44,15 +44,24 @@ void			get_offsets(t_data *data)
 {
 	t_statement_lst	*p;
 	t_offset		offset;
+	t_offset		size;
 
 	p = data->statement_lst;
 	offset = 0;
 	while (p != NULL)
 	{
-		ft_printf("%hd\n", offset);
-		p->offset = offset;
 		if (p->statement.type == INSTRUCTION)
-			offset += instruction_size(p->statement.instruction);
+		{
+			p->statement.instruction.offset = offset;
+			size = instruction_size(p->statement.instruction);
+			p->statement.instruction.size = size;
+			offset += size;
+			if ((p->statement.instruction.write_buf = malloc(size))
+				== NULL)
+				err_exit_strerror("malloc()", data);
+		}
+		else
+			p->statement.label.offset = offset;
 		p = p->next;
 	}
 }

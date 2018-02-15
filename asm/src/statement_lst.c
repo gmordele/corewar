@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 23:00:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/14 02:33:39 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 12:26:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	free_statement(t_statement statement)
 				free(statement.instruction.param[j].value);
 			++j;
 		}
+		if (statement.instruction.write_buf != NULL)
+			free(statement.instruction.write_buf);
 	}
 }
 
