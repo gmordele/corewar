@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/14 01:29:46 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 12:03:23 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct	s_label
 {
 	int		type;
 	char	*name;
-	int		value;
 }				t_label;
 
 typedef union	u_statement
@@ -73,9 +72,12 @@ typedef union	u_statement
 	t_label			label;
 }				t_statement;
 
+typedef short	t_offset;
+
 typedef struct	s_statement_lst
 {
 	t_statement				statement;
+	t_offset				offset;
 	struct s_statement_lst	*next;
 }				t_statement_lst;
 
@@ -118,5 +120,8 @@ char			*param_type_str(t_token *token);
 int				is_parameter(int type);
 void			invalid_instruction(t_token *token, t_data *data);
 void			free_parameters(int i, t_instruction *state_instruct);
+int				reverse_endian_int(int n);
+short			reverse_endian_short(short n);
+void			get_offsets(t_data *data);
 
 #endif

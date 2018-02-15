@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/15 11:14:47 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/15 12:01:48 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -23,7 +23,8 @@ SRC				=	main.c					err_exit.c			\
 					get_token_string.c		op.c				\
 					get_header.c			syntax_error.c		\
 					pass_endl_token.c		statement_lst.c		\
-					get_parameter.c			get_parameter1.c
+					get_parameter.c			get_parameter1.c	\
+					reverse_endian.c		get_offsets.c		\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

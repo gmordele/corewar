@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/14 02:33:16 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/15 11:59:02 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,49 +60,22 @@ void		free_data(t_data *data)
 
 int main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
 	t_data 	data;
 	int		fd;
-//	t_token	*token;
+	int		fd_write;
+	fd_write = 0;
+	ft_bzero(&data, sizeof(t_data));
 	if (argc < 2)
 		err_exit_str("missing argument", &data);
 	init_data(&data, argv[1]);
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		err_exit_strerror("open()", &data);
-
 	get_header(fd, &data);
 	ft_printf("name = %s\ncomment = %s\n", data.header.prog_name, data.header.comment);
 	get_statements(fd, &data);
-/*
-	t_token *token = get_next_token(fd, &data);
-	while (token != NULL && token->type != TOK_END)
-	{
-		print_token(1, token);
-		ft_putchar('\n');
-		free_token(token);
-		token = get_next_token(fd, &data);
-	}
-	print_token(1, token);
-	ft_putchar('\n');
-	free_token(token);
-*/
-/*
-	t_token *token = pass_endl_token(fd, &data);
-	while (token->type != TOK_END)
-	{
-		print_token(1, token);
-		ft_putchar('\n');
-		free_token(token);
-		token = pass_endl_token(fd, &data);
-	}
-	free_token(token);
-*/
-//	t_token *token;
-//	token = get_next_token(fd, &data);
-//	print_token(1, token);
-//	free_token(token);
+	get_offsets(&data);
 	close(fd);
+	close(fd_write);
 	free_data(&data);
 	return (0);
 }
