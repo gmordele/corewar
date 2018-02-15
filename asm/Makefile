@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/14 01:13:26 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/15 11:14:47 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -33,7 +33,9 @@ DEST_INC		=	./include/
 
 DEST_OBJ		=	./obj/
 
-HEADERS			=	$(DEST_INC) $(DEST_LIB)
+HEADERS_INC		=	asm.h		op.h
+
+HEADERS			=	$(addprefix $(DEST_INC), $(HEADERS_INC))  $(DEST_LIB)/libft.h
 
 DEST_LIB		=	../libft
 
@@ -61,4 +63,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-.PHONY:all clean fclean re mklib mkdir_obj
+.PHONY:all clean fclean re mklib

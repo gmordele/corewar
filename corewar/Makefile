@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/14 20:46:25 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/15 11:13:30 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -61,4 +61,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-.PHONY:all clean fclean re mklib mkdir_obj
+.PHONY:all clean fclean re mklib
