@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 15:27:46 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 01:45:33 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 00:19:58 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void			write_buf_label(int *i, int j, t_instruction instruction,
 	else
 	{
 		int_value = label_offset - instruction.offset;
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[3];
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[3];
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[2];
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[1];
+		instruction.write_buf[(*i)++] = ((char *)&(int_value))[3];
+		instruction.write_buf[(*i)++] = ((char *)&(int_value))[2];
+		instruction.write_buf[(*i)++] = ((char *)&(int_value))[1];
+		instruction.write_buf[(*i)++] = ((char *)&(int_value))[0];
 	}
 }
