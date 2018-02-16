@@ -10,74 +10,87 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "vm_0.h"
+#include "vm_0.h"
 
 /*
-**	vm_rev_endian()
-**	Renvoie un int avec les octets inversés
+**	rev_endian_short()
+**	Return a short with reverse endian
 */
 
-int		rev_endian(int big)
+short	rev_endian_short(short in)
 {
-	int		little;
-	char	*ptr1;
-	char	*ptr2;
+	short	out;
+	char	*ptr_in;
+	char	*ptr_out;
 
-	ptr1 = (char*)&little;
-	ptr2 = (char*)&big;
-	ptr1[0] = ptr2[3];
-	ptr1[1] = ptr2[2];
-	ptr1[2] = ptr2[1];
-	ptr1[3] = ptr2[0];
-	return (little);
+	ptr_in = (char*)&in;
+	ptr_out = (char*)&out;
+	ptr_out[0] = ptr_in[1];
+	ptr_out[1] = ptr_in[0];
+	return (out);
+}
+
+/*
+**	rev_endian_int()
+**	Return a int with reverse endian
+*/
+
+int		rev_endian_int(int in)
+{
+	int	out;
+	char	*ptr_in;
+	char	*ptr_out;
+
+	ptr_in = (char*)&in;
+	ptr_out = (char*)&out;
+	ptr_out[0] = ptr_in[3];
+	ptr_out[1] = ptr_in[2];
+	ptr_out[2] = ptr_in[1];
+	ptr_out[3] = ptr_in[0];
+	return (out);
 }
 
 /*
 **	vm_sort_champs()
-**	Crée une nouvelle liste triée par nb de champions à partir de all->champs
+**	Sort champ_tab by champ_nb, from biggest to littlest
 */
 
-/*void	vm_sort_champs(t_all *all, t_champ *old_list)
+void	vm_sort_champs(t_all *all)
 {
-	t_champ	*target;
-	t_champ	*tmp;
+	t_champ	tmp;
 	int		n;
+	int		i;
 
-	all->champs = NULL;
-	n = all->nb_champs;
-	while (n-- > 0 && old_list)
+	n = all->nb_champ;
+	while (n-- > 1)
 	{
-		ft_ptr(old_list, 2, &target, &tmp);
-		while (tmp)
+		i = 0;
+		while (i < n)
 		{
-			if (tmp->nb > target->nb)
-				target = tmp;
-			tmp = tmp->next;
+			if (all->champ[i].nb < all->champ[i + 1].nb)
+			{
+				tmp = all->champ[i];
+				all->champ[i] = all->champ[i + 1];
+				all->champ[i + 1] = tmp;
+			}
+			i++;
 		}
-		if (target == old_list)
-			old_list = old_list->next;
-		if (target->prev)
-			target->prev->next = target->next;
-		if (target->next)
-			target->next->prev = target->prev;
-		target->color = all->color + (n * 6);
-		vm_l_add_frt(&all->champs, target);
 	}
-	tmp = all->champs;			//	Debug
-	while (tmp)					//	Debug
+	ft_strcpy(all->champ[0].color, "\x1b[32m");
+	ft_strcpy(all->champ[1].color, "\x1b[36m");
+	ft_strcpy(all->champ[2].color, "\x1b[35m");
+	ft_strcpy(all->champ[3].color, "\x1b[33m");
+	n = 0;
+	while (n < all->nb_champ)
 	{
-		pf("Champ %d %s%s %d octets\n", tmp->nb, tmp->color, tmp->header.prog_name, tmp->prog_size);			//	Debug
-		pf("Magic %#x\n", rev_endian(tmp->header.magic));			//	Debug
-		pf("%s\n{0}", tmp->header.comment);						//	Debug
-		tmp = tmp->next;
+		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
+		n++;
 	}
-}*/
+}
 
 /*
 **	vm_number_champs()
-**	Pour chaque champion de all->champs :
-**		defini un nb si il n'est pas déjà défini dans les params
-**		vérifie qu'il n'y ait pas de doublon
+**	For each champ define a champ_nb if it is not define yet
 */
 
 void	vm_number_champs(t_all *all)
@@ -104,10 +117,10 @@ void	vm_number_champs(t_all *all)
 			}
 			all->champ[n].nb = champ_nb;
 		}
-		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
+//		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
 		n++;
 	}
-//	vm_sort_champs(all, all->champs);
+	vm_sort_champs(all);
 }
 
 /*
@@ -132,13 +145,13 @@ void	vm_get_champs(t_all *all, int buf_size)
 		all->champ[n].header = *((t_header*)buf);
 		if (ret != sizeof(t_header))
 			vm_exit(all, "Not valid size of header\n");
-		if (rev_endian(all->champ[n].header.magic) != COREWAR_EXEC_MAGIC)
+		if (rev_endian_int(all->champ[n].header.magic) != COREWAR_EXEC_MAGIC)
 			vm_exit(all, "Not valid magic number in header\n");
 		all->champ[n].header.prog_name[PROG_NAME_LENGTH] = '\0';
 		all->champ[n].header.comment[COMMENT_LENGTH] = '\0';
 		ft_bzero(buf, buf_size);
 		ret = read(all->champ[n].fd, buf, CHAMP_MAX_SIZE);
-		if (ret != rev_endian(all->champ[n].header.prog_size)
+		if (ret != rev_endian_int(all->champ[n].header.prog_size)
 			|| ret > CHAMP_MAX_SIZE)
 			vm_exit(all, "Not valid prog_size\n");
 		ft_memcpy(all->champ[n].prog, buf, ret);

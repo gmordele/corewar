@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "vm_0.h"
+#include "vm_0.h"
 
 /*
 **	vm_exit()
-**	sort du programme proprement en libérant les mallocs depuis la structure t_all
-**	si un error_mail est defini, il sera affiché sur la sortie d'erreur
+**	quit properly program by freeing memory from t_all structure
+**	write an error_mail in stderr if an error_mail is define
 */
 
 int		vm_exit(t_all *all, char *error_mail)
 {
-	/*ft_free();*/
+	ft_free(2, &all->arena, &all->color);
 	while (all->nb_champ-- > 0)
 		close(all->champ[all->nb_champ].fd);
 	if (error_mail)
@@ -31,9 +31,9 @@ int		vm_exit(t_all *all, char *error_mail)
 
 /*
 **	vm_usage()
-**	affiche l'usage de l'executable sur la sortie d'erreur
-**	si un error_mail est defini, il sera affiché sur la sortie d'erreur
-**	sort du programme proprement en vm_exit()
+**	write usage of the executable in stderr
+**	write an error_mail in stderr if an error_mail is define
+**	quit properly program with vm_exit()
 */
 
 void	vm_usage(t_all *all, char *error_mail)
@@ -56,9 +56,8 @@ void	vm_usage(t_all *all, char *error_mail)
 
 /*
 **	vm_malloc()
-**	alloue de la mémoire en appelant ft_malloc
-**	ft_malloc alloue de la mémoire initialisée a 0 en appelant malloc
-**	sort du programme proprement en vm_exit() si ft_malloc renvoie NULL
+**	allocate memory with ft_malloc (as memalloc)
+**	if malloc returns NULL, quit properly program with vm_exit()
 */
 
 void	*vm_malloc(t_all *all, int size)
@@ -72,9 +71,10 @@ void	*vm_malloc(t_all *all, int size)
 
 /*
 **	vm_init()
-**	initialise les variables de la structure t_all
-**	parcourt les parametres en appelant les fonctions adéquates
-**	sort du programme avec vm_usage si besoin
+**	initialize t_all structure with bzero
+**	getting flags and champ_path in params
+**	if it is needed, quit with vm_usage()
+**	allocate memory to arena (char tab) and color (char tab)
 */
 
 void	vm_init(t_all *all, int ac, char **av)
@@ -82,10 +82,6 @@ void	vm_init(t_all *all, int ac, char **av)
 	int		n;
 
 	ft_bzero(all, sizeof(t_all));
-	ft_strcpy(all->champ[0].color, "\x1b[32m");
-	ft_strcpy(all->champ[1].color, "\x1b[36m");
-	ft_strcpy(all->champ[2].color, "\x1b[31m");
-	ft_strcpy(all->champ[3].color, "\x1b[33m");
 	n = 0;
 	while (++n < ac)
 	{
@@ -94,13 +90,19 @@ void	vm_init(t_all *all, int ac, char **av)
 		else
 			vm_get_flag(all, &n, av);
 	}
-	if (!all->champ[0].fd)
+	if (!all->nb_champ || !all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
+	all->arena = (char*)vm_malloc(all, MEM_SIZE);
+	all->color = (char*)vm_malloc(all, MEM_SIZE);
 }
 
 /*
 **	main()
-**	appelle les fonctions sur toutes les grandes étapes de la vm
+**	run corewar by calling primary fonctions for each big step
+**		read params
+**		get champs binary files
+**		run the battle in arena
+**		quit program when the fight is done
 */
 
 int		main(int ac, char **av)
@@ -109,5 +111,7 @@ int		main(int ac, char **av)
 
 	vm_init(&all, ac, av);
 	vm_get_champs(&all, sizeof(t_header));
+	vm_set_arena(&all);
+	vm_exit(&all, NULL);
 	return (0);
 }

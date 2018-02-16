@@ -19,6 +19,7 @@ CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 SRC				=	vm_0_main.c				\
 					vm_1_get_params.c		\
 					vm_2_get_champs.c		\
+					vm_3_set_arena.c		\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
