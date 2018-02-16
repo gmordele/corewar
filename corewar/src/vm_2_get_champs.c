@@ -150,7 +150,7 @@ void	vm_get_champs(t_all *all, int buf_size)
 		all->champ[n].header.prog_name[PROG_NAME_LENGTH] = '\0';
 		all->champ[n].header.comment[COMMENT_LENGTH] = '\0';
 		ft_bzero(buf, buf_size);
-		ret = read(all->champ[n].fd, buf, CHAMP_MAX_SIZE);
+		ret = read(all->champ[n].fd, buf, CHAMP_MAX_SIZE + 1);
 		if (ret != rev_endian_int(all->champ[n].header.prog_size)
 			|| ret > CHAMP_MAX_SIZE)
 			vm_exit(all, "Not valid prog_size\n");

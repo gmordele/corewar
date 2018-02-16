@@ -37,7 +37,6 @@ typedef	struct			s_process
 	int					carry;
 	int					cycle;
 	int					nb_live;
-	int					num;
 	struct s_process	*prev;
 	struct s_process	*next;
 }						t_process;
