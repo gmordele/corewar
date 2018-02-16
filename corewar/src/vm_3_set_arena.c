@@ -28,14 +28,14 @@ void	vm_print_arena(t_all *all)
 		x = 0;
 		while (x < 64)
 		{
-			pf(all->color[y * 64 + x] ? all->champ[all->color[y * 64 + x] - 1].color : "{0}");
+			pf(all->color[y * 64 + x] >= 0 ? all->champ[(int)all->color[y * 64 + x]].color : "{0}");
 			pf(" %02hhx", all->arena[y * 64 + x]);
 			x++;
 		}
 		pf(" {W}  {0}\n");
 		y++;
 	}
-	pf("{W}%197s{0}\n", "");
+	pf("{W}%198s{0}\n", "");
 }
 
 void	vm_set_arena(t_all *all)
@@ -46,10 +46,11 @@ void	vm_set_arena(t_all *all)
 	delta = MEM_SIZE  / all->nb_champ;
 	pf("Delta {y}%d\n{0}", delta);
 	n = all->nb_champ;
+	ft_memset(all->color, -1, MEM_SIZE);
 	while (n-- > 0)
 	{
 		ft_memcpy(all->arena + (delta * n), all->champ[n].prog, all->champ[n].prog_size);
-		ft_memset(all->color + (delta * n), n + 1, all->champ[n].prog_size);
+		ft_memset(all->color + (delta * n), n, all->champ[n].prog_size);
 	}
 	vm_print_arena(all);
 }

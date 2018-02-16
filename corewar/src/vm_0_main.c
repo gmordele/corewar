@@ -20,7 +20,6 @@
 
 int		vm_exit(t_all *all, char *error_mail)
 {
-	ft_free(2, &all->arena, &all->color);
 	while (all->nb_champ-- > 0)
 		close(all->champ[all->nb_champ].fd);
 	if (error_mail)
@@ -92,8 +91,6 @@ void	vm_init(t_all *all, int ac, char **av)
 	}
 	if (!all->nb_champ || !all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
-	all->arena = (char*)vm_malloc(all, MEM_SIZE);
-	all->color = (char*)vm_malloc(all, MEM_SIZE);
 }
 
 /*
