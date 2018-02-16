@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 17:57:59 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/16 02:16:07 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct	s_param
 typedef struct	s_instruction
 {
 	int				type;
-	t_op			op_instruc;
+	t_op			*op_instruc;
 	t_param			param[3];
 	char			*write_buf;
 	t_offset		offset;
@@ -133,5 +133,6 @@ void			write_buf_label(int *i, int j, t_instruction instruction,
 int				reverse_endian_int(int	n);
 short			reverse_endian_short(short n);
 void			write_buf_dir_indir(int *i, int j, t_instruction instruction);
+void			write_buf(int fd, t_data *data);
 
 #endif

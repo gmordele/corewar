@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 22:28:14 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/14 04:04:35 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/16 04:54:25 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	add_label(t_token *token, t_data *data)
 	statement_lst_add(new_lst, data);
 }
 
-static t_op	get_op(char *name)
+static t_op	*get_op(char *name)
 {
 	extern t_op	g_op_tab[];
 	int			i;
@@ -49,10 +49,8 @@ static t_op	get_op(char *name)
 	i = 0;
 	while (g_op_tab[i].name != 0 && !ft_strequ(name, g_op_tab[i].name))
 		++i;
-	return (g_op_tab[i]);
+	return (&(g_op_tab[i]));
 }
-
-
 
 static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 {
@@ -63,7 +61,7 @@ static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 	i = 0;
 	get_parameter(token, stat_instruc, i++, data);
 	free_token(token);
-	while (i < stat_instruc->op_instruc.n_args)
+	while (i < stat_instruc->op_instruc->n_args)
 	{
 		token = get_next_token(fd, data);
 		if (token->type != TOK_SEPARATOR)
@@ -80,7 +78,7 @@ void		add_instruction(t_token *token, int fd, t_data *data)
 {
 	t_statement		stat_instruc;
 	t_statement_lst	*new_lst;
-	t_op			instruc_op;
+	t_op			*instruc_op;
 
 	if (token->str_val == NULL)
 	{
@@ -88,7 +86,7 @@ void		add_instruction(t_token *token, int fd, t_data *data)
 		err_exit_str("error add_label()", data);
 	}
 	instruc_op = get_op(token->str_val);
-	if (instruc_op.name == 0)
+	if (instruc_op->name == 0)
 		invalid_instruction(token, data);
 	free_token(token);
 	ft_bzero(&stat_instruc, sizeof(t_statement));
@@ -98,7 +96,7 @@ void		add_instruction(t_token *token, int fd, t_data *data)
 	if ((new_lst = malloc(sizeof(t_statement_lst))) == NULL)
 	{
 		free_parameters(2, &(stat_instruc.instruction));
-		err_exit_strerror("malloc{}", data);
+		err_exit_strerror("malloc()", data);
 	}
 	new_lst->statement = stat_instruc;
 	new_lst->next = NULL;

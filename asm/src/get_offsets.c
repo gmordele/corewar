@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 11:59:34 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 16:27:50 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/16 04:55:24 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_offset	instruction_size(t_instruction instruc)
 	int			i;
 
 	size = 1;
-	size += instruc.op_instruc.encod_byte ? 1 : 0;
+	size += instruc.op_instruc->encod_byte ? 1 : 0;
 	i = 0;
 	while (i < 3 && instruc.param[i].value != NULL)
 	{
@@ -30,7 +30,7 @@ static t_offset	instruction_size(t_instruction instruc)
 			size += 2;
 		else
 		{
-			if (instruc.op_instruc.index)
+			if (instruc.op_instruc->index)
 				size += 2;
 			else
 				size += 4;
@@ -56,12 +56,11 @@ void			get_offsets(t_data *data)
 			size = instruction_size(p->statement.instruction);
 			p->statement.instruction.size = size;
 			offset += size;
-			if ((p->statement.instruction.write_buf = malloc(size))
-				== NULL)
-				err_exit_strerror("malloc()", data);
+			data->header.prog_size += size;
 		}
 		else
 			p->statement.label.offset = offset;
 		p = p->next;
 	}
+	data->header.prog_size = reverse_endian_int(data->header.prog_size);	
 }

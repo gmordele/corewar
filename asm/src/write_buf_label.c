@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 15:27:46 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 17:51:12 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/16 01:45:33 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ void			write_buf_label(int *i, int j, t_instruction instruction,
 	int			int_value;
 
 	label_offset = seek_label(instruction.param[j].value, data);
-	if (instruction.param[j].type & T_IND || instruction.op_instruc.index)
+	if (instruction.param[j].type & T_IND || instruction.op_instruc->index)
 	{
-		short_value = reverse_endian_short(label_offset - instruction.offset);
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[0];
+		short_value = label_offset - instruction.offset;
 		instruction.write_buf[(*i)++] = ((char *)&(short_value))[1];
+		instruction.write_buf[(*i)++] = ((char *)&(short_value))[0];
 	}
 	else
 	{
-		int_value = reverse_endian_int(label_offset - instruction.offset);
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[0];
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[1];
-		instruction.write_buf[(*i)++] = ((char *)&(short_value))[2];
+		int_value = label_offset - instruction.offset;
 		instruction.write_buf[(*i)++] = ((char *)&(short_value))[3];
+		instruction.write_buf[(*i)++] = ((char *)&(short_value))[3];
+		instruction.write_buf[(*i)++] = ((char *)&(short_value))[2];
+		instruction.write_buf[(*i)++] = ((char *)&(short_value))[1];
 	}
 }

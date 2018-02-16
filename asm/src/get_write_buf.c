@@ -72,14 +72,17 @@ void					get_write_buf(t_data *data)
 	{
 		if (p->statement.type == INSTRUCTION)
 		{
+			if ((p->statement.instruction.write_buf =
+				malloc(p->statement.instruction.size)) == NULL)
+					err_exit_strerror("malloc()", data);
 			p->statement.instruction.write_buf[0] =
-				p->statement.instruction.op_instruc.opcode;
+				p->statement.instruction.op_instruc->opcode;
 			i = 1;
-			if (p->statement.instruction.op_instruc.encod_byte)
+			if (p->statement.instruction.op_instruc->encod_byte)
 				p->statement.instruction.write_buf[i++] =
 					get_encod_byte(p->statement.instruction);
 			write_param(i, p->statement.instruction, data);
 		}
 		p = p->next;
-	}	
+	}
 }

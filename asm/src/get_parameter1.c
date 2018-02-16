@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_parameter1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/16 03:20:17 by gmordele          #+#    #+#             */
+/*   Updated: 2018/02/16 03:25:38 by gmordele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "asm.h"
 #include "libft.h"
 
@@ -18,7 +30,7 @@ int	is_parameter(int type)
 
 char	*param_type_str(t_token *token)
 {
-	if (token->type == TOK_INDIRECT || token->type == TOK_LABEL)
+	if (token->type == TOK_INDIRECT || token->type == TOK_INDIRECT_LABEL)
 		return ("indirect");
 	if (token->type == TOK_DIRECT || token->type == TOK_DIRECT_LABEL)
 		return ("direct");
