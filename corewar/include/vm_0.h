@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/11 20:29:06 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/16 19:35:09 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,27 @@ typedef	struct		s_champ
 
 typedef	struct		s_process
 {
-	t_champ			*champ;
 	int				pc;
 	int				r[17];
 	int				carry;
 	int				cycle;
 	int				nb_live;
+	int				num;
 	struct s_champ	*prev;
 	struct s_champ	*next;
 }					t_process;
 
 typedef	struct		s_all
 {
-	t_champ			champ[MAX_PLAYERS + 1];
+	t_champ			champ[MAX_PLAYERS];
+	t_process		*process_list;
 	int				nb_champ;
 	int				dump;
 	int				flag;
-	char			*arena;
-	char			*color;
+	int				cycle;
+	int				cycle_to_die;
+	char			arena[MEM_SIZE];
+	char			color[MEM_SIZE];
 }					t_all;
 
 void				vm_usage(t_all *all, char *error_mail);
@@ -62,5 +65,6 @@ void				vm_number_champs(t_all *all);
 short				rev_endian_short(short in);
 int					rev_endian_int(int in);
 void				vm_set_arena(t_all *all);
+void				vm_set_process(t_all *all);
 
 #endif
