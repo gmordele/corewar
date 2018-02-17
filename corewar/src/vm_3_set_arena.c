@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:37:05 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/16 16:37:12 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/16 21:39:44 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	vm_print_arena(t_all *all)
 		x = 0;
 		while (x < 64)
 		{
-			pf(all->color[y * 64 + x] >= 0 ? all->champ[(int)all->color[y * 64 + x]].color : "{0}");
+			pf(all->color[y * 64 + x] >= 0 ?
+						all->champ[(int)all->color[y * 64 + x]].color : "{0}");
 			pf(" %02hhx", all->arena[y * 64 + x]);
 			x++;
 		}
@@ -49,7 +50,8 @@ void	vm_set_arena(t_all *all)
 	ft_memset(all->color, -1, MEM_SIZE);
 	while (n-- > 0)
 	{
-		ft_memcpy(all->arena + (delta * n), all->champ[n].prog, all->champ[n].prog_size);
+		ft_memcpy(all->arena + (delta * n), all->champ[n].prog,
+													all->champ[n].prog_size);
 		ft_memset(all->color + (delta * n), n, all->champ[n].prog_size);
 	}
 	vm_print_arena(all);

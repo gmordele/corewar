@@ -1,4 +1,4 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
@@ -6,9 +6,9 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/15 11:13:30 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/17 04:55:29 by proso            ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME			=	corewar
 
@@ -16,10 +16,19 @@ CC				=	gcc
 
 CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 
-SRC				=	vm_0_main.c				\
-					vm_1_get_params.c		\
-					vm_2_get_champs.c		\
-					vm_3_set_arena.c		\
+SRC				=	vm_0_main.c					\
+					vm_1_get_params.c			\
+					vm_2_get_champs.c			\
+					vm_3_set_arena.c			\
+					vm_4_set_process.c			\
+					vm_5_process_tools.c		\
+					vm_6_ajust_addr.c			\
+					vm_6_instructions.c			\
+					vm_add.c					\
+					vm_sub.c					\
+					vm_forks.c					\
+					vm_zjmp.c					\
+					vm_ld.c						\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
