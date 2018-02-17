@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 15:27:46 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/17 00:19:58 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:30:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int		compare_labels(char *name, char *seek)
 		++i;
 	seek[i] = '\0';
 	return (ft_strequ(name, seek));
-}	
+}
 
 static t_offset	seek_label(char *name, t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 11:59:34 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 04:55:24 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:18:27 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ void			get_offsets(t_data *data)
 			p->statement.label.offset = offset;
 		p = p->next;
 	}
-	data->header.prog_size = reverse_endian_int(data->header.prog_size);	
+	data->header.prog_size = reverse_endian_int(data->header.prog_size);
 }

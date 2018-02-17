@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 02:16:07 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:14:45 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ t_token			*pass_endl_token(int fd, t_data *data);
 void			get_statements(int fd, t_data *data);
 void			statement_lst_add(t_statement_lst *statement, t_data *data);
 void			statement_lst_free(t_data *data);
-void			get_parameter(t_token *token, t_instruction *stat_instruct, int i,
-							t_data *data);
+void			get_parameter(t_token *token, t_instruction *stat_instruct,
+							int i, t_data *data);
 char			*param_type_str(t_token *token);
 int				is_parameter(int type);
 void			invalid_instruction(t_token *token, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/15 12:30:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 18:19:34 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:28:06 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static unsigned char	reg_value(char *value)
 	return (ft_atoi(value));
 }
 
-static void				write_param(int i, t_instruction instruction, t_data *data)
+static void				write_param(int i, t_instruction instruction,
+									t_data *data)
 {
 	int		j;
 
@@ -74,7 +75,7 @@ void					get_write_buf(t_data *data)
 		{
 			if ((p->statement.instruction.write_buf =
 				malloc(p->statement.instruction.size)) == NULL)
-					err_exit_strerror("malloc()", data);
+				err_exit_strerror("malloc()", data);
 			p->statement.instruction.write_buf[0] =
 				p->statement.instruction.op_instruc->opcode;
 			i = 1;

@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 02:55:46 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:28:34 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*new_file_name(char *file_name, t_data *data)
 	return (ret);
 }
 
-static void init_data(t_data *data, char *file_name)
+static void	init_data(t_data *data, char *file_name)
 {
 	(void)data;
 	data->file_name = NULL;
@@ -58,9 +58,9 @@ void		free_data(t_data *data)
 	get_next_line(0, FREE_GNL);
 }
 
-int main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-	t_data 	data;
+	t_data	data;
 	int		fd;
 	int		fd_write;
 

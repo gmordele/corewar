@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 00:54:39 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/15 11:45:01 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:18:51 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	get_comment(int fd, t_data *data)
 }
 
 void		get_header(int fd, t_data *data)
- {
+{
 	t_token		*token;
 
 	data->header.magic = reverse_endian_int(COREWAR_EXEC_MAGIC);

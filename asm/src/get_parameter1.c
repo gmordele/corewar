@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 03:20:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 03:25:38 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/17 02:19:09 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	invalid_instruction(t_token *token, t_data *data)
 	err_exit(data);
 }
 
-int	is_parameter(int type)
+int		is_parameter(int type)
 {
 	return (type == TOK_DIRECT || type == TOK_INDIRECT || type == TOK_REGISTER
 		|| type == TOK_INDIRECT_LABEL || type == TOK_DIRECT_LABEL);

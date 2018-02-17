@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_token_string.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/17 02:20:52 by gmordele          #+#    #+#             */
+/*   Updated: 2018/02/17 02:21:25 by gmordele         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "libft.h"
 #include "asm.h"
@@ -70,7 +82,7 @@ static int		get_string_loop(char **str, t_get_string *gs, t_data *data)
 static char		*get_string(char **str, int *i, int *row, t_data *data)
 {
 	t_get_string	gs;
-	
+
 	init_get_string(&gs, *i, *row);
 	if (get_string_loop(str, &gs, data) < 0)
 		return (NULL);
