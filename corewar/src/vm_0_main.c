@@ -20,6 +20,7 @@
 
 int		vm_exit(t_all *all, char *error_mail)
 {
+	vm_del_all_pro(&all->process_list);
 	while (all->nb_champ-- > 0)
 		close(all->champ[all->nb_champ].fd);
 	if (error_mail)
@@ -105,10 +106,13 @@ void	vm_init(t_all *all, int ac, char **av)
 int		main(int ac, char **av)
 {
 	t_all	all;
+//	t_process *process;
 
 	vm_init(&all, ac, av);
 	vm_get_champs(&all, sizeof(t_header));
 	vm_set_arena(&all);
+//		process = vm_new_pro(&all, 0, 0);		
+//		vm_and(&all, process);
 	vm_exit(&all, NULL);
 	return (0);
 }

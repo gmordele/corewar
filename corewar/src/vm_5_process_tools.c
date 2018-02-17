@@ -18,8 +18,10 @@ t_process	*vm_new_pro(t_all *all, t_process *father, int pc)
 
 	new = (t_process*)vm_malloc(all, sizeof(t_process));
 	if (father)
-		ft_memcpy(father->r, new->r, sizeof(int) * 17);
-	new->num = (all->process_list ? all->process_list->num + 1 : 0);
+	{
+		ft_memcpy(father->r, new->r, sizeof(int) * (REG_NUMBER + 1));
+		new->carry = father->carry;
+	}
 	new->pc = pc;
 	return (new);
 }

@@ -29,6 +29,7 @@ SRC				=	vm_0_main.c					\
 					vm_forks.c					\
 					vm_zjmp.c					\
 					vm_ld.c						\
+					op.c						\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

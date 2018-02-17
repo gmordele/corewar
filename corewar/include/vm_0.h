@@ -78,5 +78,6 @@ int					vm_fork(t_all *all, t_process *proc, int lfork);
 int					vm_ld(t_all *all, t_process *proc, int type_param[3],
 																	int lld);
 int					vm_zjmp(t_all *all, t_process *proc);
+int					vm_and(t_all *all, t_process *process);
 
 #endif
