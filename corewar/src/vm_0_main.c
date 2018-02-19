@@ -99,6 +99,7 @@ void	vm_init(t_all *all, int ac, char **av)
 **	run corewar by calling primary fonctions for each big step
 **		read params
 **		get champs binary files
+**		set arena and process
 **		run the battle in arena
 **		quit program when the fight is done
 */
@@ -106,13 +107,11 @@ void	vm_init(t_all *all, int ac, char **av)
 int		main(int ac, char **av)
 {
 	t_all	all;
-//	t_process *process;
 
 	vm_init(&all, ac, av);
 	vm_get_champs(&all, sizeof(t_header));
-	vm_set_arena(&all);
-//		process = vm_new_pro(&all, 0, 0);		
-//		vm_and(&all, process);
+	vm_set_match(&all);
+	vm_run_battle(&all);
 	vm_exit(&all, NULL);
 	return (0);
 }

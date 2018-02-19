@@ -19,10 +19,11 @@ CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 SRC				=	vm_0_main.c					\
 					vm_1_get_params.c			\
 					vm_2_get_champs.c			\
-					vm_3_set_arena.c			\
-					vm_4_set_process.c			\
+					vm_3_set_match.c			\
+					vm_4_run_battle.c			\
 					vm_5_process_tools.c		\
-					vm_6_ajust_addr.c			\
+					vm_5_op_tools.c				\
+					vm_5_mem_tools.c			\
 					vm_6_instructions.c			\
 					vm_add.c					\
 					vm_sub.c					\
@@ -30,6 +31,9 @@ SRC				=	vm_0_main.c					\
 					vm_zjmp.c					\
 					vm_ld.c						\
 					op.c						\
+					vm_and.c					\
+					vm_or.c						\
+					vm_xor.c					\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

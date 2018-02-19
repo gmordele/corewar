@@ -35,7 +35,7 @@ int		vm_fork(t_all *all, t_process *proc, int lfork)
 	new->carry = proc->carry;
 	new->nb_live = proc->nb_live;
 	new->cycle = proc->cycle;
-	new->num = all->process_list->num++;
+//	new->num = all->process_list->num++;
 	ft_memcpy(&new->r[1], &proc->r[1], sizeof(char) * REG_NUMBER);
 	vm_add_pro_frt(&all->process_list, new);
 	return (1);
