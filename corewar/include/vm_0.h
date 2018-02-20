@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/16 19:35:09 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/20 00:50:25 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 typedef	struct			s_process
 {
 	int					pc;
-	int					r[REG_NUMBER];
+	int					r[REG_NUMBER + 1];
 	int					carry;
 	int					cycle;
 	int					nb_live;
@@ -58,6 +58,7 @@ typedef	struct			s_all
 	int					cycle;
 	int					cycle_to_die;
 	int					last_list;
+	int					nb_checks;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
 }						t_all;
@@ -85,6 +86,7 @@ int						vm_check_args(t_all *all, t_process *process, int op_code);
 void					vm_get_value(t_all *all, t_process *process);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
+int						vm_exec_inst(t_all *all, t_process *proc);
 int						vm_add(t_all *all, t_process *proc);
 int						vm_sub(t_all *all, t_process *proc);
 int						vm_fork(t_all *all, t_process *proc, int lfork);

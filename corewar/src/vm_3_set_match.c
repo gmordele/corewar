@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_3_set_arena.c                                   :+:      :+:    :+:   */
+/*   vm_3_set_match.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:37:05 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/16 21:39:44 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/20 00:51:50 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	vm_set_match(t_all *all)
 	int	n;
 
 	delta = MEM_SIZE  / all->nb_champ;
-	pf("Delta {y}%d\n{0}", delta);
+//	pf("Delta {y}%d\n{0}", delta);
 	ft_memset(all->color, -1, MEM_SIZE);
 	n = 0;
 	while (n < all->nb_champ)
@@ -83,5 +83,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-//	vm_print_arena(all);
+	vm_print_arena(all);
 }

@@ -6,7 +6,7 @@
 /*   By: proso <proso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 02:04:53 by proso             #+#    #+#             */
-/*   Updated: 2018/02/17 04:57:07 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/19 22:48:09 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		vm_fork(t_all *all, t_process *proc, int lfork)
 	new->carry = proc->carry;
 	new->nb_live = proc->nb_live;
 	new->cycle = proc->cycle;
-//	new->num = all->process_list->num++;
 	ft_memcpy(&new->r[1], &proc->r[1], sizeof(char) * REG_NUMBER);
 	vm_add_pro_frt(&all->process_list, new);
 	return (1);

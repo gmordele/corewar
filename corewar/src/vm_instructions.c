@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_6_instructions.c                                :+:      :+:    :+:   */
+/*   vm_instructions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: proso <proso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 19:34:43 by proso             #+#    #+#             */
-/*   Updated: 2018/02/17 04:55:17 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/20 00:54:42 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ static void vm_get_type_param(t_all *all, t_process *proc, int type_param[3])
 		return (-1);
 }*/
 
-static int	vm_choice_inst1(t_all *all, t_process *proc, int type_param[3])
+/*static int	vm_choice_inst1(t_all *all, t_process *proc, int type_param[3])
 {
 	if (proc->pc == 15)
 		return (vm_fork(all, proc, 1));
 	/*else if (proc->pc == 11)
-		return (vm_sti(all, proc, type_param));*/
+		return (vm_sti(all, proc, type_param));
 	else if (proc->pc == 12)
 		return (vm_fork(all, proc, 0));
 	else if (proc->pc == 13)
@@ -79,15 +79,22 @@ static int	vm_choice_inst1(t_all *all, t_process *proc, int type_param[3])
 	else if (proc->pc == 3)
 		return (vm_st(all, proc, type_param));
 	else
-		return (vm_choice_inst2(all, proc, type_param));*/
-	return (1);
+		return (vm_choice_inst2(all, proc, type_param));
+	return (1);*/
 }
 
 int			vm_exec_inst(t_all *all, t_process *proc)
 {
-	int		type_param[3];
+	//int		type_param[3];
+	t_process	*process;
+	int			op;
 
-	if (proc->pc != 15 && proc->pc != 12 && proc->pc != 9 && proc->pc != 1)
+	/*if (proc->pc != 15 && proc->pc != 12 && proc->pc != 9 && proc->pc != 1)
 			vm_get_type_param(all, proc, type_param);
-	return (vm_choice_inst1(all, proc, type_param));
+	return (vm_choice_inst1(all, proc, type_param));*/
+	process->step = 1;
+	op = vm_get_mem(all, process->pc, 1);
+	if (op > 0 && op < 17)
+		all->op_fn[op](all, process);
+	process->pc = vm_correct_addr(process->pc + process->step);
 }
