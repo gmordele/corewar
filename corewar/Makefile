@@ -24,7 +24,6 @@ SRC				=	vm_0_main.c					\
 					vm_5_process_tools.c		\
 					vm_5_op_tools.c				\
 					vm_5_mem_tools.c			\
-					vm_instructions.c			\
 					vm_add.c					\
 					vm_sub.c					\
 					vm_forks.c					\

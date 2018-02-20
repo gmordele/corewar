@@ -124,7 +124,7 @@ int		vm_check_args(t_all *all, t_process *process, int op_code)
 	if (op_code > 0 && op_code < 17)
 	{
 		n = 0;
-		while (n < 3 && g_op_tab[op_code - 1].args[n])
+		while (g_op_tab[op_code - 1].args[n])
 		{
 			if (!(g_op_tab[op_code - 1].args[n] & process->decoded[n]))
 				return (0);
@@ -133,7 +133,7 @@ int		vm_check_args(t_all *all, t_process *process, int op_code)
 			else if (process->decoded[n] & T_IND)
 				process->arg_size[n] = 2;
 			else if (process->decoded[n] & T_DIR)
-				process->arg_size[n] = 4;
+				process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
 			n++;
 		}
 		n = -1;									//	Debug

@@ -31,6 +31,7 @@ int		vm_and(t_all *all, t_process *pro)
 	int *reg;
 
 	pf("{y}vm_and\n{0}");						//	Debug
+	ft_bzero(process->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
 	if (vm_check_args(all, pro, 6))
 	{
 		pf("Args valides\n");					//	Debug
@@ -40,9 +41,9 @@ int		vm_and(t_all *all, t_process *pro)
 			reg = pro->r + pro->arg[2];
 			*reg = rev_endian_int(pro->value[0] & pro->value[1]);
 			pro->carry = (*reg ? 0 : 1);
-			pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 			pf("And -> %08x\n", *reg);			//	Debug
 		}
 	}
+	pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 	return (0);
 }

@@ -12,7 +12,11 @@
 
 #include "vm_0.h"
 
-/*void	vm_run_battle(t_all *all)
+/*
+**	
+*/
+
+void	vm_run_battle(t_all *all)
 {
 	t_process	*process;
 	int			op;
@@ -34,10 +38,10 @@
 			process = process->next;
 		}
 	}
-}*/
+}
 
 
-static void	delete_dead_process(t_all *all)
+/*static void	delete_dead_process(t_all *all)
 {
 	t_process	*current;
 	t_process	*tmp;
@@ -108,4 +112,4 @@ void	vm_run_battle(t_all *all)
 		manage_cycle(all);
 	}
 	vm_del_all_pro(&all->process_list);
-}
+}*/
