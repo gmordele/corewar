@@ -27,7 +27,7 @@ int		vm_correct_addr(long addr)
 /*
 **	vm_get_mem()
 **	return an int filled with 'size' byte (max 4)
-**	'out' is return in little endian
+**	endian is reversed in reading
 */
 
 int		vm_get_mem(t_all *all, int addr, int size)
@@ -40,6 +40,35 @@ int		vm_get_mem(t_all *all, int addr, int size)
 	while (size-- > 0)
 		((char*)&out)[n++] = all->arena[vm_correct_addr(addr + size)];
 	return (out);
+}
+
+/*
+**	vm_put_mem()
+**	write 'size' byte of 'value' in 'all->arena'
+**	endian is reversed in writing
+*/
+
+void	vm_put_mem(t_all *all, int value, int addr, int size)
+{
+	int		n;
+
+	n = 0;
+	while (size-- > 0)
+		all->arena[vm_correct_addr(addr + size)] = ((char*)&value)[n++];
+}
+
+/*
+**	vm_put_color()
+**	set 'size' byte in 'all->color' with all->color[process->pc]
+*/
+
+void	vm_put_color(t_all *all, t_process *process, int addr, int size)
+{
+	char color;
+
+	color = all->color[vm_correct_addr(process->pc)];
+	while (size-- > 0)
+		all->color[vm_correct_addr(addr + size)] = color;
 }
 
 /*

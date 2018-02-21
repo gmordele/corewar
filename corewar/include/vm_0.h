@@ -57,7 +57,8 @@ typedef	struct			s_all
 	int					dump;
 	int					cycle;
 	int					cycle_to_die;
-	int					last_list;
+	int					nb_live;
+	int					last_live;
 	int					nb_checks;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
@@ -82,19 +83,22 @@ void					vm_del_all_pro(t_process **list);
 void					vm_set_process(t_all *all);
 int						vm_correct_addr(long addr);
 int						vm_get_mem(t_all *all, int addr, int size);
-int						vm_check_args(t_all *all, t_process *process, int op_code);
-void					vm_get_value(t_all *all, t_process *process);
+void					vm_put_mem(t_all *all, int in, int addr, int size);
+void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
+int						vm_check_and_get_args(t_all *a, t_process *p, int op);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
 int						vm_exec_inst(t_all *all, t_process *proc);
+int						vm_live(t_all *all, t_process *process);
+int						vm_ld(t_all *all, t_process *proc, int tp_prm[3], int lld);
+int						vm_st(t_all *all, t_process *pro);
 int						vm_add(t_all *all, t_process *proc);
 int						vm_sub(t_all *all, t_process *proc);
-int						vm_fork(t_all *all, t_process *proc, int lfork);
-int						vm_ld(t_all *all, t_process *proc, int tp_prm[3], int lld);
-int						vm_zjmp(t_all *all, t_process *proc);
 int						vm_and(t_all *all, t_process *process);
 int						vm_xor(t_all *all, t_process *process);
 int						vm_or(t_all *all, t_process *process);
+int						vm_zjmp(t_all *all, t_process *proc);
+int						vm_fork(t_all *all, t_process *proc, int lfork);
 
 void					vm_print_arena(t_all *all);
 

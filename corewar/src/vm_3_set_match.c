@@ -41,9 +41,9 @@ void	vm_print_arena(t_all *all)
 
 void	vm_set_op_function(t_all *all)
 {
-//	all->op_fn[1] = &vm_live;
+	all->op_fn[1] = &vm_live;
 //	all->op_fn[2] = &vm_ld;
-//	all->op_fn[3] = &vm_st;
+	all->op_fn[3] = &vm_st;
 	all->op_fn[4] = &vm_add;
 	all->op_fn[5] = &vm_sub;
 	all->op_fn[6] = &vm_and;
@@ -83,5 +83,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-	vm_print_arena(all);
+//	vm_print_arena(all);
 }

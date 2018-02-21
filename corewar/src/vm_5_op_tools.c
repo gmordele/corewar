@@ -13,31 +13,6 @@
 #include "vm_0.h"
 
 /*
-**	vm_get_args()
-**	get each arg of instruction in process->arg[]
-*/
-
-void	vm_get_args(t_all *all, t_process *process)
-{
-	int virtual_pc;
-	int n;
-
-//	pf("Get args\n");
-	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
-	virtual_pc = process->pc + 2;
-	n = 0;
-	while (n < MAX_ARGS_NUMBER && process->arg_size[n])
-	{
-		process->arg[n] = vm_get_mem(all, virtual_pc, process->arg_size[n]);
-		virtual_pc += process->arg_size[n];
-		n++;
-	}
-	n = -1;							
-	while (++n < 3)
-		pf("Prm %d %s, size %d, arg %d\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n]);
-}
-
-/*
 **	vm_get_value()
 **	get value of each arg of process->arg[]
 **	each value is stored in process->value[]
@@ -49,13 +24,13 @@ void	vm_get_args(t_all *all, t_process *process)
 **		value is set with 4 bytes from arena
 */
 
-void	vm_get_value(t_all *all, t_process *process)
+void	vm_get_values(t_all *all, t_process *process)
 {
 	int n;
 
-//	pf("Get values\n");
-	vm_get_args(all, process);
-	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
+	pf("Get values\n");
+//	vm_get_args(all, process);
+//	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
 	n = 0;
 	while (n < MAX_ARGS_NUMBER && process->decoded[n])
 	{
@@ -74,6 +49,31 @@ void	vm_get_value(t_all *all, t_process *process)
 }
 
 /*
+**	vm_get_args()
+**	get each arg of instruction in process->arg[]
+*/
+
+void	vm_get_args(t_all *all, t_process *process)
+{
+	int virtual_pc;
+	int n;
+
+	pf("Get args\n");
+//	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
+	virtual_pc = process->pc + 2;
+	n = 0;
+	while (n < MAX_ARGS_NUMBER && process->arg_size[n])
+	{
+		process->arg[n] = vm_get_mem(all, virtual_pc, process->arg_size[n]);
+		virtual_pc += process->arg_size[n];
+		n++;
+	}
+	n = -1;							
+	while (++n < 3)
+		pf("Prm %d %s, size %d, arg %d\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n]);
+}
+
+/*
 **	vm_decode_byte()
 **	get the encoded byte in arena at pc + 1
 **	split encoded arg_type in process->decoded[]
@@ -83,9 +83,9 @@ void	vm_decode_byte(t_all *all, t_process *process)
 {
 	int n;
 
-//	pf("Decode byte\n");
+	pf("Decode byte\n");
 	process->encoded = vm_get_mem(all, process->pc + 1, 1);
-	ft_bzero(process->decoded, sizeof(int) * MAX_ARGS_NUMBER);
+//	ft_bzero(process->decoded, sizeof(int) * MAX_ARGS_NUMBER);
 	n = MAX_ARGS_NUMBER;
 	while (n-- > 0)
 	{
@@ -113,33 +113,31 @@ void	vm_decode_byte(t_all *all, t_process *process)
 **		return (0)
 */
 
-int		vm_check_args(t_all *all, t_process *process, int op_code)
+int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 {
 	extern t_op	g_op_tab[];
 	int			n;
 
-//	pf("Check args\n");
-	vm_decode_byte(all, process);
+	pf("Check args\n");
+	ft_bzero(process->decoded, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
-	if (op_code > 0 && op_code < 17)
+	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
+	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
+	vm_decode_byte(all, process);
+	n = 0;
+	while (g_op_tab[op_code - 1].args[n])
 	{
-		n = 0;
-		while (g_op_tab[op_code - 1].args[n])
-		{
-			if (!(g_op_tab[op_code - 1].args[n] & process->decoded[n]))
-				return (0);
-			if (process->decoded[n] & T_REG)
-				process->arg_size[n] = 1;
-			else if (process->decoded[n] & T_IND)
-				process->arg_size[n] = 2;
-			else if (process->decoded[n] & T_DIR)
-				process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
-			n++;
-		}
-		n = -1;									//	Debug
-		while (++n < 3)							//	Debug
-			pf("Prm %d %s size %d\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n]);
-		return (1);
+		if (!(g_op_tab[op_code - 1].args[n] & process->decoded[n]))
+			return (0);
+		if (process->decoded[n] & T_REG)
+			process->arg_size[n] = 1;
+		else if (process->decoded[n] & T_IND)
+			process->arg_size[n] = 2;
+		else if (process->decoded[n] & T_DIR)
+			process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
+		n++;
 	}
-	return (0);
+	vm_get_args(all, process);
+	vm_get_values(all, process);
+	return (1);
 }

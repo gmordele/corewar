@@ -31,11 +31,10 @@ int		vm_or(t_all *all, t_process *pro)
 	int *reg;
 
 	pf("{y}vm_or\n{0}");						//	Debug
-	ft_bzero(process->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
-	if (vm_check_args(all, pro, 6))
+//	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
+	if (vm_check_and_get_args(all, pro, 7))
 	{
 		pf("Args valides\n");					//	Debug
-		vm_get_value(all, pro);
 		if (pro->arg[2] > 0 && pro->arg[2] <= REG_NUMBER)
 		{
 			reg = pro->r + pro->arg[2];

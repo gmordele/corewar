@@ -20,7 +20,7 @@ void	vm_run_battle(t_all *all)
 {
 	t_process	*process;
 	int			op;
-//	char		*gnl;
+	char		*gnl;
 
 	while (all->process_list)
 	{
@@ -29,7 +29,7 @@ void	vm_run_battle(t_all *all)
 		{
 			pf("Process->PC %d\n", process->pc);
 			vm_print_arena(all);
-//			get_next_line(0, &gnl);
+			get_next_line(0, &gnl);
 			process->step = 1;
 			op = vm_get_mem(all, process->pc, 1);
 			if (op > 0 && op < 17)
