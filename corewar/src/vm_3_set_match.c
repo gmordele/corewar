@@ -51,7 +51,7 @@ void	vm_set_op_function(t_all *all)
 	all->op_fn[8] = &vm_xor;
 	all->op_fn[9] = &vm_zjmp;
 //	all->op_fn[10] = &vm_ldi;
-//	all->op_fn[11] = &vm_sti;
+	all->op_fn[11] = &vm_sti;
 //	all->op_fn[12] = &vm_fork;
 //	all->op_fn[13] = &vm_lld;
 //	all->op_fn[14] = &vm_lfork;

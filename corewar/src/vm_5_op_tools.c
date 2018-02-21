@@ -24,7 +24,7 @@
 **		value is set with 4 bytes from arena
 */
 
-void	vm_get_values(t_all *all, t_process *process)
+int		vm_get_values(t_all *all, t_process *process)
 {
 	int n;
 
@@ -36,9 +36,12 @@ void	vm_get_values(t_all *all, t_process *process)
 	{
 		if (process->decoded[n] & T_DIR)
 			process->value[n] = process->arg[n];
-		else if (process->decoded[n] & T_REG
-			&& process->arg[n] > 0 && process->arg[n] <= REG_NUMBER)
+		else if (process->decoded[n] & T_REG)
+		{
+			if (process->arg[n] < 1 || process->arg[n] > REG_NUMBER)
+				return (0);
 			process->value[n] = process->r[process->arg[n]];
+		}
 		else if (process->decoded[n] & T_IND)
 			process->value[n] = vm_get_mem(all, process->pc + process->arg[n], 4);
 		n++;
@@ -46,6 +49,7 @@ void	vm_get_values(t_all *all, t_process *process)
 	n = -1;									//	Debug
 	while (++n < 3)							//	Debug
 		pf("Prm %d %s, size %d, arg %d, value %08x\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n], process->value[n]);
+	return (1);
 }
 
 /*
@@ -138,6 +142,5 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 		n++;
 	}
 	vm_get_args(all, process);
-	vm_get_values(all, process);
-	return (1);
+	return (vm_get_values(all, process));
 }

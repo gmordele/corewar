@@ -32,6 +32,7 @@ SRC				=	vm_0_main.c					\
 					vm_or.c						\
 					vm_xor.c					\
 					vm_zjmp.c					\
+					vm_sti.c						\
 					vm_forks.c					\
 					vm_ld.c						\
 					op.c						\

@@ -32,9 +32,7 @@ int		vm_live(t_all *all, t_process *process)
 	all->nb_live++;
 	n = all->nb_champ;
 	while (n-- > 0)
-		if (process->value[0] == all->champ[n].nb && pf("{y}champ %s\n{0}", all->champ[n].header.prog_name))
-		{
+		if (process->value[0] == all->champ[n].nb && pf("{y}live from {r}%s\n{0}", all->champ[n].header.prog_name))
 			all->last_live = n;
-		}
 	return (0);
 }
