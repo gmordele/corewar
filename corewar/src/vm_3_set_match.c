@@ -56,7 +56,7 @@ void	vm_set_op_function(t_all *all)
 //	all->op_fn[13] = &vm_lld;
 //	all->op_fn[14] = &vm_lfork;
 //	all->op_fn[15] = &vm_lldi;
-//	all->op_fn[16] = &vm_aff;
+	all->op_fn[16] = &vm_aff;
 }
 
 /*

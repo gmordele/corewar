@@ -60,6 +60,8 @@ typedef	struct			s_all
 	int					nb_live;
 	int					last_live;
 	int					nb_checks;
+	int					aff_str_size;
+	char				*aff_str;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
 }						t_all;
@@ -103,6 +105,7 @@ void					vm_or(t_all *all, t_process *process);
 void					vm_zjmp(t_all *all, t_process *proc);
 void					vm_fork(t_all *all, t_process *proc);
 void					vm_lfork(t_all *all, t_process *proc);
+void					vm_aff(t_all *all, t_process *process);
 
 void					vm_print_arena(t_all *all);
 void					db_print_process(t_process *proc, int num);

@@ -3,7 +3,7 @@
 
 get_nb:
 	sub		r1, r1, r2
-	st		r1, 6
+	st		r2, 64
 live:
 	live	%0
 	zjmp	%:live
