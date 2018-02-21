@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:37:05 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/20 00:51:50 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 16:12:01 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-//	vm_print_arena(all);
+	vm_print_arena(all);
 }

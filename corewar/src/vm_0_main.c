@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:32:09 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/16 21:39:30 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 16:13:43 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	vm_init(t_all *all, int ac, char **av)
 	}
 	if (!all->nb_champ || !all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
+	all->cycle_to_die = CYCLE_TO_DIE;
 }
 
 /*
