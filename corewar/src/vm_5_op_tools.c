@@ -57,14 +57,15 @@ int		vm_get_values(t_all *all, t_process *process)
 **	get each arg of instruction in process->arg[]
 */
 
-void	vm_get_args(t_all *all, t_process *process)
+void	vm_get_args(t_all *all, t_process *process, int op_code)
 {
-	int virtual_pc;
-	int n;
+	extern t_op	g_op_tab[];
+	int			virtual_pc;
+	int			n;
 
 	pf("Get args\n");
 //	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
-	virtual_pc = process->pc + 2;
+	virtual_pc = process->pc + (g_op_tab[op_code - 1].encod_byte ? 2 : 1);
 	n = 0;
 	while (n < MAX_ARGS_NUMBER && process->arg_size[n])
 	{
@@ -83,12 +84,16 @@ void	vm_get_args(t_all *all, t_process *process)
 **	split encoded arg_type in process->decoded[]
 */
 
-void	vm_decode_byte(t_all *all, t_process *process)
+void	vm_decode_byte(t_all *all, t_process *process, int op_code)
 {
-	int n;
+	extern t_op	g_op_tab[];
+	int			n;
 
 	pf("Decode byte\n");
-	process->encoded = vm_get_mem(all, process->pc + 1, 1);
+	if (g_op_tab[op_code - 1].encod_byte)
+		process->encoded = vm_get_mem(all, process->pc + 1, 1);
+	else
+		process->encoded = g_op_tab[op_code - 1].args[0];
 //	ft_bzero(process->decoded, sizeof(int) * MAX_ARGS_NUMBER);
 	n = MAX_ARGS_NUMBER;
 	while (n-- > 0)
@@ -127,7 +132,7 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 	ft_bzero(process->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
-	vm_decode_byte(all, process);
+	vm_decode_byte(all, process, op_code);
 	n = 0;
 	while (g_op_tab[op_code - 1].args[n])
 	{
@@ -141,6 +146,6 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 			process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
 		n++;
 	}
-	vm_get_args(all, process);
+	vm_get_args(all, process, op_code);
 	return (vm_get_values(all, process));
 }

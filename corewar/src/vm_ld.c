@@ -23,27 +23,8 @@
 
 #include "vm_0.h"
 
-int		vm_ld(t_all *all, t_process *proc, int type_param[3], int lld)
+void	vm_ld(t_all *all, t_process *proc)
 {
-	int param;
-	int	reg;
-
-	reg = (type_param[0] == 2) ? proc->pc + 4 : proc->pc + 6;
-	if (type_param[0] == 2)
-		param = vm_convert_param(all, proc->pc + 1, 2);
-	else
-	{
-		param = vm_convert_param(all, proc->pc + 1, 4);
-		if (!lld)
-			param = vm_ajust_addr(param % IDX_MOD);
-	}
-	if (!reg || reg > REG_NUMBER)
-		return (0);
-	else
-		proc->r[reg] = param;
-	if (!param)
-		proc->carry = 1;
-	else
-		proc->carry = 0;
-	return (1);
+	(void)all;
+	(void)proc;
 }

@@ -20,7 +20,7 @@
 **	process->step is increased by 1 + DIR_SIZE (so 5)
 */
 
-int		vm_live(t_all *all, t_process *process)
+void	vm_live(t_all *all, t_process *process)
 {
 	int	n;
 
@@ -34,5 +34,4 @@ int		vm_live(t_all *all, t_process *process)
 	while (n-- > 0)
 		if (process->value[0] == all->champ[n].nb && pf("{y}live from {r}%s\n{0}", all->champ[n].header.prog_name))
 			all->last_live = n;
-	return (0);
 }

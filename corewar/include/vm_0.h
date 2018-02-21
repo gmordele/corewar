@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/21 16:04:08 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 18:22:44 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef	struct			s_champ
 typedef	struct			s_all
 {
 	t_champ				champ[MAX_PLAYERS];
-	int 				(*op_fn[17])(struct s_all*, t_process*);
+	void 				(*op_fn[17])(struct s_all*, t_process*);
 	t_process			*process_list;
 	int					nb_champ;
 	int					flag;
@@ -88,17 +88,21 @@ void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
 void					vm_exec_inst(t_all *all, t_process *proc);
-int						vm_live(t_all *all, t_process *process);
-int						vm_ld(t_all *all, t_process *proc, int tp_prm[3], int lld);
-int						vm_st(t_all *all, t_process *pro);
-int						vm_add(t_all *all, t_process *proc);
-int						vm_sub(t_all *all, t_process *proc);
-int						vm_and(t_all *all, t_process *process);
-int						vm_xor(t_all *all, t_process *process);
-int						vm_or(t_all *all, t_process *process);
-int						vm_zjmp(t_all *all, t_process *proc);
-int						vm_sti(t_all *all, t_process *process);
-int						vm_fork(t_all *all, t_process *proc, int lfork);
+void					vm_live(t_all *all, t_process *process);
+void					vm_ld(t_all *all, t_process *proc);
+void					vm_lld(t_all *all, t_process *proc);
+void					vm_ldi(t_all *all, t_process *proc);
+void					vm_lldi(t_all *all, t_process *proc);
+void					vm_st(t_all *all, t_process *pro);
+void					vm_sti(t_all *all, t_process *pro);
+void					vm_add(t_all *all, t_process *proc);
+void					vm_sub(t_all *all, t_process *proc);
+void					vm_and(t_all *all, t_process *process);
+void					vm_xor(t_all *all, t_process *process);
+void					vm_or(t_all *all, t_process *process);
+void					vm_zjmp(t_all *all, t_process *proc);
+void					vm_fork(t_all *all, t_process *proc);
+void					vm_lfork(t_all *all, t_process *proc);
 
 void					vm_print_arena(t_all *all);
 void					db_print_process(t_process *proc, int num);

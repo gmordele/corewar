@@ -18,10 +18,10 @@
 **	if the second arg is a IND
 **		set IND with % IDX_MOD 
 **		write process->pc color in all->color[]
-**	process->step is increased by 2 + sum of arg_size
+**	process->step is increased by (2 + sum of arg_size)
 */
 
-int		vm_st(t_all *all, t_process *pro)
+void	vm_st(t_all *all, t_process *pro)
 {
 	pf("{y}vm_st\n{0}");						//	Debug
 //	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
@@ -38,5 +38,4 @@ int		vm_st(t_all *all, t_process *pro)
 		}
 	}
 	pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
-	return (0);
 }

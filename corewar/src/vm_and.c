@@ -26,7 +26,7 @@
 **	otherwise, function quit
 */
 
-int		vm_and(t_all *all, t_process *pro)
+void	vm_and(t_all *all, t_process *pro)
 {
 	int *reg;
 
@@ -44,5 +44,4 @@ int		vm_and(t_all *all, t_process *pro)
 		}
 	}
 	pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
-	return (0);
 }

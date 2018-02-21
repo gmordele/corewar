@@ -18,12 +18,10 @@
 ** Cette instruction ne fonctionne que si le carry est à 1.
 */
 
-int		vm_zjmp(t_all *all, t_process *proc)
+void		vm_zjmp(t_all *all, t_process *proc)
 {
 	if (proc->carry)
 	{
 		proc->pc = vm_ajust_addr(all->arena[proc->pc + 1]);
-		return (1);
 	}
-	return (0);
 }

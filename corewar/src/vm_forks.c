@@ -21,21 +21,17 @@
 ** PC + 1er parametre si c'est un lfork.
 */
 
-int		vm_fork(t_all *all, t_process *proc, int lfork)
+void	vm_fork(t_all *all, t_process *proc)
 {
 	int			param;
 	t_process	*new;
 
 	param = all->arena[proc->pc + 1];
 	new = (t_process*)vm_malloc(all, sizeof(t_process));
-	if (lfork)
-		new->pc = vm_ajust_addr(proc->pc + param);
-	else
-		new->pc = vm_ajust_addr(proc->pc + (param % IDX_MOD));
+	new->pc = vm_ajust_addr(proc->pc + (param % IDX_MOD));
 	new->carry = proc->carry;
 	new->nb_live = proc->nb_live;
 	new->cycle = proc->cycle;
 	ft_memcpy(&new->r[1], &proc->r[1], sizeof(char) * REG_NUMBER);
 	vm_add_pro_frt(&all->process_list, new);
-	return (1);
 }
