@@ -6,21 +6,21 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/20 01:01:52 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 16:43:26 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm_0.h"
 
 /*
-**	
+**
 */
 
-void	vm_run_battle(t_all *all)
+/*void	vm_run_battle(t_all *all)
 {
 	t_process	*process;
 	int			op;
-	char		*gnl;
+//	char		*gnl;
 
 	while (all->process_list)
 	{
@@ -29,7 +29,7 @@ void	vm_run_battle(t_all *all)
 		{
 			pf("Process->PC %d\n", process->pc);
 			vm_print_arena(all);
-			get_next_line(0, &gnl);
+//			get_next_line(0, &gnl);
 			process->step = 1;
 			op = vm_get_mem(all, process->pc, 1);
 			if (op > 0 && op < 17)
@@ -38,16 +38,14 @@ void	vm_run_battle(t_all *all)
 			process = process->next;
 		}
 	}
-}
+}*/
 
 
-/*static void	delete_dead_process(t_all *all)
+static void	delete_dead_process(t_all *all)
 {
 	t_process	*current;
 	t_process	*tmp;
-	int			nb_live;
 
-	nb_live = 0;
 	current = all->process_list;
 	while (current)
 	{
@@ -59,21 +57,20 @@ void	vm_run_battle(t_all *all)
 		}
 		else
 		{
-			nb_live += current->nb_live;
 			current->nb_live = 0;
 			current = current->next;
 		}
 	}
-	if (nb_live >= NBR_LIVE)
-		all->cycle_to_die -= CYCLE_DELTA;
-	else
-		all->nb_checks++;
+	all->cycle_to_die = (all->nb_live >= NBR_LIVE) ?
+							all->cycle_to_die - CYCLE_DELTA : all->cycle_to_die;
+	all->nb_checks = (all->nb_live >= NBR_LIVE) ? 0 : all->nb_checks + 1;
+	all->nb_live = 0;
 }
 
 static void	manage_cycle(t_all *all)
 {
 	all->cycle++;
-	if (!all->cycle % all->cycle_to_die)
+	if (!(all->cycle % all->cycle_to_die))
 		delete_dead_process(all);
 	if (all->nb_checks >= 10)
 	{
@@ -82,24 +79,37 @@ static void	manage_cycle(t_all *all)
 	}
 	if (all->cycle_to_die < 0)
 		all->cycle_to_die = 0;
+//	pf("{y}-------------------------------{0}\n");
+//	pf("Cycle Total : [{g}%d{0}]\nCycle to die :[{r}%d{0}]\nNb Checks : [{r}%d{0}]\n", all->cycle, all->cycle_to_die, all->nb_checks);
+//	pf("{y}-------------------------------{0}\n");
+	if (!(all->cycle % all->cycle_to_die))
+	 	sleep(3);
 }
 
-static void	init_pro_cycle(t_all *all, t_process *process)
+static void	init_pro_cycle(t_all *all, t_process *proc)
 {
-	int	op;
+	int			op;
+	extern t_op	g_op_tab;
+	t_op		*tab;
 
-	
+	tab = &g_op_tab;
+	op = vm_get_mem(all, proc->pc, 1);
+	if (op >= 1 && op <= 17)
+		proc->cycle = (tab[op - 1]).cycles;
 }
 
 void	vm_run_battle(t_all *all)
 {
 	t_process	*current;
+	int			db_i;
 
 	while (all->cycle_to_die && all->process_list)
 	{
 		current = all->process_list;
+		db_i = 0;
 		while (current)
 		{
+		//	db_print_process(current, db_i);
 			if (current->cycle == 0)
 			{
 				vm_exec_inst(all, current);
@@ -108,8 +118,9 @@ void	vm_run_battle(t_all *all)
 			else
 				current->cycle--;
 			current = current->next;
+			db_i++;
 		}
 		manage_cycle(all);
 	}
 	vm_del_all_pro(&all->process_list);
-}*/
+}

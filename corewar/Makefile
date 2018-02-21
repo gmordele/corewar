@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/20 00:50:51 by proso            ###   ########.fr        #
+#    Updated: 2018/02/21 16:02:44 by proso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC				=	vm_0_main.c					\
 					vm_5_process_tools.c		\
 					vm_5_op_tools.c				\
 					vm_5_mem_tools.c			\
+					vm_instructions.c			\
 					vm_live.c					\
 					vm_st.c						\
 					vm_add.c					\

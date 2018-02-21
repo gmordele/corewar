@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/20 00:50:25 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 16:04:08 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void					vm_put_mem(t_all *all, int in, int addr, int size);
 void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
-int						vm_exec_inst(t_all *all, t_process *proc);
+void					vm_exec_inst(t_all *all, t_process *proc);
 int						vm_live(t_all *all, t_process *process);
 int						vm_ld(t_all *all, t_process *proc, int tp_prm[3], int lld);
 int						vm_st(t_all *all, t_process *pro);
@@ -101,5 +101,5 @@ int						vm_sti(t_all *all, t_process *process);
 int						vm_fork(t_all *all, t_process *proc, int lfork);
 
 void					vm_print_arena(t_all *all);
-
+void					db_print_process(t_process *proc, int num);
 #endif
