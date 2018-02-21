@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/21 16:02:44 by proso            ###   ########.fr        #
+#    Updated: 2018/02/21 19:32:25 by proso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRC				=	vm_0_main.c					\
 					vm_live.c					\
 					vm_st.c						\
 					vm_add.c					\
-					vm_sub.c					\
 					vm_and.c					\
 					vm_or.c						\
 					vm_xor.c					\

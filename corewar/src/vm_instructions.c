@@ -6,7 +6,7 @@
 /*   By: proso <proso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 19:34:43 by proso             #+#    #+#             */
-/*   Updated: 2018/02/21 16:21:54 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 19:31:40 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@ void		vm_exec_inst(t_all *all, t_process *proc)
 	op = vm_get_mem(all, proc->pc, 1);
 	if (op > 0 && op < 17)
 	{
-		vm_print_arena(all);
 		all->op_fn[op](all, proc);
+		vm_print_arena(all);
+		sleep(3);
 	}
 	proc->pc = vm_correct_addr(proc->pc + proc->step);
 }

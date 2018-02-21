@@ -6,7 +6,7 @@
 /*   By: proso <proso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 02:20:13 by proso             #+#    #+#             */
-/*   Updated: 2018/02/17 04:57:35 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/21 18:33:20 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,8 @@
 ** Cette instruction ne fonctionne que si le carry est à 1.
 */
 
-void		vm_zjmp(t_all *all, t_process *proc)
+void	vm_zjmp(t_all *all, t_process *proc)
 {
 	if (proc->carry)
-	{
-		proc->pc = vm_ajust_addr(all->arena[proc->pc + 1]);
-	}
+		proc->pc = vm_get_mem(all, proc->pc + 1, 2) % MEM_SIZE;
 }
