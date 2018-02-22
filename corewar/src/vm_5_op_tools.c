@@ -49,7 +49,7 @@ int		vm_get_values(t_all *all, t_process *process)
 	n = -1;									//	Debug
 	while (++n < 3)							//	Debug
 		pf("Prm %d %s, size %d, arg %d, value %08x\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n], process->value[n]);
-	return (1);
+	return (pf("{y}Arguments valides\n{0}"));
 }
 
 /*

@@ -12,7 +12,7 @@
 
 #include "vm_0.h"
 
-void	vm_lldi(t_all *all, t_process *proc)
+/*void	vm_lldi(t_all *all, t_process *proc)
 {
 	int		add;
 	int		reg;
@@ -62,4 +62,4 @@ void	vm_ld(t_all *all, t_process *proc)
 	proc->r[reg] = value;
 	proc->carry = (value) ? 0 : 1;
 	proc->step += proc->arg_size[0] + proc->arg_size[1] + proc->arg_size[2];
-}
+}*/

@@ -25,12 +25,10 @@ SRC				=	vm_0_main.c					\
 					vm_5_op_tools.c				\
 					vm_5_mem_tools.c			\
 					vm_instructions.c			\
-					vm_live_zjmp_aff.c					\
-					vm_st.c						\
+					vm_live_zjmp_aff.c			\
+					vm_ld_lld_ldi_lldi.c		\
+					vm_st_sti_fork_lfork.c		\
 					vm_add_sub_and_or_xor.c		\
-					vm_sti.c					\
-					vm_forks.c					\
-					vm_ld.c						\
 					op.c						\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))

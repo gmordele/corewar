@@ -3,7 +3,7 @@
 
 	#and	%16843009, %16843009, r10
 lbl0:
-	lldi	%1, %1, r10
-	and	%1, 1, r10
-	sti	r10, %64, %0
-	zjmp	%:lbl0
+	#ld		1, r2
+	#lld		1, r2
+	lldi		0, %2049, r2
+	sti		r2, 0, %64

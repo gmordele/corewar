@@ -57,8 +57,8 @@ static void	manage_cycle(t_all *all)
 //	pf("{y}-------------------------------{0}\n");
 //	pf("Cycle Total : [{g}%d{0}]\nCycle to die :[{r}%d{0}]\nNb Checks : [{r}%d{0}]\n", all->cycle, all->cycle_to_die, all->nb_checks);
 //	pf("{y}-------------------------------{0}\n");
-	if (!(all->cycle % all->cycle_to_die))
-	 	sleep(3);
+//	if (!(all->cycle % all->cycle_to_die))
+//	 	sleep(3);
 }
 
 static void	init_pro_cycle(t_all *all, t_process *proc)

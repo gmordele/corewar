@@ -12,6 +12,10 @@
 
 #include "vm_0.h"
 
+/*
+**	vm_add()	code:4
+*/
+
 void	vm_add(t_all *all, t_process *proc)
 {
 	int		reg1;
@@ -25,6 +29,10 @@ void	vm_add(t_all *all, t_process *proc)
 	proc->r[reg3] = reg1 + reg2;
 	proc->carry = (reg1 + reg2) ? 0 : 1;
 }
+
+/*
+**	vm_sub()	code:5
+*/
 
 void	vm_sub(t_all *all, t_process *proc)
 {
@@ -41,7 +49,7 @@ void	vm_sub(t_all *all, t_process *proc)
 }
 
 /*
-**	vm_and()
+**	vm_and()	code:6
 **	call vm_check_args() which check if 'encoded byte' is valid with op_tab
 **	if valid
 **		vm_check_args() fill process->arg_size
@@ -50,7 +58,7 @@ void	vm_sub(t_all *all, t_process *proc)
 **		if process->arg[2] is a valid register
 **			register is filled with a '&' result
 **			carry could be fixed
-**			process->step is increased by sum of arg_size
+**	process->step is increased by sum of arg_size
 **	otherwise, function quit
 */
 
@@ -61,17 +69,15 @@ void	vm_and(t_all *all, t_process *pro)
 	pf("{y}vm_and\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 6))
 	{
-		pf("Args valides\n");					//	Debug
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] & pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
-		pf("And -> %08x\n", *reg);			//	Debug
 	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
 /*
-**	vm_or()
+**	vm_or()		code:7
 **	call vm_check_args() which check if 'encoded byte' is valid with op_tab
 **	if valid
 **		vm_check_args() fill process->arg_size
@@ -80,7 +86,7 @@ void	vm_and(t_all *all, t_process *pro)
 **		if process->arg[2] is a valid register
 **			register is filled with a '|' result
 **			carry could be fixed
-**			process->step is increased by sum of arg_size
+**	process->step is increased by sum of arg_size
 **	otherwise, function quit
 */
 
@@ -91,17 +97,15 @@ void	vm_or(t_all *all, t_process *pro)
 	pf("{y}vm_or\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 7))
 	{
-		pf("Args valides\n");					//	Debug
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] | pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
-		pf("Or -> %08x\n", *reg);			//	Debug
 	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
 /*
-**	vm_xor()
+**	vm_xor()	code:8
 **	call vm_check_args() which check if 'encoded byte' is valid with op_tab
 **	if valid
 **		vm_check_args() fill process->arg_size
@@ -121,11 +125,9 @@ void	vm_xor(t_all *all, t_process *pro)
 	pf("{y}vm_xor\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 8))
 	{
-		pf("Args valides\n");					//	Debug
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] ^ pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
-		pf("Xor -> %08x\n", *reg);			//	Debug
 	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

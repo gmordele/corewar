@@ -12,7 +12,7 @@
 
 #include "vm_0.h"
 
-void	vm_print_arena(t_all *all)
+void	vm_print_arena(t_all *all, t_process *pro)
 {
 	int x;
 	int y;
@@ -33,16 +33,24 @@ void	vm_print_arena(t_all *all)
 			pf(" %02hhx", all->arena[y * 64 + x]);
 			x++;
 		}
-		pf(" {W}  {0}\n");
+		if (y > 0 && y < 17 && pro)
+			pf(" {W}  {0}\tr%02d %08x\n", y, pro->r[y]);
+		else
+			pf(" {W}  {0}\n");
 		y++;
 	}
 	pf("{W}%198s{0}\n", "");
 }
 
+/*
+**	vm_set_op_function()
+**	initialize op_fn with op function ptr
+*/
+
 void	vm_set_op_function(t_all *all)
 {
 	all->op_fn[1] = &vm_live;
-//	all->op_fn[2] = &vm_ld;
+	all->op_fn[2] = &vm_ld;
 	all->op_fn[3] = &vm_st;
 	all->op_fn[4] = &vm_add;
 	all->op_fn[5] = &vm_sub;
@@ -50,12 +58,12 @@ void	vm_set_op_function(t_all *all)
 	all->op_fn[7] = &vm_or;
 	all->op_fn[8] = &vm_xor;
 	all->op_fn[9] = &vm_zjmp;
-//	all->op_fn[10] = &vm_ldi;
+	all->op_fn[10] = &vm_ldi;
 	all->op_fn[11] = &vm_sti;
 //	all->op_fn[12] = &vm_fork;
-//	all->op_fn[13] = &vm_lld;
-//	all->op_fn[14] = &vm_lfork;
-//	all->op_fn[15] = &vm_lldi;
+	all->op_fn[13] = &vm_lld;
+	all->op_fn[14] = &vm_lldi;
+//	all->op_fn[15] = &vm_lfork;
 	all->op_fn[16] = &vm_aff;
 }
 
@@ -83,5 +91,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-//	vm_print_arena(all);
+	vm_print_arena(all, 0);			//	Debug
 }
