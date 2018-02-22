@@ -24,7 +24,6 @@ SRC				=	vm_0_main.c					\
 					vm_5_process_tools.c		\
 					vm_5_op_tools.c				\
 					vm_5_mem_tools.c			\
-					vm_instructions.c			\
 					vm_live_zjmp_aff.c			\
 					vm_ld_lld_ldi_lldi.c		\
 					vm_st_sti_fork_lfork.c		\

@@ -66,7 +66,7 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 		if (pro->decoded[0] & T_IND)
 		{
 			address = pro->pc + pro->arg[0];
-			pro->value[0] = (short)vm_get_mem(all, address, 2);
+			pro->value[0] = vm_get_mem(all, address, 2);
 			//pro->value[0] = vm_get_mem(all, address, 4);
 		}
 		pro->r[pro->arg[1]] = pro->value[0];

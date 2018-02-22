@@ -39,7 +39,7 @@ int		vm_get_mem(t_all *all, int addr, int size)
 	n = 0;
 	while (size-- > 0)
 		((char*)&out)[n++] = all->arena[vm_correct_addr(addr + size)];
-	return (out);
+	return (n == 2 ? (short)out : out);
 }
 
 /*

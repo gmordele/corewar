@@ -25,7 +25,6 @@ void	vm_live(t_all *all, t_process *process)
 	int	n;
 
 	pf("{y}vm_live\n{0}");						//	Debug
-//	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
 	process->value[0] = vm_get_mem(all, process->pc + 1, 4);
 	process->step += DIR_SIZE;
 	process->nb_live++;
@@ -42,15 +41,15 @@ void	vm_live(t_all *all, t_process *process)
 ** Cette instruction ne fonctionne que si le carry est à 1.
 */
 
-void	vm_zjmp(t_all *all, t_process *proc)
+void	vm_zjmp(t_all *all, t_process *pro)
 {
-	if (vm_check_and_get_args(all, proc, 9) && proc->carry)
+	if (vm_check_and_get_args(all, pro, 9) && pro->carry)
 	{
-		proc->pc = vm_get_mem(all, proc->pc + 1, 2) % MEM_SIZE;
-		proc->step = 0;
+		pro->pc = (pro->pc + pro->arg[0]) % MEM_SIZE;
+		pro->step = 0;
 	}
 	else
-		proc->step += proc->arg_size[0];
+		pro->step += pro->arg_size[0];
 }
 
 void	vm_aff(t_all *all, t_process *process)
