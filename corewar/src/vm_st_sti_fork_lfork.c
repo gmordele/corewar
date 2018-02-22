@@ -23,8 +23,8 @@
 
 void	vm_st(t_all *all, t_process *pro)
 {
-	pf("{y}vm_st\n{0}");						//	Debug
-//	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
+	ft_strcpy(pro->op, "vm_st");				//	Debug
+//	pf("{y}vm_st\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 3))
 	{
 		if (pro->decoded[1] & T_REG)
@@ -52,8 +52,8 @@ void	vm_sti(t_all *all, t_process *pro)
 {
 	int	address;
 
-	pf("{y}vm_sti\n{0}");						//	Debug
-//	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
+	ft_strcpy(pro->op, "vm_sti");				//	Debug
+//	pf("{y}vm_sti\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 11))
 	{
 		address = (pro->value[1] + pro->value[2]) % IDX_MOD;
@@ -67,7 +67,8 @@ void	vm_fork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-	pf("{y}vm_fork\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_fork");				//	Debug
+//	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
 		pf("{r}r1 %d{0}", pro->r[1]);
@@ -82,7 +83,8 @@ void	vm_lfork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-	pf("{y}vm_lfork\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_lfork");				//	Debug
+//	pf("{y}vm_lfork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
 		new_pc = (pro->pc + pro->value[0]) % MEM_SIZE;

@@ -28,7 +28,7 @@ int		vm_get_values(t_all *all, t_process *process)
 {
 	int n;
 
-	pf("Get values\n");
+//	pf("Get values\n");
 	n = 0;
 	while (n < MAX_ARGS_NUMBER && process->decoded[n])
 	{
@@ -44,9 +44,9 @@ int		vm_get_values(t_all *all, t_process *process)
 			process->value[n] = vm_get_mem(all, process->pc + process->arg[n], 4);
 		n++;
 	}
-	n = -1;									//	Debug
+/*	n = -1;									//	Debug
 	while (++n < 3)							//	Debug
-		pf("Prm %d %s, size %d, arg %d, value %08x\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n], process->value[n]);
+		pf("Prm %d %s, size %d, arg %d, value %08x\n", n, (process->decoded[n] == T_REG ? "T_REG" : (process->decoded[n] == T_DIR ? "T_DIR" : (process->decoded[n] ? "T_IND" : ""))), process->arg_size[n], process->arg[n], process->value[n]);*/
 	return (fpf(2, "{y}Arguments valides\n{0}"));
 }
 
@@ -61,7 +61,7 @@ void	vm_get_args(t_all *all, t_process *process, int op_code)
 	int			virtual_pc;
 	int			n;
 
-	pf("Get args\n");
+//	pf("Get args\n");
 	virtual_pc = process->pc + (g_op_tab[op_code - 1].encod_byte ? 2 : 1);
 	n = 0;
 	while (n < MAX_ARGS_NUMBER && process->arg_size[n])
@@ -83,7 +83,7 @@ void	vm_decode_byte(t_all *all, t_process *process, int op_code)
 	extern t_op	g_op_tab[];
 	int			n;
 
-	pf("Decode byte\n");
+//	pf("Decode byte\n");
 	if (g_op_tab[op_code - 1].encod_byte)
 	{
 		process->encoded = vm_get_mem(all, process->pc + 1, 1);
@@ -118,7 +118,7 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 	extern t_op	g_op_tab[];
 	int			n;
 
-	pf("Check args\n");
+//	pf("Check args\n");
 	ft_bzero(process->decoded, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);

@@ -18,7 +18,8 @@
 
 void	vm_add(t_all *all, t_process *pro)
 {
-	pf("{y}vm_add\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_add");				//	Debug
+//	pf("{y}vm_add\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 4))
 	{
 		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
@@ -33,7 +34,8 @@ void	vm_add(t_all *all, t_process *pro)
 
 void	vm_sub(t_all *all, t_process *pro)
 {
-	pf("{y}vm_sub\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_sub");				//	Debug
+//	pf("{y}vm_sub\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 5))
 	{
 		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
@@ -60,7 +62,8 @@ void	vm_and(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	pf("{y}vm_and\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_and");				//	Debug
+//	pf("{y}vm_and\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 6))
 	{
 		reg = pro->r + pro->arg[2];
@@ -88,7 +91,8 @@ void	vm_or(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	pf("{y}vm_or\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_or");				//	Debug
+//	pf("{y}vm_or\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 7))
 	{
 		reg = pro->r + pro->arg[2];
@@ -116,7 +120,8 @@ void	vm_xor(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	pf("{y}vm_xor\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_xor");				//	Debug
+//	pf("{y}vm_xor\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 8))
 	{
 		reg = pro->r + pro->arg[2];

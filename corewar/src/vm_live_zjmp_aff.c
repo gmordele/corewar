@@ -24,7 +24,8 @@ void	vm_live(t_all *all, t_process *process)
 {
 	int	n;
 
-	pf("{y}vm_live\n{0}");						//	Debug
+	ft_strcpy(process->op, "vm_live");			//	Debug
+//	pf("{y}vm_live\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, process, 1))
 	{
 		process->nb_live++;
@@ -48,6 +49,7 @@ void	vm_live(t_all *all, t_process *process)
 
 void	vm_zjmp(t_all *all, t_process *pro)
 {
+	ft_strcpy(pro->op, "vm_zjmp");			//	Debug
 	if (vm_check_and_get_args(all, pro, 9) && pro->carry)
 	{
 		pro->pc = (pro->pc + pro->arg[0]) % MEM_SIZE;
@@ -67,7 +69,8 @@ void	vm_aff(t_all *all, t_process *process)
 {
 	char *str;
 
-	pf("{y}vm_aff\n{0}");
+	ft_strcpy(process->op, "vm_aff");			//	Debug
+//	pf("{y}vm_aff\n{0}");
 	if (vm_check_and_get_args(all, process, 16))
 	{
 		str = (char*)vm_malloc(all, all->aff_str_size + 1);

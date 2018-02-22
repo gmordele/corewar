@@ -29,7 +29,8 @@ void	vm_ld(t_all *all, t_process *pro)
 {
 	int	address;
 
-	pf("{y}vm_ld\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_ld");			//	Debug
+//	pf("{y}vm_ld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 2))
 	{
 		if (pro->decoded[0] & T_IND)
@@ -60,7 +61,8 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 {
 	int	address;
 
-	pf("{y}vm_lld\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_lld");				//	Debug
+//	pf("{y}vm_lld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 13))
 	{
 		if (pro->decoded[0] & T_IND)
@@ -89,7 +91,8 @@ void	vm_ldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	pf("{y}vm_ldi\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_ldi");				//	Debug
+//	pf("{y}vm_ldi\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 10))
 	{
 		address = pro->pc + ((pro->value[0] + pro->value[1]) % IDX_MOD);
@@ -113,7 +116,8 @@ void	vm_lldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	pf("{y}vm_lldi\n{0}");						//	Debug
+	ft_strcpy(pro->op, "vm_lldi");				//	Debug
+//	pf("{y}vm_lldi\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 14))
 	{
 		address = pro->pc + pro->value[0] + pro->value[1];

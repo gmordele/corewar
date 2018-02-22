@@ -24,7 +24,7 @@ typedef	struct			s_process
 	int					carry;
 	int					cycle;
 	int					nb_live;
-	int					step;						// pas d'avancement, correspond a la somme de arg_size[] ou 1 (si octet d'encodage non valide)
+	int					step;
 	int					encoded;
 	int					decoded[MAX_ARGS_NUMBER];
 	int					arg_size[MAX_ARGS_NUMBER];
@@ -32,6 +32,7 @@ typedef	struct			s_process
 	int					value[MAX_ARGS_NUMBER];
 	struct s_process	*prev;
 	struct s_process	*next;
+	char				op[20];			// Debug
 }						t_process;
 
 typedef	struct			s_champ
@@ -90,7 +91,7 @@ void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
 void					vm_live(t_all *all, t_process *process);
-void					vm_ld(t_all *all, t_process *proc);
+void					vm_ld(t_all *all, t_process *process);
 void					vm_lld(t_all *all, t_process *proc);
 void					vm_ldi(t_all *all, t_process *proc);
 void					vm_lldi(t_all *all, t_process *proc);
