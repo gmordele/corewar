@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 15:34:14 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/22 19:59:02 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "op.h"
+# include <ncurses.h>
 # define VISU 1
 
 typedef	struct			s_process
@@ -65,6 +66,8 @@ typedef	struct			s_all
 	char				*aff_str;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
+	WINDOW				*win_arena;
+	WINDOW				*win_info;
 }						t_all;
 
 void					vm_usage(t_all *all, char *error_mail);
