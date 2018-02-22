@@ -33,10 +33,7 @@ void	vm_live(t_all *all, t_process *process)
 		n = all->nb_champ;
 		while (n-- > 0)
 			if (process->value[0] == all->champ[n].nb)
-			{
-				pf("{y}live from {r}%s\n{0}", all->champ[n].header.prog_name);	// Debug
 				all->last_live = n + 1;
-			}
 	}
 	process->step += 1 + process->arg_size[0];
 }
