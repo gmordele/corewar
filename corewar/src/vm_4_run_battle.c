@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/21 16:43:26 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 15:33:29 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	vm_run_battle(t_all *all)
 		db_i = 0;
 		while (current)
 		{
+			if (all->flag & VISU)
+				vm_visu(all);
 		//	db_print_process(current, db_i);
 			if (current->cycle == 0)
 			{

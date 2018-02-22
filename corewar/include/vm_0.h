@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/21 18:22:44 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 15:34:14 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,8 @@ void					vm_aff(t_all *all, t_process *process);
 
 void					vm_print_arena(t_all *all, t_process * process);
 void					db_print_process(t_process *proc, int num);
+void					vm_visu(t_all *all);
+void					vm_init_visu(t_all *all);
+void					vm_exit_visu(t_all *all);
+
 #endif

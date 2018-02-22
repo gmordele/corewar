@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/21 19:32:25 by proso            ###   ########.fr        #
+#    Updated: 2018/02/22 15:34:32 by gmordele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC				=	vm_0_main.c					\
 					vm_st_sti_fork_lfork.c		\
 					vm_add_sub_and_or_xor.c		\
 					op.c						\
+					vm_visu.c					\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 
@@ -50,7 +51,7 @@ LIBFT			=	$(DEST_LIB)/libft.a
 all 			:	mklib $(NAME)
 
 $(NAME)			:	$(DEST_OBJ) $(LIBFT) $(OBJ) $(HEADERS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -I$(DEST_INC) -I$(DEST_LIB)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) -I$(DEST_INC) -I$(DEST_LIB) -lncurses
 
 $(DEST_OBJ)%.o	:	$(DEST_SRC)%.c $(HEADERS) $(LIBFT)
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(DEST_INC) -I$(DEST_LIB)
