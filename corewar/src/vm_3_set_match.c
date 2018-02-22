@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:37:05 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/21 16:12:01 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 21:44:09 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		vm_check_process(int *tab, int address)
 void	vm_print_arena(t_all *all, t_process *pro)
 {
 	t_process	*tmp;
-	int	tab[50];
+	int	tab[1000];
 	int x;
 	int y;
 

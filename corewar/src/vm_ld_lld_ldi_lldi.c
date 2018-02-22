@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:28:17 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 12:28:19 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/22 22:30:50 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 **			the address is define by the IND % IDX_MOD
 **		if the second param is a direct
 **			the value is the direct value
-**		process->carry could be fixed 
+**		process->carry could be fixed
 **	process->step is increased by sum of arg_size
 */
 
@@ -53,7 +53,7 @@ void	vm_ld(t_all *all, t_process *pro)
 **			the address is define by the IND % IDX_MOD
 **		if the second param is a direct
 **			the value is the direct value
-**		process->carry could be fixed 
+**		process->carry could be fixed
 **	process->step is increased by sum of arg_size
 */
 
@@ -108,7 +108,7 @@ void	vm_ldi(t_all *all, t_process *pro)
 **		add first and second param value
 **		this value is treated as an address
 **		the value of the register will be find at this address
-**		process->carry could be fixed 
+**		process->carry could be fixed
 **	process->step is increased by sum of arg_size
 */
 

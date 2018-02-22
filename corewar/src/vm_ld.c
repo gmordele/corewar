@@ -6,7 +6,7 @@
 /*   By: proso <proso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 02:32:35 by proso             #+#    #+#             */
-/*   Updated: 2018/02/21 19:04:26 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 21:55:05 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ void	vm_ld(t_all *all, t_process *proc)
 	proc->r[reg] = value;
 	proc->carry = (value) ? 0 : 1;
 	proc->step += proc->arg_size[0] + proc->arg_size[1] + proc->arg_size[2];
-}*/
+}
+*/

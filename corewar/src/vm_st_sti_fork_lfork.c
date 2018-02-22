@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:19:30 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 15:19:34 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/23 00:17:25 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	vm_st()
 **	write reg value (first arg) in a second reg or in arena (second arg)
 **	if the second arg is a IND
-**		set IND with % IDX_MOD 
+**		set IND with % IDX_MOD
 **		write process->pc color in all->color[]
 **	process->step is increased by (2 + sum of arg_size)
 */
@@ -71,8 +71,9 @@ void	vm_fork(t_all *all, t_process *pro)
 //	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
-		new_pc = (pro->pc + (pro->value[0] % IDX_MOD)) % MEM_SIZE;
+		new_pc = ((pro->value[0] % IDX_MOD) + pro->pc) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
+		init_pro_cycle(all, all->process_list);
 	}
 	pro->step += pro->arg_size[0];
 }
@@ -87,6 +88,7 @@ void	vm_lfork(t_all *all, t_process *pro)
 	{
 		new_pc = (pro->pc + pro->value[0]) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
+		init_pro_cycle(all, all->process_list);
 	}
 	pro->step += pro->arg_size[0];
 }

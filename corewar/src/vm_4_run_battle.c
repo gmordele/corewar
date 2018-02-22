@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 20:10:09 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/23 00:16:55 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	vm_exec_inst(t_all *all, t_process *proc)
 	{
 		//get_next_line(0, &gnl);			//	Debug
 		all->op_fn[op](all, proc);
-	/*	pf("process->pc : %d\n", proc->pc);
-		vm_print_arena(all, proc);			//	Debug
+		//pf("process->pc : %d\n", proc->pc);
+		/*vm_print_arena(all, proc);			//	Debug
 		sleep(1);*/
 	}
 	proc->pc = vm_correct_addr(proc->pc + proc->step);
@@ -72,7 +72,7 @@ static void	delete_dead_process(t_all *all)
 
 static void	manage_cycle(t_all *all)
 {
-	all->cycle++;
+	++all->cycle;
 	if (!(all->cycle % all->cycle_to_die))
 		delete_dead_process(all);
 	if (all->nb_checks >= 10)
@@ -84,15 +84,12 @@ static void	manage_cycle(t_all *all)
 		all->cycle_to_die = 0;
 	/*pf("{y}-------------------------------{0}\n");
 	pf("Cycle Total : [{g}%d{0}]\nCycle to die :[{r}%d{0}]\nNb Checks : [{r}%d{0}]\n", all->cycle, all->cycle_to_die, all->nb_checks);
-	pf("{y}-------------------------------{0}\n");*/
-	/*if (!(all->cycle % 50))
-	{
-		vm_print_arena(all, all->process_list);
-	 	sleep(1);
-	}*/
+	pf("{y}-------------------------------{0}\n");
+	if (!(all->cycle % 50))
+	 	sleep(1);*/
 }
 
-static void	init_pro_cycle(t_all *all, t_process *proc)
+void	init_pro_cycle(t_all *all, t_process *proc)
 {
 	int			op;
 	extern t_op	g_op_tab;
@@ -112,7 +109,7 @@ static void	init_pro_cycle(t_all *all, t_process *proc)
 	{
 		op = vm_get_mem(all, proc->pc, 1);
 		if (op >= 1 && op <= 17)
-			proc->cycle = (tab[op - 1]).cycles;
+			proc->cycle = ((tab[op - 1]).cycles) - 1;
 	}
 }
 
@@ -122,8 +119,8 @@ void	vm_run_battle(t_all *all)
 	int			db_i;
 
 	init_pro_cycle(all, NULL);
-	/*vm_print_arena(all, all->process_list);			//	Debug
-	sleep(1);*/
+	vm_print_arena(all, all->process_list);			//	Debug
+	sleep(1);
 	while (all->cycle_to_die && all->process_list)
 	{
 		if (all->flag & VISU)

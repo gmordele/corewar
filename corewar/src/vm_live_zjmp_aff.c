@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 20:37:20 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/21 20:37:24 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/22 22:31:03 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	vm_live(t_all *all, t_process *process)
 			if (process->value[0] == all->champ[n].nb)
 				all->last_live = n + 1;
 	}
-	process->step += 1 + process->arg_size[0];
+	process->step += process->arg_size[0];
 }
 
 /*

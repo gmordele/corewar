@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 19:59:02 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 23:44:18 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void					vm_put_mem(t_all *all, int in, int addr, int size);
 void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
+void					init_pro_cycle(t_all *all, t_process *proc);
 void					vm_live(t_all *all, t_process *process);
 void					vm_ld(t_all *all, t_process *process);
 void					vm_lld(t_all *all, t_process *proc);
