@@ -35,7 +35,6 @@ static void	vm_exec_inst(t_all *all, t_process *proc)
 	op = vm_get_mem(all, proc->pc, 1);
 	if (op > 0 && op < 17)
 	{
-		pf("process->pc : %d\n", proc->pc);
 		get_next_line(0, &gnl);			//	Debug
 		all->op_fn[op](all, proc);
 		vm_print_arena(all, proc);			//	Debug
