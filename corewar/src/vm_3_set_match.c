@@ -37,11 +37,10 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	}
 	tab[x] = -1;
 
-	pf("Cycle %d\n", all->cycle);
 	pf("{X}{W}{bk}   ");
 	x = -1;
 	while (++x < 64)
-		pf(x < 63 ? " %02d" : " %02d   \n", x);
+		pf(x < 63 ? " %02d" : " %02d   {0}\tCycle %d\n", x, all->cycle);
 	y = 0;
 	while (y < 64)
 	{
@@ -56,10 +55,12 @@ void	vm_print_arena(t_all *all, t_process *pro)
 			pf("%02hhx{0} ", all->arena[y * 64 + x]);
 			x++;
 		}
-		if (y > 0 && y < 17 && pro)
-			pf("{W}  {0}\tr%02d %08x\n", y, pro->r[y]);
-		else
-			pf("{W}  {0}\n");
+		pf("{W}  {0}\t");
+		if (y == 0 && all->last_live)
+			pf("Last_live %s%s{0}", all->champ[all->last_live - 1].color,all->champ[all->last_live - 1].header.prog_name);
+		else if (y > 0 && y < 17 && pro)
+			pf("r%02d %08x", y, pro->r[y]);
+		pf("\n");
 		y++;
 	}
 	pf("{W}%198s{0}\n", "");

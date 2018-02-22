@@ -13,7 +13,7 @@
 #include "vm_0.h"
 
 /*
-**	vm_live()
+**	vm_live()		code:1
 **	increase process->nb_live by 1
 **	if process->value[0] is a real all->champ[].nb
 **		define all->last_live at n (all->champ[n])
@@ -25,20 +25,25 @@ void	vm_live(t_all *all, t_process *process)
 	int	n;
 
 	pf("{y}vm_live\n{0}");						//	Debug
-	process->value[0] = vm_get_mem(all, process->pc + 1, 4);
-	process->step += DIR_SIZE;
-	process->nb_live++;
-	all->nb_live++;
-	n = all->nb_champ;
-	while (n-- > 0)
-		if (process->value[0] == all->champ[n].nb && pf("{y}live from {r}%s\n{0}", all->champ[n].header.prog_name))
-			all->last_live = n;
+	if (vm_check_and_get_args(all, process, 1))
+	{
+		process->nb_live++;
+		all->nb_live++;
+		n = all->nb_champ;
+		while (n-- > 0)
+			if (process->value[0] == all->champ[n].nb)
+			{
+				pf("{y}live from {r}%s\n{0}", all->champ[n].header.prog_name);	// Debug
+				all->last_live = n + 1;
+			}
+	}
+	process->step += 1 + process->arg_size[0];
 }
 
 /*
-** Instruction zjmp.
-** Le PC actuel prend la valeur du 1er (et seul) paramètre.
-** Cette instruction ne fonctionne que si le carry est à 1.
+**	vm_zjmp()		code:9
+**	the process pc jump to the address in the only one param
+**	zjmp works only if the carry is not null
 */
 
 void	vm_zjmp(t_all *all, t_process *pro)
@@ -51,6 +56,12 @@ void	vm_zjmp(t_all *all, t_process *pro)
 	else
 		pro->step += pro->arg_size[0];
 }
+
+/*
+**	vm_aff()		code:16
+**	print a char
+**	this char is define by a register in the only one param
+*/
 
 void	vm_aff(t_all *all, t_process *process)
 {

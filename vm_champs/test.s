@@ -3,6 +3,7 @@
 
 	sub		r2, r1, r10
 	sti		r10, 0, %64
+	live	%-1;
 
 #lbl0:
 	#ld		1, r2
