@@ -117,6 +117,10 @@ int		main(int ac, char **av)
 	vm_get_champs(&all, sizeof(t_header));
 	vm_set_match(&all);
 	vm_run_battle(&all);
+	if (all.last_live)
+		all.last_live--;
+	pf("Le joueur %d (%s) a gagné !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name);
+	pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
 	vm_exit(&all, NULL);
 	return (0);
 }
