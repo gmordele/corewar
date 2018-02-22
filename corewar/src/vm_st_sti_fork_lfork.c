@@ -70,8 +70,10 @@ void	vm_fork(t_all *all, t_process *pro)
 	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
+		pf("{r}r1 %d{0}", pro->r[1]);
 		new_pc = (pro->pc + (pro->value[0] % IDX_MOD)) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
+		pf("{r}r1 %d{0}", pro->r[1]);
 	}
 	pro->step += pro->arg_size[0];
 }

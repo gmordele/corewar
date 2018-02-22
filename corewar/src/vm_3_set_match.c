@@ -40,7 +40,9 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	pf("{X}{W}{bk}   ");
 	x = -1;
 	while (++x < 64)
-		pf(x < 63 ? " %02d" : " %02d   {0}\tCycle %d\n", x, all->cycle);
+		pf(x < 63 ? " %02d" : " %02d   {0}\tCycle %d", x, all->cycle);
+	if (pro || !pf("\n"))
+		pf("\tpc %d (y %d, x %d)\n", pro->pc, pro->pc / 64, pro->pc % 64);
 	y = 0;
 	while (y < 64)
 	{
@@ -116,5 +118,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-	vm_print_arena(all, 0);			//	Debug
+//	vm_print_arena(all, 0);			//	Debug
 }

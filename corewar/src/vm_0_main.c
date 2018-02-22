@@ -26,7 +26,7 @@ int		vm_exit(t_all *all, char *error_mail)
 	if (error_mail)
 		fpf(2, "{r}%s{0}", error_mail);
 	if (all->flag & VISU)
-		vm_init_visu(all);
+		vm_exit_visu(all);
 	exit(0);
 	return (0);
 }
@@ -95,8 +95,8 @@ void	vm_init(t_all *all, int ac, char **av)
 	if (!all->nb_champ || !all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
 	all->cycle_to_die = CYCLE_TO_DIE;
-	if (all->flag & VISU)
-		vm_init_visu(all);
+//	if (all->flag & VISU)
+//		vm_init_visu(all);
 }
 
 /*
