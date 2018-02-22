@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:32:09 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 15:24:34 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/22 18:58:54 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		vm_exit(t_all *all, char *error_mail)
 	if (error_mail)
 		fpf(2, "{r}%s{0}", error_mail);
 	if (all->flag & VISU)
-		vm_init_visu(all);
+		vm_exit_visu(all);
 	exit(0);
 	return (0);
 }
