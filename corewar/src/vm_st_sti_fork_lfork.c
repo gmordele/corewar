@@ -27,7 +27,6 @@ void	vm_st(t_all *all, t_process *pro)
 //	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
 	if (vm_check_and_get_args(all, pro, 3))
 	{
-		pf("Args valides\n");					//	Debug
 		if (pro->decoded[1] & T_REG)
 			pro->r[pro->arg[1]] = pro->value[0];
 		else
@@ -37,7 +36,7 @@ void	vm_st(t_all *all, t_process *pro)
 			vm_put_color(all, pro, pro->pc + pro->arg[1], REG_SIZE);
 		}
 	}
-	pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
+	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
 /*
@@ -57,33 +56,35 @@ void	vm_sti(t_all *all, t_process *pro)
 //	ft_bzero(pro->arg_size, sizeof(int) * MAX_ARGS_NUMBER);
 	if (vm_check_and_get_args(all, pro, 11))
 	{
-		pf("{y}Args valides\n{0}");					//	Debug
 		address = (pro->value[1] + pro->value[2]) % IDX_MOD;
 		vm_put_mem(all, pro->value[0], pro->pc + address, REG_SIZE);
 		vm_put_color(all, pro, pro->pc + address, REG_SIZE);
 	}
-	pro->step = 2 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
+	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
-/*void	vm_fork(t_all *all, t_process *pro)
+void	vm_fork(t_all *all, t_process *pro)
 {
-	t_process	*new;
 	int			new_pc;
 
+	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
-		new_pc = pro->pc + (pro->value[0])
+		new_pc = (pro->pc + (pro->value[0] % IDX_MOD)) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
 	}
-	new_pc = vm_get_mem(all, proc->pc + 1, 2);
-	new = vm_new_pro(all, proc, (proc->pc + new_pc) % IDX_MOD);
+	pro->step += pro->arg_size[0];
 }
 
-void	vm_lfork(t_all *all, t_process *proc)
+void	vm_lfork(t_all *all, t_process *pro)
 {
-	t_process	*new;
 	int			new_pc;
 
-	new_pc = vm_get_mem(all, proc->pc + 1, 2);
-	new = vm_new_pro(all, proc, (proc->pc + new_pc) % MEM_SIZE);
-}*/
+	pf("{y}vm_lfork\n{0}");						//	Debug
+	if (vm_check_and_get_args(all, pro, 12))
+	{
+		new_pc = (pro->pc + pro->value[0]) % MEM_SIZE;
+		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
+	}
+	pro->step += pro->arg_size[0];
+}

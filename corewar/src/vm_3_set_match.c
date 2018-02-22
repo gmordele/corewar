@@ -12,34 +12,59 @@
 
 #include "vm_0.h"
 
+int		vm_check_process(int *tab, int address)
+{
+	int	n = 0;
+
+	while (tab[n] >= 0 && tab[n] != address)
+		n++;
+	return (tab[n] >= 0);
+}
+
 void	vm_print_arena(t_all *all, t_process *pro)
 {
+	t_process	*tmp;
+	int	tab[50];
 	int x;
 	int y;
+
+	tmp = all->process_list;
+	x = 0;
+	while (tmp)
+	{
+		tab[x++] = vm_correct_addr(tmp->pc);
+		tmp = tmp->next;
+	}
+	tab[x] = -1;
 
 	pf("{X}{W}{bk}   ");
 	x = -1;
 	while (++x < 64)
-		pf(x < 63 ? " %02d" : " %02d   \n", x);
+		pf(x < 63 ? " %02d" : " %02d   {0}\tCycle %d\n", x, all->cycle);
 	y = 0;
 	while (y < 64)
 	{
-		pf("{W}{bk}%02d {0}", y);
+		pf("{W}{bk}%02d {0} ", y);
 		x = 0;
 		while (x < 64)
 		{
-			pf(all->color[y * 64 + x] >= 0 ?
-						all->champ[(int)all->color[y * 64 + x]].color : "{0}");
-			pf(" %02hhx", all->arena[y * 64 + x]);
+			if (all->color[y * 64 + x] >= 0)
+				pf(all->champ[(int)all->color[y * 64 + x]].color);
+			if (vm_check_process(tab, y * 64 + x))
+				pf("{R}");
+			pf("%02hhx{0} ", all->arena[y * 64 + x]);
 			x++;
 		}
-		if (y > 0 && y < 17 && pro)
-			pf(" {W}  {0}\tr%02d %08x\n", y, pro->r[y]);
-		else
-			pf(" {W}  {0}\n");
+		pf("{W}  {0}\t");
+		if (y == 0 && all->last_live)
+			pf("Last_live %s%s{0}", all->champ[all->last_live - 1].color,all->champ[all->last_live - 1].header.prog_name);
+		else if (y > 0 && y < 17 && pro)
+			pf("r%02d %08x", y, pro->r[y]);
+		pf("\n");
 		y++;
 	}
 	pf("{W}%198s{0}\n", "");
+	write(1, all->aff_str, all->aff_str_size);
 }
 
 /*
@@ -60,10 +85,10 @@ void	vm_set_op_function(t_all *all)
 	all->op_fn[9] = &vm_zjmp;
 	all->op_fn[10] = &vm_ldi;
 	all->op_fn[11] = &vm_sti;
-//	all->op_fn[12] = &vm_fork;
+	all->op_fn[12] = &vm_fork;
 	all->op_fn[13] = &vm_lld;
 	all->op_fn[14] = &vm_lldi;
-//	all->op_fn[15] = &vm_lfork;
+	all->op_fn[15] = &vm_lfork;
 	all->op_fn[16] = &vm_aff;
 }
 

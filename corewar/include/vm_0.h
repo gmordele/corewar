@@ -89,7 +89,6 @@ void					vm_put_mem(t_all *all, int in, int addr, int size);
 void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
 int						vm_ajust_addr(int addr);
 int						vm_convert_param(t_all *all, int adrr, int size);
-void					vm_exec_inst(t_all *all, t_process *proc);
 void					vm_live(t_all *all, t_process *process);
 void					vm_ld(t_all *all, t_process *proc);
 void					vm_lld(t_all *all, t_process *proc);

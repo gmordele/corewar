@@ -16,36 +16,30 @@
 **	vm_add()	code:4
 */
 
-void	vm_add(t_all *all, t_process *proc)
+void	vm_add(t_all *all, t_process *pro)
 {
-	int		reg1;
-	int		reg2;
-	int		reg3;
-
-	(void)all;
-	reg1 = proc->r[proc->arg[0]];
-	reg3 = proc->r[proc->arg[1]];
-	reg2 = proc->r[proc->arg[2]];
-	proc->r[reg3] = reg1 + reg2;
-	proc->carry = (reg1 + reg2) ? 0 : 1;
+	pf("{y}vm_add\n{0}");						//	Debug
+	if (vm_check_and_get_args(all, pro, 4))
+	{
+		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
+		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
+	}
+	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
 /*
 **	vm_sub()	code:5
 */
 
-void	vm_sub(t_all *all, t_process *proc)
+void	vm_sub(t_all *all, t_process *pro)
 {
-	int		reg1;
-	int		reg2;
-	int		reg3;
-
-	(void)all;
-	reg1 = proc->r[proc->arg[0]];
-	reg3 = proc->r[proc->arg[1]];
-	reg2 = proc->r[proc->arg[2]];
-	proc->r[reg3] = reg1 - reg2;
-	proc->carry = (reg1 - reg2) ? 0 : 1;
+	pf("{y}vm_sub\n{0}");						//	Debug
+	if (vm_check_and_get_args(all, pro, 5))
+	{
+		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
+		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
+	}
+	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
 /*
