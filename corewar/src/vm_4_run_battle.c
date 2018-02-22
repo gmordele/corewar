@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 18:23:43 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/22 20:10:09 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ void		db_print_process(t_process *proc, int num)
 
 static void	vm_exec_inst(t_all *all, t_process *proc)
 {
-	char	*gnl;
+	//char	*gnl;
 	int		op;
 
 	proc->step = 1;
 	op = vm_get_mem(all, proc->pc, 1);
 	if (op > 0 && op < 17)
 	{
-		get_next_line(0, &gnl);			//	Debug
+		//get_next_line(0, &gnl);			//	Debug
 		all->op_fn[op](all, proc);
+	/*	pf("process->pc : %d\n", proc->pc);
 		vm_print_arena(all, proc);			//	Debug
-//		sleep(3);
+		sleep(1);*/
 	}
 	proc->pc = vm_correct_addr(proc->pc + proc->step);
 }
@@ -81,11 +82,14 @@ static void	manage_cycle(t_all *all)
 	}
 	if (all->cycle_to_die < 0)
 		all->cycle_to_die = 0;
-//	pf("{y}-------------------------------{0}\n");
-//	pf("Cycle Total : [{g}%d{0}]\nCycle to die :[{r}%d{0}]\nNb Checks : [{r}%d{0}]\n", all->cycle, all->cycle_to_die, all->nb_checks);
-//	pf("{y}-------------------------------{0}\n");
-//	if (!(all->cycle % all->cycle_to_die))
-//	 	sleep(3);
+	/*pf("{y}-------------------------------{0}\n");
+	pf("Cycle Total : [{g}%d{0}]\nCycle to die :[{r}%d{0}]\nNb Checks : [{r}%d{0}]\n", all->cycle, all->cycle_to_die, all->nb_checks);
+	pf("{y}-------------------------------{0}\n");*/
+	/*if (!(all->cycle % 50))
+	{
+		vm_print_arena(all, all->process_list);
+	 	sleep(1);
+	}*/
 }
 
 static void	init_pro_cycle(t_all *all, t_process *proc)
@@ -118,17 +122,17 @@ void	vm_run_battle(t_all *all)
 	int			db_i;
 
 	init_pro_cycle(all, NULL);
+	/*vm_print_arena(all, all->process_list);			//	Debug
+	sleep(1);*/
 	while (all->cycle_to_die && all->process_list)
 	{
-//		if (all->flag & VISU)
-//			vm_visu(all);
+		if (all->flag & VISU)
+			vm_visu(all);
 		current = all->process_list;
 		db_i = 0;
 		while (current)
 		{
-		//	++(all->cycle);
-		//	continue;
-		//	db_print_process(current, db_i);
+			//db_print_process(current, db_i);
 			if (current->cycle == 0)
 			{
 				vm_exec_inst(all, current);

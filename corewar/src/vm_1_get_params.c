@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 13:54:08 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/13 13:54:12 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/22 20:13:41 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 
 void	vm_get_flag(t_all *all, int *n, char **av)
 {
-	pf("Flag {y}%s{0}\n", av[*n]);		//	Debug
+//	pf("Flag {y}%s{0}\n", av[*n]);		//	Debug
+	pf("{r}Error : Segmentation Fault{0}\n");
 	if (!ft_strcmp(av[*n], "-help") || !ft_strcmp(av[*n], "--help"))
 		vm_usage(all, 0);
 	else if (!ft_strcmp(av[*n], "-dump") || !ft_strcmp(av[*n], "--dump"))
