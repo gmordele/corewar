@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 18:14:14 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/22 18:23:43 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,21 @@ static void	init_pro_cycle(t_all *all, t_process *proc)
 	t_op		*tab;
 
 	tab = &g_op_tab;
-	op = vm_get_mem(all, proc->pc, 1);
-	if (op >= 1 && op <= 17)
-		proc->cycle = (tab[op - 1]).cycles;
+	if (!proc)
+	{
+		proc = all->process_list;
+		while (proc)
+		{
+			init_pro_cycle(all, proc);
+			proc = proc->next;
+		}
+	}
+	else
+	{
+		op = vm_get_mem(all, proc->pc, 1);
+		if (op >= 1 && op <= 17)
+			proc->cycle = (tab[op - 1]).cycles;
+	}
 }
 
 void	vm_run_battle(t_all *all)
@@ -106,6 +118,7 @@ void	vm_run_battle(t_all *all)
 	t_process	*current;
 	int			db_i;
 
+	init_pro_cycle(all, NULL);
 	while (all->cycle_to_die && all->process_list)
 	{
 		if (all->flag & VISU)
