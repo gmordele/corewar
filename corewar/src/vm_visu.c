@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/22 17:52:15 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/22 18:57:43 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,40 @@ void	print_pcs(t_all *all)
 	}
 }
 
+void	visu_unpause(int *pause)
+{
+	nodelay(stdscr, 1);
+	*pause = 0;
+}
+
+void	visu_pause(t_all *all, int *pause)
+{
+	int		c;
+	(void)all;
+	*pause = 1;
+	nodelay(stdscr, 0);
+	while (42)
+	{
+		c = getch();
+		if (c == ' ')
+		{
+			visu_unpause(pause);
+			return ;
+		}
+		if (c == '\n')
+			return ;
+		if (c == 27)
+			vm_exit(all, NULL);
+	}
+}
+
 void	vm_visu(t_all *all)
 {
 	int		i;
 	int		col;
 	int		row;
-	vm_init_colors();
+	static int	pause = 1;
+	int		c;
 
 	i = 0;
 	col = 0;
@@ -95,7 +123,21 @@ void	vm_visu(t_all *all)
 	mvprintw(row, 0, "%d", all->cycle);
 	print_pcs(all);
 	refresh();
-	getch();
+	if (pause == 1)
+		visu_pause(all, &pause);
+	else
+	{
+		while ((c = getch()) != ERR)
+		{
+			if (c == ' ')
+			{
+				visu_pause(all, &pause);
+				return ;
+			}
+			else if (c == 27)
+				vm_exit(all, NULL);
+		}
+	}
 }
 
 void	vm_init_visu(t_all *all)
@@ -103,6 +145,7 @@ void	vm_init_visu(t_all *all)
 	(void)all;
 	initscr();
 	start_color();
+	vm_init_colors();
 	curs_set(0);
 	noecho();
 }
