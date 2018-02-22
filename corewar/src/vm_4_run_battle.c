@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:59:11 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 15:33:29 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/22 18:14:14 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ void	vm_run_battle(t_all *all)
 
 	while (all->cycle_to_die && all->process_list)
 	{
+		if (all->flag & VISU)
+			vm_visu(all);
 		current = all->process_list;
 		db_i = 0;
 		while (current)
 		{
-			if (all->flag & VISU)
-				vm_visu(all);
+			++(all->cycle);
+			continue;
 		//	db_print_process(current, db_i);
 			if (current->cycle == 0)
 			{
