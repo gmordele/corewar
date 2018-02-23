@@ -73,6 +73,7 @@ typedef	struct			s_all
 	char				color[MEM_SIZE];
 	WINDOW				*win_arena;
 	WINDOW				*win_info;
+	WINDOW				*win_proc;
 	int					cycles_sec;
 	useconds_t			time_step;
 	int					pause;

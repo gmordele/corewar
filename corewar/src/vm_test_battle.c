@@ -59,9 +59,13 @@ void	vm_run_battle(t_all *all)
 			if (process->cycle < 0)
 				vm_update_process(all, process);
 			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
+			{
 				all->op_fn[op](all, process);
-			get_next_line(0, &all->gnl);				//	Debug
-			vm_print_arena(all, process);			//	Debug
+				get_next_line(0, &all->gnl);				//	Debug
+				vm_print_arena(all, process);			//	Debug
+			}
+		//	get_next_line(0, &all->gnl);				//	Debug
+		//	vm_print_arena(all, process);			//	Debug
 			--process->cycle;
 			process = process->next;
 		}
