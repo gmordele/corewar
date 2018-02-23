@@ -35,6 +35,7 @@ typedef	struct			s_process
 	struct s_process	*prev;
 	struct s_process	*next;
 	char				op[20];			// Debug
+	int					nb;
 }						t_process;
 
 typedef	struct			s_champ
@@ -56,15 +57,18 @@ typedef	struct			s_all
 	void 				(*op_fn[17])(struct s_all*, t_process*);
 	t_process			*process_list;
 	int					nb_champ;
+	int					nb_process;
 	int					flag;
 	int					dump;
 	int					cycle;
+	int					cycle_delta;
 	int					cycle_to_die;
 	int					nb_live;
 	int					last_live;
 	int					nb_checks;
 	int					aff_str_size;
 	char				*aff_str;
+	char				*gnl;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
 	WINDOW				*win_arena;

@@ -1,16 +1,6 @@
 
-J'ai regroupé certains fichiers qui se doublaient.
+J'ai refais un run_battle.c a ma sauce pour corriger les erreurs de comportement.
 
-J'ai ajouté plusieurs chose dans la structure process.
-	int	encoded
-	int	decoded[]
-	int	arg_size[]
-	int	arg[]
-	int	value[]
+Tu peux toujours utiliser ton fichier, je n'ai rien modifié.
+	il faudra decommenté les init_pro_cycle() dans les forks
 
-J'ai pu faire ma fonction 'vm_check_args()' qui check la validité de l'octet d'encodage,
-	- si elle me renvoie 'valide' je récupere les valeurs dans process->value[] avec
-	'vm_get_value()'
-	- sinon, je quitte l'instruction
-
-J'ai ajouté un tableau de pointeur de fonction pour appeler les instructions plus rapidement

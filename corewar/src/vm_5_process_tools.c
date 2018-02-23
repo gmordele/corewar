@@ -23,6 +23,8 @@ t_process	*vm_new_pro(t_all *all, t_process *father, int pc)
 		new->carry = father->carry;
 	}
 	new->pc = pc;
+	new->cycle = -1;
+	new->nb = ++all->nb_process;
 	return (new);
 }
 

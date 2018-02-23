@@ -28,18 +28,16 @@ void		db_print_process(t_process *proc, int num)
 
 static void	vm_exec_inst(t_all *all, t_process *proc)
 {
-	//char	*gnl;
 	int		op;
 
 	proc->step = 1;
 	op = vm_get_mem(all, proc->pc, 1);
 	if (op > 0 && op < 17)
 	{
-		//get_next_line(0, &gnl);			//	Debug
 		all->op_fn[op](all, proc);
-		//pf("process->pc : %d\n", proc->pc);
-		/*vm_print_arena(all, proc);			//	Debug
-		sleep(1);*/
+//		get_next_line(0, &all->gnl);				//	Debug
+//		vm_print_arena(all, proc);					//	Debug
+		//sleep(1);
 	}
 	proc->pc = vm_correct_addr(proc->pc + proc->step);
 }
@@ -119,7 +117,7 @@ void	vm_run_battle(t_all *all)
 	int			db_i;
 
 	init_pro_cycle(all, NULL);
-	vm_print_arena(all, all->process_list);			//	Debug
+//	vm_print_arena(all, all->process_list);			//	Debug
 	sleep(1);
 	while (all->cycle_to_die && all->process_list)
 	{
@@ -136,7 +134,11 @@ void	vm_run_battle(t_all *all)
 				init_pro_cycle(all, current);
 			}
 			else
+			{
 				current->cycle--;
+			}
+			get_next_line(0, &all->gnl);				//	Debug
+			vm_print_arena(all, current);			//	Debug
 			current = current->next;
 			db_i++;
 		}

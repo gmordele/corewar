@@ -36,6 +36,8 @@ void	vm_st(t_all *all, t_process *pro)
 			vm_put_color(all, pro, pro->pc + pro->arg[1], REG_SIZE);
 		}
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -60,6 +62,8 @@ void	vm_sti(t_all *all, t_process *pro)
 		vm_put_mem(all, pro->value[0], pro->pc + address, REG_SIZE);
 		vm_put_color(all, pro, pro->pc + address, REG_SIZE);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -71,10 +75,12 @@ void	vm_fork(t_all *all, t_process *pro)
 //	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
-		new_pc = ((pro->value[0] % IDX_MOD) + pro->pc) % MEM_SIZE;
+		new_pc = (pro->pc + (pro->value[0] % IDX_MOD)) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
-		init_pro_cycle(all, all->process_list);
+	//	init_pro_cycle(all, all->process_list);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += pro->arg_size[0];
 }
 
@@ -88,7 +94,9 @@ void	vm_lfork(t_all *all, t_process *pro)
 	{
 		new_pc = (pro->pc + pro->value[0]) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
-		init_pro_cycle(all, all->process_list);
+	//	init_pro_cycle(all, all->process_list);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += pro->arg_size[0];
 }

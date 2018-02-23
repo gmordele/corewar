@@ -119,7 +119,7 @@ int		main(int ac, char **av)
 	vm_run_battle(&all);
 	if (all.last_live)
 		all.last_live--;
-	pf("Le joueur %d (%s) a gagné !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name);
+	pf("Le joueur %d (%s) a gagné après %d cycles !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name, all.cycle);
 	pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
 	vm_exit(&all, NULL);
 	return (0);

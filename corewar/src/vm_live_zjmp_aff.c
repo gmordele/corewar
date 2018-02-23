@@ -35,6 +35,8 @@ void	vm_live(t_all *all, t_process *process)
 			if (process->value[0] == all->champ[n].nb)
 				all->last_live = n + 1;
 	}
+	else
+		ft_strcat(process->op, " non valide");
 	process->step += process->arg_size[0];
 }
 
@@ -53,7 +55,10 @@ void	vm_zjmp(t_all *all, t_process *pro)
 		pro->step = 0;
 	}
 	else
+	{
+		ft_strcat(pro->op, " non valide");
 		pro->step += pro->arg_size[0];
+	}
 }
 
 /*
@@ -77,5 +82,7 @@ void	vm_aff(t_all *all, t_process *process)
 		all->aff_str = str;
 		write(1, all->aff_str, ++all->aff_str_size);
 	}
+	else
+		ft_strcat(process->op, " non valide");
 	process->step += 1 + process->arg_size[0];
 }

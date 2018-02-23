@@ -20,7 +20,7 @@ SRC				=	vm_0_main.c					\
 					vm_1_get_params.c			\
 					vm_2_get_champs.c			\
 					vm_3_set_match.c			\
-					vm_4_run_battle.c			\
+					vm_test_battle.c			\
 					vm_5_process_tools.c		\
 					vm_5_op_tools.c				\
 					vm_5_mem_tools.c			\

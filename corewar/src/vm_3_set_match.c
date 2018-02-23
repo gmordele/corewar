@@ -45,7 +45,7 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	{
 		if (all->color[pro->pc % MEM_SIZE] >= 0)
 			pf(all->champ[(int)all->color[pro->pc % MEM_SIZE]].color);
-		pf("\tpc %-4d (y %d, x %d)\t{y}op %s{0}\n", pro->pc, pro->pc / 64, pro->pc % 64, pro->op);
+		pf("\tpc%-2d %-4d (y %d, x %d)\t{y}op %s{0}\n", pro->nb, pro->pc, pro->pc / 64, pro->pc % 64, pro->op);
 	}
 	y = 0;
 	while (y < 64)

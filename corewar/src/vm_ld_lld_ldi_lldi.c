@@ -41,6 +41,8 @@ void	vm_ld(t_all *all, t_process *pro)
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -74,6 +76,8 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -98,6 +102,8 @@ void	vm_ldi(t_all *all, t_process *pro)
 		address = pro->pc + ((pro->value[0] + pro->value[1]) % IDX_MOD);
 		pro->r[pro->arg[2]] = vm_get_mem(all, address, 4);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -124,5 +130,7 @@ void	vm_lldi(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = vm_get_mem(all, address, 4);
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

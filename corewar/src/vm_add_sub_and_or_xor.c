@@ -25,6 +25,8 @@ void	vm_add(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -41,6 +43,8 @@ void	vm_sub(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -70,6 +74,8 @@ void	vm_and(t_all *all, t_process *pro)
 		*reg = rev_endian_int(pro->value[0] & pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -99,6 +105,8 @@ void	vm_or(t_all *all, t_process *pro)
 		*reg = rev_endian_int(pro->value[0] | pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -128,5 +136,7 @@ void	vm_xor(t_all *all, t_process *pro)
 		*reg = rev_endian_int(pro->value[0] ^ pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
 	}
+	else
+		ft_strcat(pro->op, " non valide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
