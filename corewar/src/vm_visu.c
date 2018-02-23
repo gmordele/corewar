@@ -6,12 +6,13 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/22 22:49:26 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/23 05:54:19 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <ncurses.h>
+#include <sys/time.h>
 #include "vm_0.h"
 #include "op.h"
 
@@ -26,6 +27,8 @@
 # define P3_COL_PC	9
 # define P4_COL_PC	10
 
+void	visu_print_info(t_all *all);
+
 void	vm_init_colors(void)
 {
 	init_pair(P0_COL, COLOR_WHITE, COLOR_BLACK);
@@ -34,60 +37,33 @@ void	vm_init_colors(void)
 	init_pair(P1_COL_PC, COLOR_BLACK, COLOR_GREEN);
 	init_pair(P2_COL, COLOR_BLUE, COLOR_BLACK);
 	init_pair(P2_COL_PC, COLOR_BLACK, COLOR_BLUE);
-
+	init_pair(P3_COL, COLOR_RED, COLOR_BLACK);
+	init_pair(P3_COL_PC, COLOR_BLACK, COLOR_RED);
+	init_pair(P4_COL, COLOR_YELLOW, COLOR_BLACK);
+	init_pair(P4_COL_PC, COLOR_BLACK, COLOR_YELLOW);
 }
 
-void	print_value(int value, int color)
-{
-	color = color < 0 ? 1 : color + 2;
-	attron(COLOR_PAIR(color));
-	printw("%02hhx", value);
-	attroff(COLOR_PAIR(color));
-}
-
-void	print_pc(int value, int color)
-{
-	color = color < 0 ? 6 : color + 7;
-	attron(COLOR_PAIR(color));
-	printw("%02hhx", value);
-	attroff(COLOR_PAIR(color));
-}
-
-void	print_pcs(t_all *all)
-{
-	t_process	*process;
-	int			row;
-	int			col;
-
-	process = all->process_list;
-	while (process != NULL)
-	{
-		col = (process->pc % 64) * 3;
-		row  = process->pc / 64;
-		move(row, col);
-		print_pc(all->arena[process->pc], all->color[process->pc]);
-		process = process->next;
-	}
-}
-
-void	visu_unpause(int *pause)
+void	visu_unpause(t_all *all)
 {
 	nodelay(stdscr, 1);
-	*pause = 0;
+	all->pause = 0;
 }
 
-void	visu_pause(t_all *all, int *pause)
+void	visu_pause(t_all *all)
 {
 	int		c;
-	(void)all;
-	*pause = 1;
+
+	all->pause = 1;
+	all->last_time.tv_sec = 0;
+	all->last_time.tv_usec = 0;
 	nodelay(stdscr, 0);
+	visu_print_info(all);
 	while (42)
 	{
 		c = getch();
 		if (c == ' ')
 		{
-			visu_unpause(pause);
+			visu_unpause(all);
 			return ;
 		}
 		if (c == '\n')
@@ -97,21 +73,67 @@ void	visu_pause(t_all *all, int *pause)
 	}
 }
 
-void	vm_visu(t_all *all)
+void	visu_sleep(t_all *all)
+{
+	struct timeval cur_time;
+	struct timeval dif_time;
+
+	if (all->last_time.tv_sec != 0 && all->last_time.tv_usec != 0)
+	{
+		gettimeofday(&(cur_time), NULL);
+		timersub(&cur_time, &(all->last_time), &dif_time);
+		mvwprintw(all->win_info, 10, 0, "%d.%d", dif_time.tv_sec, dif_time.tv_usec);
+		if (dif_time.tv_sec == 0 && dif_time.tv_usec < (int)(all->time_step))
+		{
+			mvwprintw(all->win_info, 11, 0, "sleep");
+			usleep(dif_time.tv_usec);
+			all->valid_time_val = 1;
+		}
+		else
+			all->valid_time_val = 0;
+	}
+	gettimeofday(&(all->last_time), NULL);
+	wrefresh(all->win_info);
+}
+
+void	visu_print_pcs(t_all *all)
+{
+	t_process	*process;
+	int			row;
+	int			col;
+	int			color;
+
+	process = all->process_list;
+	while (process != NULL)
+	{
+		col = (process->pc % 64) * 3;
+		row  = process->pc / 64;
+		wmove(all->win_arena, row, col);
+		color = all->color[process->pc] < 0 ? 6 : all->color[process->pc] + 7;
+		wattron(all->win_arena, COLOR_PAIR(color));
+		wprintw(all->win_arena, "%02hhx", all->arena[process->pc]);
+		wattroff(all->win_arena, COLOR_PAIR(color));
+		process = process->next;
+	}
+}
+
+void	visu_print_arena(t_all *all)
 {
 	int		i;
 	int		col;
 	int		row;
-	static int	pause = 1;
-	int		c;
+	int		color;
 
 	i = 0;
 	col = 0;
 	row = 0;
 	while (i < MEM_SIZE)
 	{
-		move(row, col);
-		print_value(all->arena[i], all->color[i]);
+		wmove(all->win_arena, row, col);
+		color = all->color[i] < 0 ? 1 : all->color[i] + 2;
+		wattron(all->win_arena, COLOR_PAIR(color));
+		wprintw(all->win_arena, "%02hhx", all->arena[i]);
+		wattroff(all->win_arena, COLOR_PAIR(color));
 		col += 3;
 		++i;
 		if (i % 64 == 0)
@@ -120,18 +142,39 @@ void	vm_visu(t_all *all)
 			++row;
 		}
 	}
-	mvprintw(row, 0, "%d", all->cycle);
-	print_pcs(all);
+	visu_print_pcs(all);
+	wrefresh(all->win_arena);
+}
+
+void	visu_print_info(t_all *all)
+{
+	use_default_colors();
+	if (all->pause)
+		mvwprintw(all->win_info, 0, 0, "PAUSE   ");
+	else
+		mvwprintw(all->win_info, 0, 0, "RUNNING");
+	mvwprintw(all->win_info, 2, 0, "Cycle: %d", all->cycle);
+	wrefresh(all->win_info);
+}
+
+void	vm_visu(t_all *all)
+{
+	int		c;
+
 	refresh();
-	if (pause == 1)
-		visu_pause(all, &pause);
+	visu_print_arena(all);
+	visu_print_info(all);
+ 	if (!all->pause) 
+ 		visu_sleep(all); 
+	if (all->pause == 1)
+		visu_pause(all);
 	else
 	{
 		while ((c = getch()) != ERR)
 		{
 			if (c == ' ')
 			{
-				visu_pause(all, &pause);
+				visu_pause(all);
 				return ;
 			}
 			else if (c == 27)
@@ -142,16 +185,28 @@ void	vm_visu(t_all *all)
 
 void	vm_init_visu(t_all *all)
 {
-	(void)all;
+	all->valid_time_val = 1;
 	initscr();
 	start_color();
 	vm_init_colors();
 	curs_set(0);
 	noecho();
+	all->cycles_sec = 50;
+	all->time_step = 1000000 / all->cycles_sec;
+	all->pause = 1;
+	if ((all->win_arena = newwin(64, 64 * 3 - 1, 0, 0)) == NULL)
+		vm_exit(all, "newwin() failed\n");
+	if ((all->win_info = newwin(64, 50, 0, 64 * 3 + 1)) == NULL)
+		vm_exit(all, "newwin() failed\n");
+	box(all->win_arena, 0, 0);
+	box(all->win_info, 0, 0);
 }
 
 void	vm_exit_visu(t_all *all)
 {
-	(void)all;
+	if (all->win_arena != NULL)
+		delwin(all->win_arena);
+	if (all->win_info != NULL)
+		delwin(all->win_info);
 	endwin();
 }
