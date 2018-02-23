@@ -57,7 +57,7 @@ void	vm_print_arena(t_all *all, t_process *pro)
 			if (all->color[y * 64 + x] >= 0)
 				pf(all->champ[(int)all->color[y * 64 + x]].color);
 			if (vm_check_process(tab, y * 64 + x))
-				pf("{R}");
+				pf(pro && vm_correct_addr(pro->pc) == (y * 64 + x) ? "{B}" : "{R}");
 			pf("%02hhx{0} ", all->arena[y * 64 + x]);
 			x++;
 		}

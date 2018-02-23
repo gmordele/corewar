@@ -43,7 +43,11 @@ void	vm_update_process(t_all *all, t_process *process)
 	process->pc = vm_correct_addr(process->pc + process->step);
 	process->step = 1;
 	if ((op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
+	{
+		ft_strcat(process->op, " -> ");
+		ft_strcat(process->op, g_op_tab[op - 1].name);
 		process->cycle = g_op_tab[op - 1].cycles;
+	}
 }
 
 void	vm_run_battle(t_all *all)
@@ -54,6 +58,8 @@ void	vm_run_battle(t_all *all)
 	all->cycle_to_die = CYCLE_TO_DIE;
 	while ((process = all->process_list) && all->cycle_to_die > 0)
 	{
+		if (all->flag & VISU)
+			vm_visu(all);
 		while (process)
 		{
 			if (process->cycle < 0)

@@ -34,7 +34,7 @@ typedef	struct			s_process
 	int					value[MAX_ARGS_NUMBER];
 	struct s_process	*prev;
 	struct s_process	*next;
-	char				op[20];			// Debug
+	char				op[30];			// Debug
 	int					nb;
 }						t_process;
 
