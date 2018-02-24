@@ -69,21 +69,21 @@ void	vm_run_battle(t_all *all)
 			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
 			{
 				all->op_fn[op](all, process);
-				all->flag ? 0 : get_next_line(0, &all->gnl);			//	Debug
-				all->flag ? 0 : vm_print_arena(all, process);			//	Debug
+				//(!all->flag /*&& all->cycle > 15000*/) ? vm_print_arena(all, process) : 0;	//	Debug
 			}
 			process = process->next;
 		}
-		if (--all->cycle_to_die < 1)
+		if (--all->cycle_to_die <= 0)
 		{
 			vm_clean_process_list(all);
-			all->cycle_to_die = CYCLE_TO_DIE;
 			if (all->nb_live >= NBR_LIVE || ++all->nb_checks > MAX_CHECKS)
 			{
-				all->nb_checks = 0;
 				all->cycle_delta += CYCLE_DELTA;
-				all->cycle_to_die -= all->cycle_delta;
+				all->nb_checks = 0;
 			}
+			all->cycle_to_die = CYCLE_TO_DIE - all->cycle_delta;
+			(!all->flag /*&& all->cycle > 15000*/) ? vm_print_arena(all, process) : 0;	//	Debug
+			all->nb_live = 0;
 		}
 	}
 }

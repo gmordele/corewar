@@ -28,12 +28,15 @@ void	vm_live(t_all *all, t_process *process)
 //	pf("{y}vm_live\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, process, 1))
 	{
-		process->nb_live++;
-		all->nb_live++;
+		++process->nb_live;
 		n = all->nb_champ;
 		while (n-- > 0)
 			if (process->value[0] == all->champ[n].nb)
+			{
 				all->last_live = n + 1;
+				++all->nb_live;
+			//	pf("live %s at %d\n", all->champ[n].header.prog_name, all->cycle);	//	Debug
+			}
 	}
 	else
 		ft_strcat(process->op, " invalide");

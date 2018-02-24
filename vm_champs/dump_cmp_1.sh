@@ -12,10 +12,10 @@ else
 	dump=$1
 	while [ $dump ]
 	do
-		echo $dump
+		echo "\x1b[33m" $dump "\x1b[39m"
 		./corewar -d $dump $2 $3 $4 $5 > dump_zaz.txt
 		../corewar/corewar -d $dump $2 $3 $4 $5 > dump_team.txt
 		diff dump_zaz.txt dump_team.txt
-		dump=$((dump+1))
+		dump=$((dump+50))
 	done
 fi

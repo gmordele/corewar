@@ -34,8 +34,10 @@ void	vm_print_process(t_all *all, t_process *pro, t_process *current, int y)
 			pf("(%sy %02d, x %02d{0}) ", all->color[vm_correct_addr(pro->pc)] >= 0 ? all->champ[(int)all->color[pro->pc % MEM_SIZE]].color : "", vm_correct_addr(pro->pc) / 64, vm_correct_addr(pro->pc) % 64);
 		else if (y == 3)
 			pf(pro == current ? "{B} %-11.11s{0} " : "{R} %-11.11s{0} ", pro->op);
-		else if (y > 3 && y < 20)
-			pf("r%02d %08x ", y - 3, pro->r[y - 3]);
+		else if (y == 4)
+			pf(" carry %4d  ", pro->carry);
+		else if (y > 4 && y < 21)
+			pf("r%02x %08x ", y - 4, pro->r[y - 4]);
 		pro = pro->next;
 	}
 }
@@ -60,7 +62,7 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	x = -1;
 	while (++x < 64)
 		pf(x < 63 ? " %02d" : " %02d   {0}", x);
-	pf("  Cycle %d, Cycle_to_die %d, Last_live %s\n", all->cycle, CYCLE_TO_DIE - all->cycle_delta, all->last_live ? all->champ[all->last_live - 1].header.prog_name : "");
+	pf("  Cycle %5d,  Cycle_to_die %4d,  Cycle_before_die %4d,  Nb_live %2d,  Nb_check %2d,  Last_live %s\n", all->cycle, CYCLE_TO_DIE - all->cycle_delta, all->cycle_to_die, all->nb_live, all->nb_checks, all->last_live ? all->champ[all->last_live - 1].header.prog_name : "");
 /*	if (pro || !pf("\n"))
 	{
 		if (all->color[pro->pc % MEM_SIZE] >= 0)
@@ -86,12 +88,13 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	//		pf("Last_live %s%s{0}", all->champ[all->last_live - 1].color,all->champ[all->last_live - 1].header.prog_name);
 	//	else if (y > 0 && y < 17 && pro)
 	//		pf("r%02d %08x", y, pro->r[y]);
-		pro && y >= 0 && y < 20 ? vm_print_process(all, all->process_list, pro, y) : 0;
+		pro && y >= 0 && y < 21 ? vm_print_process(all, all->process_list, pro, y) : 0;
 		pf("\n");
 		y++;
 	}
 	pf("{W}%198s{0}\n", "");
 	write(1, all->aff_str, all->aff_str_size);
+	all->flag ? 0 : get_next_line(0, &all->gnl);			//	Debug
 }
 
 /*
@@ -112,6 +115,8 @@ void	vm_print_dump(t_all *all)
 		pf(" \"%s\" ", all->champ[n].header.prog_name);
 		pf("(\"%s\") !\n", all->champ[n++].header.comment);
 	}
+	if (all->cycle != all->dump)
+		pf("dump %d, {y}cycle %d, cycle_to_die %d.{0}\n", all->dump, all->cycle, CYCLE_TO_DIE - all->cycle_delta);	//	Debug
 	n = 0;
 	while (n < MEM_SIZE)
 	{
