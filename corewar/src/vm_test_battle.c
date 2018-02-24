@@ -69,7 +69,7 @@ void	vm_run_battle(t_all *all)
 			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
 			{
 				all->op_fn[op](all, process);
-				//(!all->flag /*&& all->cycle > 15000*/) ? vm_print_arena(all, process) : 0;	//	Debug
+				(!all->flag /*&& all->cycle > 15000*/) ? vm_print_arena(all, process) : 0;	//	Debug
 			}
 			process = process->next;
 		}
