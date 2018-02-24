@@ -82,17 +82,18 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 	long	l;
 	char	*s;
 
-	all->dump = 0;
+	all->dump = -1;
 	if ((s = av[++n[0]]))
 	{
 		l = ft_atol(s);
 		i = ft_atoi_next(&s);
-		if (!*s && i > 0 && i == l)
+		if (!*s && i == l)
 			all->dump = i;
 	}
-	if (!all->dump)
+	if (all->dump < 0)
 		vm_usage(all, spf("corewar: '%s' is not a valid dump number\n", av[*n]));
-	pf("Dump {y}%d{0}\n", all->dump);		//	Debug
+	all->flag += (all->flag & DUMP ? 0 : DUMP);
+//	pf("Dump {y}%d{0}\n", all->dump);		//	Debug
 }
 
 /*
@@ -105,10 +106,10 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 void	vm_get_flag(t_all *all, int *n, char **av)
 {
 //	pf("Flag {y}%s{0}\n", av[*n]);		//	Debug
-	pf("{r}Error : Segmentation Fault{0}\n");
 	if (!ft_strcmp(av[*n], "-help") || !ft_strcmp(av[*n], "--help"))
 		vm_usage(all, 0);
-	else if (!ft_strcmp(av[*n], "-dump") || !ft_strcmp(av[*n], "--dump"))
+	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "-dump")
+		|| !ft_strcmp(av[*n], "--dump"))
 		vm_get_dump(all, n, av);
 	else if (!ft_strcmp(av[*n], "-visu") || !ft_strcmp(av[*n], "--visu"))
 		all->flag += (all->flag & VISU ? 0 : VISU);

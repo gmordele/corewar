@@ -24,7 +24,7 @@ void	vm_live(t_all *all, t_process *process)
 {
 	int	n;
 
-	ft_strcpy(process->op, "vm_live");			//	Debug
+	ft_strcpy(process->op, "live");			//	Debug
 //	pf("{y}vm_live\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, process, 1))
 	{
@@ -36,7 +36,7 @@ void	vm_live(t_all *all, t_process *process)
 				all->last_live = n + 1;
 	}
 	else
-		ft_strcat(process->op, " non valide");
+		ft_strcat(process->op, " invalide");
 	process->step += process->arg_size[0];
 }
 
@@ -48,7 +48,7 @@ void	vm_live(t_all *all, t_process *process)
 
 void	vm_zjmp(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "vm_zjmp");			//	Debug
+	ft_strcpy(pro->op, "zjmp");			//	Debug
 	if (vm_check_and_get_args(all, pro, 9) && pro->carry)
 	{
 		pro->pc = (pro->pc + pro->arg[0]) % MEM_SIZE;
@@ -56,7 +56,7 @@ void	vm_zjmp(t_all *all, t_process *pro)
 	}
 	else
 	{
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 		pro->step += pro->arg_size[0];
 	}
 }
@@ -71,7 +71,7 @@ void	vm_aff(t_all *all, t_process *process)
 {
 	char *str;
 
-	ft_strcpy(process->op, "vm_aff");			//	Debug
+	ft_strcpy(process->op, "aff");			//	Debug
 //	pf("{y}vm_aff\n{0}");
 	if (vm_check_and_get_args(all, process, 16))
 	{
@@ -83,6 +83,6 @@ void	vm_aff(t_all *all, t_process *process)
 		write(1, all->aff_str, ++all->aff_str_size);
 	}
 	else
-		ft_strcat(process->op, " non valide");
+		ft_strcat(process->op, " invalide");
 	process->step += 1 + process->arg_size[0];
 }

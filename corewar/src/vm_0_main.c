@@ -95,6 +95,10 @@ void	vm_init(t_all *all, int ac, char **av)
 	if (!all->nb_champ || !all->champ[0].fd)
 		vm_usage(all, spf("corewar: no champ enough\n"));
 	all->cycle_to_die = CYCLE_TO_DIE;
+	if (all->flag & DUMP)
+		all->flag = DUMP;
+	else
+		all->dump = 0x7fffffff;
 	if (all->flag & VISU)
 		vm_init_visu(all);
 }
@@ -117,10 +121,13 @@ int		main(int ac, char **av)
 	vm_get_champs(&all, sizeof(t_header));
 	vm_set_match(&all);
 	vm_run_battle(&all);
-	if (all.last_live)
-		all.last_live--;
-	pf("Le joueur %d (%s) a gagné après %d cycles !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name, all.cycle);
-	pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
+	if (all.flag & DUMP)
+		vm_print_dump(&all);
+	else if (all.last_live-- > 0)
+	{
+		pf("Le joueur %d (%s) a gagné après %d cycles !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name, all.cycle);
+		pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
+	}
 	vm_exit(&all, NULL);
 	return (0);
 }

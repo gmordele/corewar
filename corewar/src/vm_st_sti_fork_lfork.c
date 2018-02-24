@@ -23,7 +23,7 @@
 
 void	vm_st(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "vm_st");				//	Debug
+	ft_strcpy(pro->op, "st");				//	Debug
 //	pf("{y}vm_st\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 3))
 	{
@@ -37,7 +37,7 @@ void	vm_st(t_all *all, t_process *pro)
 		}
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -54,7 +54,7 @@ void	vm_sti(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "vm_sti");				//	Debug
+	ft_strcpy(pro->op, "sti");				//	Debug
 //	pf("{y}vm_sti\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 11))
 	{
@@ -63,7 +63,7 @@ void	vm_sti(t_all *all, t_process *pro)
 		vm_put_color(all, pro, pro->pc + address, REG_SIZE);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -71,7 +71,7 @@ void	vm_fork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-	ft_strcpy(pro->op, "vm_fork");				//	Debug
+	ft_strcpy(pro->op, "fork");				//	Debug
 //	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
@@ -80,7 +80,7 @@ void	vm_fork(t_all *all, t_process *pro)
 	//	init_pro_cycle(all, all->process_list);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += pro->arg_size[0];
 }
 
@@ -88,7 +88,7 @@ void	vm_lfork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-	ft_strcpy(pro->op, "vm_lfork");				//	Debug
+	ft_strcpy(pro->op, "lfork");				//	Debug
 //	pf("{y}vm_lfork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
@@ -97,6 +97,6 @@ void	vm_lfork(t_all *all, t_process *pro)
 	//	init_pro_cycle(all, all->process_list);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += pro->arg_size[0];
 }

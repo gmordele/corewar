@@ -21,6 +21,25 @@ int		vm_check_process(int *tab, int address)
 	return (tab[n] >= 0);
 }
 
+void	vm_print_process(t_all *all, t_process *pro, t_process *current, int y)
+{
+	int n;
+
+	n = 10;
+	while (pf(" ") && pro && n--)
+	{
+		if (y == 1)
+			pf(" %spc_%-2d%5d {0} ", all->color[vm_correct_addr(pro->pc)] >= 0 ? all->champ[(int)all->color[pro->pc % MEM_SIZE]].color : "", pro->nb, vm_correct_addr(pro->pc));
+		else if (y == 2)
+			pf("(%sy %02d, x %02d{0}) ", all->color[vm_correct_addr(pro->pc)] >= 0 ? all->champ[(int)all->color[pro->pc % MEM_SIZE]].color : "", vm_correct_addr(pro->pc) / 64, vm_correct_addr(pro->pc) % 64);
+		else if (y == 3)
+			pf(pro == current ? "{B} %-11.11s{0} " : "{R} %-11.11s{0} ", pro->op);
+		else if (y > 3 && y < 20)
+			pf("r%02d %08x ", y - 3, pro->r[y - 3]);
+		pro = pro->next;
+	}
+}
+
 void	vm_print_arena(t_all *all, t_process *pro)
 {
 	t_process	*tmp;
@@ -40,13 +59,14 @@ void	vm_print_arena(t_all *all, t_process *pro)
 	pf("{X}{W}{bk}   ");
 	x = -1;
 	while (++x < 64)
-		pf(x < 63 ? " %02d" : " %02d   {0}\tCycle %d", x, all->cycle);
-	if (pro || !pf("\n"))
+		pf(x < 63 ? " %02d" : " %02d   {0}", x);
+	pf("  Cycle %d, Cycle_to_die %d, Last_live %s\n", all->cycle, CYCLE_TO_DIE - all->cycle_delta, all->last_live ? all->champ[all->last_live - 1].header.prog_name : "");
+/*	if (pro || !pf("\n"))
 	{
 		if (all->color[pro->pc % MEM_SIZE] >= 0)
 			pf(all->champ[(int)all->color[pro->pc % MEM_SIZE]].color);
 		pf("\tpc%-2d %-4d (y %d, x %d)\t{y}op %s{0}\n", pro->nb, pro->pc, pro->pc / 64, pro->pc % 64, pro->op);
-	}
+	}*/
 	y = 0;
 	while (y < 64)
 	{
@@ -62,15 +82,44 @@ void	vm_print_arena(t_all *all, t_process *pro)
 			x++;
 		}
 		pf("{W}  {0}\t");
-		if (y == 0 && all->last_live)
-			pf("Last_live %s%s{0}", all->champ[all->last_live - 1].color,all->champ[all->last_live - 1].header.prog_name);
-		else if (y > 0 && y < 17 && pro)
-			pf("r%02d %08x", y, pro->r[y]);
+	//	if (y == 0 && all->last_live)
+	//		pf("Last_live %s%s{0}", all->champ[all->last_live - 1].color,all->champ[all->last_live - 1].header.prog_name);
+	//	else if (y > 0 && y < 17 && pro)
+	//		pf("r%02d %08x", y, pro->r[y]);
+		pro && y >= 0 && y < 20 ? vm_print_process(all, all->process_list, pro, y) : 0;
 		pf("\n");
 		y++;
 	}
 	pf("{W}%198s{0}\n", "");
 	write(1, all->aff_str, all->aff_str_size);
+}
+
+/*
+**	vm_print_dump()
+**	print arena on stdout at 'all->dump' cycle
+*/
+
+void	vm_print_dump(t_all *all)
+{
+	int n;
+
+	n = 0;
+//	pf("{y}vm_print_dump at %d cycle...\n{0}", all->cycle);		//	Debug
+	pf("Introducing contestants...\n");
+	while (n < all->nb_champ)
+	{
+		pf("* Player %d, weighing %d bytes,", n + 1, all->champ[n].prog_size);
+		pf(" \"%s\" ", all->champ[n].header.prog_name);
+		pf("(\"%s\") !\n", all->champ[n++].header.comment);
+	}
+	n = 0;
+	while (n < MEM_SIZE)
+	{
+		pf("0x%04x : %02hhx ", n, all->arena[n]);
+		while (++n % 64)
+			pf("%02hhx ", all->arena[n]);
+		pf("\n");
+	}
 }
 
 /*
@@ -122,5 +171,5 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
-	vm_print_arena(all, 0);			//	Debug
+//	all->flag ? 0 : vm_print_arena(all, 0);			//	Debug
 }

@@ -22,7 +22,7 @@ void	vm_clean_process_list(t_all *all)
 	{
 		if (!process->nb_live)
 		{
-			pf("kill process %d at %d cycles\n", process->nb, all->cycle);
+		//	pf("kill process %d at %d cycles\n", process->nb, all->cycle);
 			tmp = process;
 			process = process->next;
 			vm_del_one_pro(&all->process_list, tmp);
@@ -44,9 +44,9 @@ void	vm_update_process(t_all *all, t_process *process)
 	process->step = 1;
 	if ((op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
 	{
-		ft_strcat(process->op, " -> ");
-		ft_strcat(process->op, g_op_tab[op - 1].name);
-		process->cycle = g_op_tab[op - 1].cycles;
+		ft_strcat(process->op, "->");						//	Debug
+		ft_strcat(process->op, g_op_tab[op - 1].name);		//	Debug
+		process->cycle = g_op_tab[op - 1].cycles - 1;
 	}
 }
 
@@ -56,26 +56,24 @@ void	vm_run_battle(t_all *all)
 	int			op;
 
 	all->cycle_to_die = CYCLE_TO_DIE;
-	while ((process = all->process_list) && all->cycle_to_die > 0)
+	while ((process = all->process_list) && all->cycle_to_die > 0 && all->cycle < all->dump)
 	{
+		++all->cycle;
 		if (all->flag & VISU)
 			vm_visu(all);
 		while (process)
 		{
+			--process->cycle;
 			if (process->cycle < 0)
 				vm_update_process(all, process);
 			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= REG_NUMBER)
 			{
 				all->op_fn[op](all, process);
-				get_next_line(0, &all->gnl);				//	Debug
-				vm_print_arena(all, process);			//	Debug
+				all->flag ? 0 : get_next_line(0, &all->gnl);			//	Debug
+				all->flag ? 0 : vm_print_arena(all, process);			//	Debug
 			}
-		//	get_next_line(0, &all->gnl);				//	Debug
-		//	vm_print_arena(all, process);			//	Debug
-			--process->cycle;
 			process = process->next;
 		}
-		++all->cycle;
 		if (--all->cycle_to_die < 1)
 		{
 			vm_clean_process_list(all);

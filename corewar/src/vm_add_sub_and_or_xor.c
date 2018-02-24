@@ -18,7 +18,7 @@
 
 void	vm_add(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "vm_add");				//	Debug
+	ft_strcpy(pro->op, "add");				//	Debug
 //	pf("{y}vm_add\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 4))
 	{
@@ -26,7 +26,7 @@ void	vm_add(t_all *all, t_process *pro)
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -36,7 +36,7 @@ void	vm_add(t_all *all, t_process *pro)
 
 void	vm_sub(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "vm_sub");				//	Debug
+	ft_strcpy(pro->op, "sub");				//	Debug
 //	pf("{y}vm_sub\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 5))
 	{
@@ -44,7 +44,7 @@ void	vm_sub(t_all *all, t_process *pro)
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -66,7 +66,7 @@ void	vm_and(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "vm_and");				//	Debug
+	ft_strcpy(pro->op, "and");				//	Debug
 //	pf("{y}vm_and\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 6))
 	{
@@ -75,7 +75,7 @@ void	vm_and(t_all *all, t_process *pro)
 		pro->carry = (*reg ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -97,7 +97,7 @@ void	vm_or(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "vm_or");				//	Debug
+	ft_strcpy(pro->op, "or");				//	Debug
 //	pf("{y}vm_or\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 7))
 	{
@@ -106,7 +106,7 @@ void	vm_or(t_all *all, t_process *pro)
 		pro->carry = (*reg ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -128,7 +128,7 @@ void	vm_xor(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "vm_xor");				//	Debug
+	ft_strcpy(pro->op, "xor");				//	Debug
 //	pf("{y}vm_xor\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 8))
 	{
@@ -137,6 +137,6 @@ void	vm_xor(t_all *all, t_process *pro)
 		pro->carry = (*reg ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

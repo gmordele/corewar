@@ -29,7 +29,7 @@ void	vm_ld(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "vm_ld");			//	Debug
+	ft_strcpy(pro->op, "ld");			//	Debug
 //	pf("{y}vm_ld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 2))
 	{
@@ -42,7 +42,7 @@ void	vm_ld(t_all *all, t_process *pro)
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -63,7 +63,7 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 {
 	int	address;
 
-	ft_strcpy(pro->op, "vm_lld");				//	Debug
+	ft_strcpy(pro->op, "lld");				//	Debug
 //	pf("{y}vm_lld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 13))
 	{
@@ -77,7 +77,7 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -95,7 +95,7 @@ void	vm_ldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "vm_ldi");				//	Debug
+	ft_strcpy(pro->op, "ldi");				//	Debug
 //	pf("{y}vm_ldi\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 10))
 	{
@@ -103,7 +103,7 @@ void	vm_ldi(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = vm_get_mem(all, address, 4);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -122,7 +122,7 @@ void	vm_lldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "vm_lldi");				//	Debug
+	ft_strcpy(pro->op, "lldi");				//	Debug
 //	pf("{y}vm_lldi\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 14))
 	{
@@ -131,6 +131,6 @@ void	vm_lldi(t_all *all, t_process *pro)
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 	}
 	else
-		ft_strcat(pro->op, " non valide");
+		ft_strcat(pro->op, " invalide");
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

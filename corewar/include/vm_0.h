@@ -18,6 +18,7 @@
 # include <ncurses.h>
 # include <unistd.h>
 # define VISU 1
+# define DUMP 2
 
 typedef	struct			s_process
 {
@@ -121,6 +122,7 @@ void					vm_zjmp(t_all *all, t_process *proc);
 void					vm_fork(t_all *all, t_process *proc);
 void					vm_lfork(t_all *all, t_process *proc);
 void					vm_aff(t_all *all, t_process *process);
+void					vm_print_dump(t_all *all);
 
 void					vm_print_arena(t_all *all, t_process * process);
 void					db_print_process(t_process *proc, int num);

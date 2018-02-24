@@ -80,12 +80,12 @@ void	vm_sort_champs(t_all *all)
 	ft_strcpy(all->champ[1].color, "\x1b[36m");
 	ft_strcpy(all->champ[2].color, "\x1b[35m");
 	ft_strcpy(all->champ[3].color, "\x1b[33m");
-	n = 0;
-	while (n < all->nb_champ)
+/*	n = 0;											//	Debug
+	while (n < all->nb_champ)						//	Debug
 	{
 		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
 		n++;
-	}
+	}*/
 }
 
 /*

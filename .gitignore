@@ -6,5 +6,7 @@ obj
 libft.a
 corewar/corewar
 asm/asm
+vm_champs/dump_zaz.txt
+vm_champs/dump_team.txt
 *.dSYM
 .DS_Store
