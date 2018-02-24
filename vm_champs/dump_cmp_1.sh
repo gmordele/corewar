@@ -16,6 +16,6 @@ else
 		./corewar -d $dump $2 $3 $4 $5 > dump_zaz.txt
 		../corewar/corewar -d $dump $2 $3 $4 $5 > dump_team.txt
 		diff dump_zaz.txt dump_team.txt
-		dump=$((dump+50))
+		dump=$((dump+10))
 	done
 fi
