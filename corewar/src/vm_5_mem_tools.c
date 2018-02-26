@@ -13,14 +13,14 @@
 #include "vm_0.h"
 
 /*
-**	vm_correct_addr()
+**	vm_ajust_addr()
 **	correct addr if it is negative or bigger than MEM_SIZE
 */
 
-int		vm_correct_addr(long addr)
+int		vm_ajust_addr(long addr)
 {
-	if (addr < 0)
-		addr = -addr;
+	while (addr < 0)
+		addr += MEM_SIZE;
 	return ((int)(addr % MEM_SIZE));
 }
 
@@ -38,7 +38,7 @@ int		vm_get_mem(t_all *all, int addr, int size)
 	out = 0;
 	n = 0;
 	while (size-- > 0)
-		((char*)&out)[n++] = all->arena[vm_correct_addr(addr + size)];
+		((char*)&out)[n++] = all->arena[vm_ajust_addr(addr + size)];
 	return (n == 2 ? (short)out : out);
 }
 
@@ -54,7 +54,7 @@ void	vm_put_mem(t_all *all, int value, int addr, int size)
 
 	n = 0;
 	while (size-- > 0)
-		all->arena[vm_correct_addr(addr + size)] = ((char*)&value)[n++];
+		all->arena[vm_ajust_addr(addr + size)] = ((char*)&value)[n++];
 }
 
 /*
@@ -66,9 +66,9 @@ void	vm_put_color(t_all *all, t_process *process, int addr, int size)
 {
 	char color;
 
-	color = all->color[vm_correct_addr(process->pc)];
+	color = all->color[vm_ajust_addr(process->pc)];
 	while (size-- > 0)
-		all->color[vm_correct_addr(addr + size)] = color;
+		all->color[vm_ajust_addr(addr + size)] = color;
 }
 
 /*
@@ -77,7 +77,7 @@ void	vm_put_color(t_all *all, t_process *process, int addr, int size)
 ** l'ajuste pour qu'il soit correct.
 */
 
-int		vm_ajust_addr(int addr)
+/*int		vm_ajust_addr(int addr)
 {
 	int		new_addr;
 
@@ -87,14 +87,14 @@ int		vm_ajust_addr(int addr)
 	while (new_addr > MEM_SIZE)
 		new_addr -= MEM_SIZE;
 	return (new_addr);
-}
+}*/
 
 /*
 ** Cette fonction permet de convertir un paramètre écris de base sur plusieurs
 ** octets en un paramètre écris sur un seul int.
 */
 
-int		vm_convert_param(t_all *all, int addr, int size)
+/*int		vm_convert_param(t_all *all, int addr, int size)
 {
 	int		out;
 	int		i;
@@ -109,4 +109,4 @@ int		vm_convert_param(t_all *all, int addr, int size)
 		i++;
 	}
 	return (out);
-}
+}*/

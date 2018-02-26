@@ -54,7 +54,7 @@ void	vm_zjmp(t_all *all, t_process *pro)
 	ft_strcpy(pro->op, "zjmp");			//	Debug
 	if (vm_check_and_get_args(all, pro, 9) && pro->carry)
 	{
-		pro->pc = (pro->pc + pro->arg[0]) % MEM_SIZE;
+		pro->pc = vm_ajust_addr(pro->pc + pro->arg[0]);
 		pro->step = 0;
 	}
 	else
