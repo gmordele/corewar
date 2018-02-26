@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:32:09 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 21:41:38 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/26 00:30:06 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int		vm_exit(t_all *all, char *error_mail)
 	vm_del_all_pro(&all->process_list);
 	while (all->nb_champ-- > 0)
 		close(all->champ[all->nb_champ].fd);
-	if (error_mail)
-		fpf(2, "{r}%s{0}", error_mail);
 	if (all->flag & VISU)
 		vm_exit_visu(all);
+	if (error_mail)
+		fpf(2, "{r}%s{0}", error_mail);
 	exit(0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/23 05:17:10 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/26 02:09:34 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef	struct			s_all
 	useconds_t			time_step;
 	int					pause;
 	struct timeval		last_time;
-	int					valid_time_val;
+	int					current_proc;
 }						t_all;
 
 void					vm_usage(t_all *all, char *error_mail);
