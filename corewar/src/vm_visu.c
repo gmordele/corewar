@@ -180,10 +180,11 @@ void	visu_print_info(t_all *all)
 	else
 		mvwprintw(all->win_info, 0, 0, "RUNNING");
 	mvwprintw(all->win_info, 2, 0, "Cycle: %d\n", all->cycle, all->cycles_sec);
-	wprintw(all->win_info, "Cycle to die: % 4d\n", all->cycle_to_die);
+	wprintw(all->win_info, "Cycle to die: % 4d\n", CYCLE_TO_DIE - all->cycle_delta);//all->cycle_to_die);
 	wprintw(all->win_info, "Cycles/Seconde: % 4d\n", all->cycles_sec);
-	wprintw(all->win_info, "Processus number: % 4d\n", all->nb_process);
 	wprintw(all->win_info, "Live number: % 4d\n", all->nb_live);
+	wprintw(all->win_info, "Check number: % 4d\n", all->nb_checks);
+	wprintw(all->win_info, "Process number: % 4d\n", all->nb_process);
 	wrefresh(all->win_info);
 }
 
@@ -209,7 +210,7 @@ void	print_proc(t_all *all, t_process *proc)
 	wprintw(all->win_proc, "step: %d\n\n", proc->step);
 	i = 0;
 	while (++i <= REG_NUMBER)
-		wprintw(all->win_proc, "reg%2d: %08x\n", i, proc->r[i]);
+		wprintw(all->win_proc, "reg%02x: %08x\n", i, proc->r[i]);
 }
 
 void	visu_print_process(t_all *all)
