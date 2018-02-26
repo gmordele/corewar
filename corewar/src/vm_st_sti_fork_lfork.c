@@ -75,8 +75,10 @@ void	vm_fork(t_all *all, t_process *pro)
 //	pf("{y}vm_fork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
+//		vm_visu(all);
 		new_pc = (pro->pc + (pro->value[0] % IDX_MOD)) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
+//		vm_visu(all);
 	//	init_pro_cycle(all, all->process_list);
 	}
 	else
@@ -92,6 +94,7 @@ void	vm_lfork(t_all *all, t_process *pro)
 //	pf("{y}vm_lfork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
+//		vm_visu(all);
 		new_pc = (pro->pc + pro->value[0]) % MEM_SIZE;
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
 	//	init_pro_cycle(all, all->process_list);

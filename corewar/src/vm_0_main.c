@@ -123,11 +123,11 @@ int		main(int ac, char **av)
 	vm_run_battle(&all);
 	if (all.flag & DUMP)
 		vm_print_dump(&all);
-	else if (all.last_live-- > 0)
+	/*else if (all.last_live-- > 0)
 	{
 		pf("Le joueur %d (%s) a gagné après %d cycles !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name, all.cycle);
 		pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
-	}
+	}*/
 	vm_exit(&all, NULL);
 	return (0);
 }

@@ -113,6 +113,25 @@ void	vm_decode_byte(t_all *all, t_process *process, int op_code)
 **		return (0)
 */
 
+void	vm_get_arg_size(t_process *process, int op_code)
+{
+	extern t_op	g_op_tab[];
+	int			n;
+
+//	pf("Check args\n");
+	n = 0;
+	while (g_op_tab[op_code - 1].args[n])
+	{
+		if (process->decoded[n] & T_REG)
+			process->arg_size[n] = 1;
+		else if (process->decoded[n] & T_IND)
+			process->arg_size[n] = 2;
+		else if (process->decoded[n] & T_DIR)
+			process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
+		n++;
+	}
+}
+
 int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 {
 	extern t_op	g_op_tab[];
@@ -124,17 +143,12 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
 	vm_decode_byte(all, process, op_code);
+	vm_get_arg_size(process, op_code);
 	n = 0;
 	while (g_op_tab[op_code - 1].args[n])
 	{
 		if (!(g_op_tab[op_code - 1].args[n] & process->decoded[n]))
 			return (0);
-		if (process->decoded[n] & T_REG)
-			process->arg_size[n] = 1;
-		else if (process->decoded[n] & T_IND)
-			process->arg_size[n] = 2;
-		else if (process->decoded[n] & T_DIR)
-			process->arg_size[n] = (g_op_tab[op_code - 1].index ? 2 : 4);
 		n++;
 	}
 	vm_get_args(all, process, op_code);

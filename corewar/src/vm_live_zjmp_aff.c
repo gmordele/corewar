@@ -83,7 +83,6 @@ void	vm_aff(t_all *all, t_process *process)
 		str[all->aff_str_size] = process->value[0] % 256;
 		ft_free(1, &all->aff_str);
 		all->aff_str = str;
-		write(1, all->aff_str, ++all->aff_str_size);
 	}
 	else
 		ft_strcat(process->op, " invalide");
