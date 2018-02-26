@@ -1,3 +1,8 @@
+Visu :
+Utiliser les fleches pour se deplacer entre les processus
+page up, page down, home et end pour modifier la vitesse (seulement pendant une pause)
+
+==
 
 J'ai refais un run_battle.c a ma sauce pour corriger les erreurs de comportement.
 
