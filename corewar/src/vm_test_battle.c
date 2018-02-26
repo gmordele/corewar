@@ -58,7 +58,7 @@ void	vm_run_battle(t_all *all)
 	all->cycle_to_die = CYCLE_TO_DIE;
 	while ((process = all->process_list) && all->cycle_to_die > 0 && all->cycle < all->dump)
 	{
-		if (all->flag & VISU && all->cycle > 3000)
+		if (all->flag & VISU)// && all->cycle > 3000)
 			vm_visu(all);
 		++all->cycle;
 		while (process)
