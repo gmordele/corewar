@@ -203,7 +203,7 @@ void	print_proc(t_all *all, t_process *proc)
 	int		i;
 
 	wmove(all->win_proc, 0, 0);
-	wprintw(all->win_proc, "Process %4d:\npc: %d\n", proc->nb, proc->pc);
+	wprintw(all->win_proc, "Process %4d:\npc: %d (y %d, x %d)\n", proc->nb, proc->pc, proc->pc / 64, proc->pc % 64);
 	wprintw(all->win_proc, "op: %s\ncarry: %d\n", proc->op, proc->carry);
 	wprintw(all->win_proc, "cycle: %d\nnb_live: %d\n", proc->cycle,
 			proc->nb_live);
