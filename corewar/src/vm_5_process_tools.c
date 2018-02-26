@@ -14,17 +14,20 @@
 
 t_process	*vm_new_pro(t_all *all, t_process *father, int pc)
 {
-	t_process *new;
+	t_process	*new;
+	static int	process_nb = 1;
 
 	new = (t_process*)vm_malloc(all, sizeof(t_process));
 	if (father)
 	{
 		ft_memcpy(new->r, father->r, sizeof(int) * (REG_NUMBER + 1));
 		new->carry = father->carry;
+		new->nb_live = father->nb_live;
 	}
 	new->pc = pc;
 	//new->cycle = -1;
-	new->nb = ++all->nb_process;
+	new->nb = process_nb++;
+	++all->nb_process;
 	return (new);
 }
 
