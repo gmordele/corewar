@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 16:51:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 16:56:32 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:38:25 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	visu_print(t_all *all, char *format, ...)
 {
 	va_list		ap;
 
+	if(all->win_dial == NULL)
+		return ;
 	use_default_colors();
 	va_start(ap, format);
 	vwprintw(all->win_dial, format, ap);

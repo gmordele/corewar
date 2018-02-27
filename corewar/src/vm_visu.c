@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 17:11:31 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:49:31 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ static void	vm_visu_print_border(t_all *all)
 	while (i < 64 * 3 + 3 + 3)
 	{
 		mvwprintw(all->win_arena, 0, i, " ");
-		mvwprintw(all->win_arena, 65, i++, " ");
+		mvwprintw(all->win_arena, 65, i++, "  ");
 	}
 	i = 0;
 	while (i < 65)
- 		mvwprintw(all->win_arena, i++, 64 * 3 + 4, "  "); 
+ 		mvwprintw(all->win_arena, i++, 64 * 3 + 5, "  "); 
 	i = 0;
 	while (i++ < 64)
-		mvwprintw(all->win_arena, 0, (i +1 ) * 3 - 2, "%02x ", i - 1);
+		mvwprintw(all->win_arena, 0, (i +1 ) * 3 - 1, "%02x ", i - 1);
 	i = 0;
 	while (i++ < 64)
 		mvwprintw(all->win_arena, (i - 1) + 1, 0, "%03x ", (i - 1) * 64);
@@ -88,7 +88,7 @@ static void	vm_make_windows(t_all *all)
 
 	top_row = 64 + 2;
 	side_col = 50;
-	arena_col = 64 * 3 + 4 + 3;
+	arena_col = 64 * 3 + 4 + 4;
 	if (LINES < top_row + 3|| COLS < side_col * 2 + arena_col)
 		vm_exit(all, "Screen is too small\n");
 	marge = (COLS - side_col * 2 - arena_col) / 2;

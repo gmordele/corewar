@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 16:59:18 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 17:12:36 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:58:25 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	visu_print_process(t_all *all)
 	{
 		alive = 0;
 		visu_clear_win_proc(all);
-		wmove(all->win_proc, 0, 0);
-		wprintw(all->win_proc, "Process %4d:\nDEAD", all->current_proc);
+		wmove(all->win_proc, 0, MARGE_PROC - 3);
+		wprintw(all->win_proc, "Process %4d DEAD", all->current_proc);
 	}
 	wrefresh(all->win_proc);
 }
