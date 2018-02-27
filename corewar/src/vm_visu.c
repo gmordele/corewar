@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 16:39:57 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:11:31 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,7 @@
 #include "vm_0.h"
 #include "op.h"
 
-# define P0_COL		1
-# define P1_COL		2
-# define P2_COL		3
-# define P3_COL		4
-# define P4_COL		5
-# define P0_COL_PC	6
-# define P1_COL_PC	7
-# define P2_COL_PC	8
-# define P3_COL_PC	9
-# define P4_COL_PC	10
-# define BORDER_COL	11
-# define SELECT_PC	12
-
-void	visu_print_info(t_all *all);
-void	visu_change_proc(t_all *all, int c);
-void	vm_visu_print_players(t_all *all);
-
-void	vm_init_colors(void)
+static void	vm_init_colors(void)
 {
 	init_color(COLOR_WHITE, 500, 500, 500);
 	init_pair(P0_COL, COLOR_WHITE, COLOR_BLACK);
@@ -51,292 +34,7 @@ void	vm_init_colors(void)
 	init_pair(SELECT_PC, COLOR_BLACK, COLOR_MAGENTA);
 }
 
-void	visu_unpause(t_all *all)
-{
-	nodelay(stdscr, 1);
-	all->pause = 0;
-}
-
-void	visu_change_speed(t_all *all, int c)
-{
-	if (c == KEY_HOME)
-		all->cycles_sec += 1;
-	else if (c == KEY_END)
-		all->cycles_sec -= 1;
-	else if (c == KEY_PPAGE)
-		all->cycles_sec += 10;
-	else if (c == KEY_NPAGE)
-		all->cycles_sec -= 10;
-	if (all->cycles_sec <= 0)
-		all->cycles_sec = 1;
-	if (all->cycles_sec > 500)
-		all->cycles_sec = 500;
-	all->time_step = 1000000 / all->cycles_sec;
-	visu_print_info(all);
-}
-
-
-
-void	visu_pause(t_all *all)
-{
-	int		c;
-
-	all->pause = 1;
-	all->last_time.tv_sec = 0;
-	all->last_time.tv_usec = 0;
-	nodelay(stdscr, 0);
-	visu_print_info(all);
-	while (42)
-	{
-		c = getch();
-		if (c == ' ')
-		{
-			visu_unpause(all);
-			return ;
-		}
-		else if (c == '\n')
-			return ;
-		else if (c == 'q')
-			vm_exit(all, NULL);
-		else if (c == KEY_HOME || c == KEY_END || c == KEY_NPAGE
-				|| c == KEY_PPAGE)
-			visu_change_speed(all, c);
-		else if (c == KEY_LEFT || c == KEY_RIGHT)
-			visu_change_proc(all, c);
-	}
-}
-
-void	visu_sleep(t_all *all)
-{
-	struct timeval cur_time;
-	struct timeval dif_time;
-
-	if (all->last_time.tv_sec != 0 && all->last_time.tv_usec != 0)
-	{
-		gettimeofday(&(cur_time), NULL);
-		timersub(&cur_time, &(all->last_time), &dif_time);
-		if (dif_time.tv_sec == 0 && dif_time.tv_usec < (int)(all->time_step))
-			usleep(all->time_step - dif_time.tv_usec);
-	}
-	gettimeofday(&(all->last_time), NULL);
-}
-
-void	visu_print_pcs(t_all *all)
-{
-	t_process	*process;
-	int			color;
-	int			select_pc;
-
-	select_pc = -1;
-	process = all->process_list;
-	while (process != NULL)
-	{
-		wmove(all->win_arena, (process->pc / 64) + 1,
-			(process->pc % 64 * 3) + 4);
-		if (process->nb == all->current_proc)
-			select_pc = process->pc;
-		color = all->color[process->pc] < 0 ? 6 : all->color[process->pc] + 7;
-		wattron(all->win_arena, COLOR_PAIR(color));
-		wprintw(all->win_arena, "%02hhx", all->arena[process->pc]);
-		wattroff(all->win_arena, COLOR_PAIR(color));
-		process = process->next;
-	}
-	if (select_pc != -1)
-	{
-		wmove(all->win_arena, (select_pc / 64) + 1, (select_pc % 64 * 3) + 4);
-		wattron(all->win_arena, COLOR_PAIR(SELECT_PC));
-		wprintw(all->win_arena, "%02hhx", all->arena[select_pc]);
-		wattroff(all->win_arena, COLOR_PAIR(SELECT_PC));
-	}
-}
-
-void	visu_print_arena(t_all *all)
-{
-	int		i;
-	int		col;
-	int		row;
-	int		color;
-
-	i = 0;
-	col = 0;
-	row = 0;
-	while (i < MEM_SIZE)
-	{
-		wmove(all->win_arena, row + 1, col + 4);
-		color = all->color[i] < 0 ? 1 : all->color[i] + 2;
-		wattron(all->win_arena, COLOR_PAIR(color));
-		wprintw(all->win_arena, "%02hhx", all->arena[i]);
-		wattroff(all->win_arena, COLOR_PAIR(color));
-		col += 3;
-		++i;
-		if (i % 64 == 0)
-		{
-			col = 0;
-			++row;
-		}
-	}
-	visu_print_pcs(all);
-	wrefresh(all->win_arena);
-}
-
-void	visu_print_info(t_all *all)
-{
-	static int	begin = 1;
-
-	use_default_colors();
-	if (begin)
-	{
-		begin = 0;
-		vm_visu_print_players(all);
-	}
-	if (all->pause)
-		mvwprintw(all->win_info, 0, 0, "PAUSE   ");
-	else
-		mvwprintw(all->win_info, 0, 0, "RUNNING");
-	mvwprintw(all->win_info, 2, 0, "Cycle: %d\n", all->cycle, all->cycles_sec);
-	wprintw(all->win_info, "Cycle to die: % 4d\n", CYCLE_TO_DIE - all->cycle_delta);//all->cycle_to_die);
-	wprintw(all->win_info, "Cycles/Seconde: % 4d\n", all->cycles_sec);
-	wprintw(all->win_info, "Live number: % 4d\n", all->nb_live);
-	wprintw(all->win_info, "Check number: % 4d\n", all->nb_checks);
-	wprintw(all->win_info, "Process number: % 4d\n", all->nb_process);
-	wrefresh(all->win_info);
-}
-
-t_process	*get_proc(t_all *all, int nb)
-{
-	t_process	*proc;
-
-	proc = all->process_list;
-	while (proc != NULL && proc->nb != nb)
-		proc = proc->next;
-	return (proc);
-}
-
-void	print_proc(t_all *all, t_process *proc)
-{
-	int		i;
-
-	wmove(all->win_proc, 0, 0);
-	wprintw(all->win_proc, "Process %4d:\npc: %d (y %d, x %d)\n", proc->nb, proc->pc, proc->pc / 64, proc->pc % 64);
-	wprintw(all->win_proc, "op: %s\ncarry: %d\n", proc->op, proc->carry);
-	wprintw(all->win_proc, "cycle: %d\nnb_live: %d\n", proc->cycle,
-			proc->nb_live);
-	wprintw(all->win_proc, "step: %d\n\n", proc->step);
-	i = 0;
-	while (++i <= REG_NUMBER)
-		wprintw(all->win_proc, "reg%02x: %08x\n", i, proc->r[i]);
-}
-
-void	visu_clear_win_proc(t_all *all)
-{
-	int		i;
-
-	wmove(all->win_proc, 0, 0);
-	i = 0;
-	while (i++ < 30)
-		wprintw(all->win_proc, "%50s", " ");
-}
-
-void	visu_print_process(t_all *all)
-{
-	t_process	*proc;
-	static int	alive = 1;
-
-	proc = get_proc(all, all->current_proc);
-	if (proc != NULL)
-	{
-		if (!alive)
-			visu_clear_win_proc(all);
-		print_proc(all, proc);
-		alive = 1;
-	}
-	else if (alive == 1)
-	{
-		alive = 0;
-		visu_clear_win_proc(all);
-		wmove(all->win_proc, 0, 0);
-		wprintw(all->win_proc, "Process %4d:\nDEAD", all->current_proc);
-	}
-	wrefresh(all->win_proc);
-}
-
-t_process	*last_process(t_all *all)
-{
-	t_process	*proc;
-
-	proc = all->process_list;
-	while (proc != NULL && proc->next != NULL)
-		proc = proc->next;
-	return (proc);
-}
-
-void	visu_change_proc(t_all *all, int c)
-{
-	t_process	*proc;
-
-	proc = get_proc(all, all->current_proc);
-	if (proc == NULL)
-	{
-		proc = all->process_list;
-		if (proc == NULL)
-			return ;
-	}
-	if (c == KEY_RIGHT)
-	{
-		if ((proc = proc->prev) == NULL)
-			if ((proc = last_process(all)) == NULL)
-				return ;
-	}
-	if (c == KEY_LEFT)
-	{
-		if ((proc = proc->next) == NULL)
-			if ((proc = all->process_list) == NULL)
-				return ;
-	}
-	all->current_proc = proc->nb;
-	visu_print_process(all);
-	visu_print_arena(all);
-}
-
-void	visu_print(t_all *all, char *format, ...)
-{
-	va_list		ap;
-
-	use_default_colors();
-	va_start(ap, format);
-	vwprintw(all->win_dial, format, ap);
-	va_end(ap);
-	wrefresh(all->win_dial);
-}
-
-void	vm_visu(t_all *all)
-{
-	int		c;
-
-	refresh();
-	visu_print_arena(all);
-	visu_print_info(all);
-	visu_print_process(all);
- 	if (!all->pause) 
- 		visu_sleep(all); 
-	if (all->pause == 1)
-		visu_pause(all);
-	else
-	{
-		while ((c = getch()) != ERR)
-			if (c == ' ')
-			{
-				visu_pause(all);
-				return ;
-			}
-			else if (c == 'q')
-				vm_exit(all, NULL);
-			else if (c == KEY_LEFT || c == KEY_RIGHT)
-				visu_change_proc(all,c);
-	}
-}
-
-void	vm_visu_print_border(t_all *all)
+static void	vm_visu_print_border(t_all *all)
 {
 	int		i;
 
@@ -370,9 +68,9 @@ void	vm_visu_print_players(t_all *all)
 	i = 0;
 	while (i < all->nb_champ)
 	{
-		wmove(all->win_info, row, 0);
+ 		wmove(all->win_info, row, 0);
 		wprintw(all->win_info, "Player %d\n", all->champ[i].nb);
-		color = all->color[i] + 2;
+		color = i + 2;
 		wattron(all->win_info, COLOR_PAIR(color));		
 		wprintw(all->win_info, "\t%s", all->champ[i].header.prog_name);
 		wattroff(all->win_info, COLOR_PAIR(color));
@@ -381,7 +79,7 @@ void	vm_visu_print_players(t_all *all)
 	}
 }
 
-void	vm_make_windows(t_all *all)
+static void	vm_make_windows(t_all *all)
 {
 	int	side_col;
 	int	arena_col;
@@ -405,9 +103,6 @@ void	vm_make_windows(t_all *all)
 	if ((all->win_dial = newwin(LINES - top_row - 1, arena_col, top_row + 1, side_col + marge)) == NULL)
 		vm_exit(all, "newwin() failed\n");
 	scrollok(all->win_dial, 1);
-//	box(all->win_proc, 0, 0);
-//	box(all->win_arena, 0, 0);
-//	box(all->win_info, 0, 0);
 }
 
 void	vm_init_visu(t_all *all)

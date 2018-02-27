@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/22 15:34:32 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/27 17:09:49 by gmordele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,10 @@ SRC				=	vm_0_main.c					\
 					vm_add_sub_and_or_xor.c		\
 					op.c						\
 					vm_visu.c					\
+					vm_visu_1.c					\
+					vm_visu_2.c					\
+					vm_visu_3.c					\
+					vm_visu_4.c					\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

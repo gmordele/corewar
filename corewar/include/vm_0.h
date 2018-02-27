@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/27 03:09:59 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:12:13 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@
 # include <unistd.h>
 # define VISU 1
 # define DUMP 2
+
+# define P0_COL		1
+# define P1_COL		2
+# define P2_COL		3
+# define P3_COL		4
+# define P4_COL		5
+# define P0_COL_PC	6
+# define P1_COL_PC	7
+# define P2_COL_PC	8
+# define P3_COL_PC	9
+# define P4_COL_PC	10
+# define BORDER_COL	11
+# define SELECT_PC	12
 
 typedef	struct			s_process
 {
@@ -129,5 +142,12 @@ void					vm_visu(t_all *all);
 void					vm_init_visu(t_all *all);
 void					vm_exit_visu(t_all *all);
 void					visu_print(t_all *all, char *format, ...);
+void					visu_change_speed(t_all *all, int c);
+void					visu_print_info(t_all *all);
+void					visu_print_process(t_all *all);
+void					visu_print_arena(t_all *all);
+void					visu_change_proc(t_all *all, int c);
+void					vm_visu_print_players(t_all *all);
+void					print_proc(t_all *all, t_process *proc);
 
 #endif
