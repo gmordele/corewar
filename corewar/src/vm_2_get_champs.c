@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 16:42:35 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/13 16:42:39 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/27 21:50:43 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ short	rev_endian_short(short in)
 
 int		rev_endian_int(int in)
 {
-	int	out;
+	int		out;
 	char	*ptr_in;
 	char	*ptr_out;
 
@@ -80,12 +80,6 @@ void	vm_sort_champs(t_all *all)
 	ft_strcpy(all->champ[1].color, "\x1b[36m");
 	ft_strcpy(all->champ[2].color, "\x1b[35m");
 	ft_strcpy(all->champ[3].color, "\x1b[33m");
-/*	n = 0;											//	Debug
-	while (n < all->nb_champ)						//	Debug
-	{
-		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
-		n++;
-	}*/
 }
 
 /*
@@ -117,7 +111,6 @@ void	vm_number_champs(t_all *all)
 			}
 			all->champ[n].nb = champ_nb;
 		}
-//		pf("Champ %d %s%s\n%s\n{0}", all->champ[n].nb, all->champ[n].color, all->champ[n].header.prog_name, all->champ[n].header.comment);
 		n++;
 	}
 	vm_sort_champs(all);
@@ -126,7 +119,7 @@ void	vm_number_champs(t_all *all)
 /*
 **	vm_get_champs()
 **	Pour chaque champ_path de all->champ :
-**		récupère la struct t_header et check la validité (taille du header et magic)
+**	récupère la struct t_header et check la validité (taille du header et magic)
 **		place un '\0' a la fin de prog_name et prog_comment par sécurité
 **		récupère le programme binaire et check la validité (taille du prog)
 */
@@ -137,8 +130,8 @@ void	vm_get_champs(t_all *all, int buf_size)
 	int		ret;
 	int		n;
 
-	n = 0;
-	while (n < all->nb_champ)
+	n = -1;
+	while (++n < all->nb_champ)
 	{
 		ft_bzero(buf, buf_size);
 		ret = read(all->champ[n].fd, buf, sizeof(t_header));
@@ -152,11 +145,10 @@ void	vm_get_champs(t_all *all, int buf_size)
 		ft_bzero(buf, buf_size);
 		ret = read(all->champ[n].fd, buf, CHAMP_MAX_SIZE + 1);
 		if (ret != rev_endian_int(all->champ[n].header.prog_size)
-			|| ret > CHAMP_MAX_SIZE)
+														|| ret > CHAMP_MAX_SIZE)
 			vm_exit(all, "Not valid prog_size\n");
 		ft_memcpy(all->champ[n].prog, buf, ret);
 		all->champ[n].prog_size = ret;
-		n++;
 	}
 	vm_number_champs(all);
 }

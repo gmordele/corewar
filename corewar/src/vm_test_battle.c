@@ -6,13 +6,13 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/23 17:00:22 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/23 17:00:23 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/27 21:37:13 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm_0.h"
 
-void	vm_clean_process_list(t_all *all)
+void		vm_clean_process_list(t_all *all)
 {
 	t_process *process;
 	t_process *tmp;
@@ -36,34 +36,49 @@ void	vm_clean_process_list(t_all *all)
 	}
 }
 
-void	vm_update_process(t_all *all, t_process *process)
+void		vm_update_process(t_all *all, t_process *process)
 {
 	extern t_op	g_op_tab[];
 	int			nb_champ;
-	int			op;
 
 	process->pc = vm_ajust_addr(process->pc + process->step);
 	process->step = 1;
-	if ((op = vm_get_mem(all, process->pc, 1)) > 0 && op <= 16)
+	if ((process->op = vm_get_mem(all, process->pc, 1)) > 0
+														&& process->op <= 16)
 	{
 		nb_champ = all->color[vm_ajust_addr(process->pc)];
-		visu_print(all, "Process_%d: (%.3s): ", process->nb, all->champ[nb_champ].header.prog_name);
-		visu_print(all, "%s in %d cycles\n", g_op_tab[op - 1].name, g_op_tab[op - 1].cycles);
-				ft_strcat(process->op, "->");						//	Debug
-				ft_strcat(process->op, g_op_tab[op - 1].name);		//	Debug
-		process->cycle = g_op_tab[op - 1].cycles - 1;
+		visu_print(all, "Process_%d: (%.3s): ", process->nb,
+										all->champ[nb_champ].header.prog_name);
+		visu_print(all, "%s in %d cycles\n", g_op_tab[process->op - 1].name,
+											g_op_tab[process->op - 1].cycles);
+		process->cycle = g_op_tab[process->op - 1].cycles - 1;
 	}
 }
 
-void	vm_run_battle(t_all *all)
+static void	manage_cycle(t_all *all)
+{
+	if (--all->cycle_to_die <= 0)
+	{
+		vm_clean_process_list(all);
+		if (all->nb_live >= NBR_LIVE || ++all->nb_checks > MAX_CHECKS)
+		{
+			all->cycle_delta += CYCLE_DELTA;
+			all->nb_checks = 0;
+		}
+		all->cycle_to_die = CYCLE_TO_DIE - all->cycle_delta;
+		all->nb_live = 0;
+	}
+}
+
+void		vm_run_battle(t_all *all)
 {
 	t_process	*process;
-	int			op;
 
 	all->cycle_to_die = CYCLE_TO_DIE;
-	while ((process = all->process_list) && all->cycle_to_die > 0 && all->cycle < all->dump)
+	while ((process = all->process_list) && all->cycle_to_die > 0 &&
+														all->cycle < all->dump)
 	{
-		if (all->flag & VISU)// && all->cycle > 3000)
+		if (all->flag & VISU)
 			vm_visu(all);
 		++all->cycle;
 		while (process)
@@ -71,24 +86,13 @@ void	vm_run_battle(t_all *all)
 			--process->cycle;
 			if (process->cycle < 0)
 				vm_update_process(all, process);
-			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= 16)
+			if (!process->cycle && process->op > 0 && process->op <= 16)
 			{
 				visu_print(all, "Process_%d: ", process->nb);
-				all->op_fn[op](all, process);
+				all->op_fn[process->op](all, process);
 			}
 			process = process->next;
 		}
-		if (--all->cycle_to_die <= 0)
-		{
-			vm_clean_process_list(all);
-			if (all->nb_live >= NBR_LIVE || ++all->nb_checks > MAX_CHECKS)
-			{
-				all->cycle_delta += CYCLE_DELTA;
-				all->nb_checks = 0;
-			}
-			all->cycle_to_die = CYCLE_TO_DIE - all->cycle_delta;
-			all->nb_live = 0;
-		}
+		manage_cycle(all);
 	}
-//	(!all->flag) ? vm_print_arena(all, NULL) : 0;	//	Debug
 }

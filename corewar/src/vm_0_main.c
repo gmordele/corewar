@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:32:09 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/26 00:30:06 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 21:16:40 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ void	vm_usage(t_all *all, char *error_mail)
 		fpf(2, "{y}%s{0}", error_mail);
 		ft_free(1, &error_mail);
 	}
-	fpf(2, "usage:\tcorewar [--help] [--visu] [--dump nb_cycles] [-n] champ.cor ...\n");
+	fpf(2,
+"usage:\tcorewar [--help] [--visu] [--dump nb_cycles] [-n] champ.cor ...\n");
 	fpf(2, "\t--help: display the usage you're looking at\n");
 	fpf(2, "\t--visu: execute corewar with a visual tool\n");
-	fpf(2, "\t--dump: set number of cycles, must be followed by a reasonable int\n");
+	fpf(2,
+	"\t--dump: set number of cycles, must be followed by a reasonable int\n");
 	fpf(2, "\t-n: set number of the following champ in params\n");
 	fpf(2, "\t    must be followed by an int and a champ.cor\n");
 	fpf(2, "\t    otherwise, corewar set this number in order of params\n");
@@ -123,11 +125,14 @@ int		main(int ac, char **av)
 	vm_run_battle(&all);
 	if (all.flag & DUMP)
 		vm_print_dump(&all);
-	/*else if (all.last_live-- > 0)
+	else if (all.last_live-- > 0)
 	{
-		pf("Le joueur %d (%s) a gagné après %d cycles !\n", all.champ[all.last_live].nb, all.champ[all.last_live].header.prog_name, all.cycle);
-		pf("%s%s\n{0}", all.champ[all.last_live].color, all.champ[all.last_live].header.comment);
-	}*/
+		pf("Le joueur %d (%s) a gagné après %d cycles !\n",
+			all.champ[all.last_live].nb,
+						all.champ[all.last_live].header.prog_name, all.cycle);
+		pf("%s%s\n{0}", all.champ[all.last_live].color,
+									all.champ[all.last_live].header.comment);
+	}
 	vm_exit(&all, NULL);
 	return (0);
 }

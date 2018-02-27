@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/21 20:29:43 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 22:30:26 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/27 21:26:58 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 void	vm_add(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "add");				//	Debug
-//	pf("{y}vm_add\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 4))
 	{
 		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
@@ -28,10 +26,7 @@ void	vm_add(t_all *all, t_process *pro)
 		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't add !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -41,8 +36,6 @@ void	vm_add(t_all *all, t_process *pro)
 
 void	vm_sub(t_all *all, t_process *pro)
 {
-	ft_strcpy(pro->op, "sub");				//	Debug
-//	pf("{y}vm_sub\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 5))
 	{
 		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
@@ -51,10 +44,7 @@ void	vm_sub(t_all *all, t_process *pro)
 		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't sub !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -76,8 +66,6 @@ void	vm_and(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "and");				//	Debug
-//	pf("{y}vm_and\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 6))
 	{
 		reg = pro->r + pro->arg[2];
@@ -87,10 +75,7 @@ void	vm_and(t_all *all, t_process *pro)
 		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't and !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -112,8 +97,6 @@ void	vm_or(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "or");				//	Debug
-//	pf("{y}vm_or\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 7))
 	{
 		reg = pro->r + pro->arg[2];
@@ -123,10 +106,7 @@ void	vm_or(t_all *all, t_process *pro)
 		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't or !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -148,8 +128,6 @@ void	vm_xor(t_all *all, t_process *pro)
 {
 	int *reg;
 
-	ft_strcpy(pro->op, "xor");				//	Debug
-//	pf("{y}vm_xor\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 8))
 	{
 		reg = pro->r + pro->arg[2];
@@ -159,9 +137,6 @@ void	vm_xor(t_all *all, t_process *pro)
 		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't xor !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

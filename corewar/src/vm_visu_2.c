@@ -6,14 +6,14 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 16:56:00 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 18:05:32 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 21:39:59 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ncurses.h>
 #include "vm_0.h"
 
-void	print_proc(t_all *all, t_process *proc)
+void		print_proc(t_all *all, t_process *proc)
 {
 	int		i;
 	int		row;
@@ -58,7 +58,7 @@ static void	print_info(t_all *all)
 	wprintw(all->win_info, "Process number : % 5d", all->nb_process);
 }
 
-void	visu_print_info(t_all *all)
+void		visu_print_info(t_all *all)
 {
 	static int	begin = 1;
 
@@ -105,7 +105,7 @@ static void	visu_print_pcs(t_all *all)
 	}
 }
 
-void	visu_print_arena(t_all *all)
+void		visu_print_arena(t_all *all)
 {
 	int		i;
 	int		col;

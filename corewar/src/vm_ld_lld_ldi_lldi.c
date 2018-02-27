@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 12:28:17 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 22:30:50 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/27 21:29:36 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	vm_ld(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "ld");			//	Debug
 	if (vm_check_and_get_args(all, pro, 2))
 	{
 		if (pro->decoded[0] & T_IND)
@@ -42,10 +41,7 @@ void	vm_ld(t_all *all, t_process *pro)
 		visu_print(all, "ld %08x in r%02x\n", pro->value[0], pro->arg[1]);
 	}
 	else
-	{
 		visu_print(all, "can't ld !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -62,28 +58,23 @@ void	vm_ld(t_all *all, t_process *pro)
 **	process->step is increased by sum of arg_size
 */
 
-void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
+void	vm_lld(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "lld");				//	Debug
 	if (vm_check_and_get_args(all, pro, 13))
 	{
 		if (pro->decoded[0] & T_IND)
 		{
 			address = pro->pc + pro->arg[0];
 			pro->value[0] = vm_get_mem(all, address, 2);
-			//pro->value[0] = vm_get_mem(all, address, 4);
 		}
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 		visu_print(all, "lld %08x in r%02x\n", pro->value[0], pro->arg[1]);
 	}
 	else
-	{
 		visu_print(all, "can't lld !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -101,7 +92,6 @@ void	vm_ldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-			ft_strcpy(pro->op, "ldi");				//	Debug
 	if (vm_check_and_get_args(all, pro, 10))
 	{
 		address = pro->pc + ((pro->value[0] + pro->value[1]) % IDX_MOD);
@@ -111,10 +101,7 @@ void	vm_ldi(t_all *all, t_process *pro)
 		visu_print(all, "in r%02x\n", pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't ldi !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -133,7 +120,6 @@ void	vm_lldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-			ft_strcpy(pro->op, "lldi");				//	Debug
 	if (vm_check_and_get_args(all, pro, 14))
 	{
 		address = vm_ajust_addr(pro->pc + pro->value[0] + pro->value[1]);
@@ -143,9 +129,6 @@ void	vm_lldi(t_all *all, t_process *pro)
 		visu_print(all, "in r%02x\n", pro->arg[2]);
 	}
 	else
-	{
 		visu_print(all, "can't lldi !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

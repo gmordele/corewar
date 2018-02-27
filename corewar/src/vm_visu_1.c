@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 16:51:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 17:38:25 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 21:39:31 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include <ncurses.h>
 #include "vm_0.h"
 
-void	visu_print(t_all *all, char *format, ...)
+void		visu_print(t_all *all, char *format, ...)
 {
 	va_list		ap;
 
-	if(all->win_dial == NULL)
+	if (all->win_dial == NULL)
 		return ;
 	use_default_colors();
 	va_start(ap, format);
@@ -79,7 +79,7 @@ static void	visu_sleep(t_all *all)
 	gettimeofday(&(all->last_time), NULL);
 }
 
-void	vm_visu(t_all *all)
+void		vm_visu(t_all *all)
 {
 	int		c;
 
@@ -87,8 +87,8 @@ void	vm_visu(t_all *all)
 	visu_print_arena(all);
 	visu_print_info(all);
 	visu_print_process(all);
- 	if (!all->pause) 
- 		visu_sleep(all); 
+	if (!all->pause)
+		visu_sleep(all);
 	if (all->pause == 1)
 		visu_pause(all);
 	else
@@ -102,6 +102,6 @@ void	vm_visu(t_all *all)
 			else if (c == 'q')
 				vm_exit(all, NULL);
 			else if (c == KEY_LEFT || c == KEY_RIGHT)
-				visu_change_proc(all,c);
+				visu_change_proc(all, c);
 	}
 }

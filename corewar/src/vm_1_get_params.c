@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 13:54:08 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 20:13:41 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/27 21:18:38 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 **	vm_get_champ_nb()
 **	si le flag -n est absent : défini le nb du champion a 0
 **	si le flag -n est présent : défini le nb du champion avec le param suivant
-**								sort avec vm_usage() si le param n'est pas valide
-**								sort avec vm_usage() si le nb est celui d'un autre champ
-**								l'index *n des params est incrémenté si besoin
+**					sort avec vm_usage() si le param n'est pas valide
+**					sort avec vm_usage() si le nb est celui d'un autre champ
+**					l'index *n des params est incrémenté si besoin
 */
 
 int		vm_get_champ_nb(t_all *all, int *n, char **av)
@@ -34,10 +34,12 @@ int		vm_get_champ_nb(t_all *all, int *n, char **av)
 		l = (s ? ft_atol(s) : 0);
 		champ_nb = (s ? ft_atoi_next(&s) : 0);
 		if (!s || *s || !champ_nb || champ_nb != l)
-			vm_usage(all, spf("corewar: '%s' is not a valid champ number\n", av[*n]));
+			vm_usage(all, spf("corewar: '%s' is not a valid champ number\n",
+																	av[*n]));
 		if (champ_nb == all->champ[0].nb || champ_nb == all->champ[1].nb
-			|| champ_nb == all->champ[2].nb)
-			vm_usage(all, spf("corewar: many champs have the same number '%s'\n", av[*n]));
+												|| champ_nb == all->champ[2].nb)
+			vm_usage(all, spf("corewar: many champs have the same number '%s'\n"
+																	, av[*n]));
 		n[0]++;
 	}
 	return (champ_nb);
@@ -91,9 +93,8 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 			all->dump = i;
 	}
 	if (all->dump < 0)
-		vm_usage(all, spf("corewar: '%s' is not a valid dump number\n", av[*n]));
+		vm_usage(all, spf("corewar: '%s' i'snt a valid dump number\n", av[*n]));
 	all->flag += (all->flag & DUMP ? 0 : DUMP);
-//	pf("Dump {y}%d{0}\n", all->dump);		//	Debug
 }
 
 /*
@@ -105,7 +106,6 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 
 void	vm_get_flag(t_all *all, int *n, char **av)
 {
-//	pf("Flag {y}%s{0}\n", av[*n]);		//	Debug
 	if (!ft_strcmp(av[*n], "-help") || !ft_strcmp(av[*n], "--help"))
 		vm_usage(all, 0);
 	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "-dump")

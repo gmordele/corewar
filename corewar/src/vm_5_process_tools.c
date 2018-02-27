@@ -6,11 +6,11 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 19:01:52 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/22 19:51:00 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/27 21:45:41 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "vm_0.h"
+#include "vm_0.h"
 
 t_process	*vm_new_pro(t_all *all, t_process *father, int pc)
 {
@@ -25,7 +25,6 @@ t_process	*vm_new_pro(t_all *all, t_process *father, int pc)
 		new->nb_live = father->nb_live;
 	}
 	new->pc = pc;
-	//new->cycle = -1;
 	new->nb = process_nb++;
 	++all->nb_process;
 	return (new);
@@ -41,22 +40,6 @@ t_process	*vm_add_pro_frt(t_process **list, t_process *new)
 	*list = new;
 	return (*list);
 }
-
-/*t_process	*vm_add_pro_bck(t_process **list, t_process *new)
-{
-	t_process *tmp;
-
-	if ((tmp = *list))
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		new->prev = tmp;
-		tmp->next = new;
-	}
-	else
-		*list = new;
-	return (*list);
-}*/
 
 t_process	*vm_del_one_pro(t_process **list, t_process *target)
 {
@@ -77,8 +60,17 @@ t_process	*vm_del_one_pro(t_process **list, t_process *target)
 	return (*list);
 }
 
-void	vm_del_all_pro(t_process **list)
+void		vm_del_all_pro(t_process **list)
 {
 	while (*list)
 		vm_del_one_pro(list, *list);
+}
+
+int			vm_check_process(int *tab, int address)
+{
+	int	n = 0;
+
+	while (tab[n] >= 0 && tab[n] != address)
+		n++;
+	return (tab[n] >= 0);
 }

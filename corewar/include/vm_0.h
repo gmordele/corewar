@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/27 17:52:07 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 21:43:45 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef	struct			s_process
 	int					value[MAX_ARGS_NUMBER];
 	struct s_process	*prev;
 	struct s_process	*next;
-	char				op[30];			// Debug
+	int					op;
 	int					nb;
 }						t_process;
 
@@ -110,6 +110,7 @@ int						rev_endian_int(int in);
 void					vm_set_match(t_all *all);
 void					vm_run_battle(t_all *all);
 void					vm_set_process(t_all *all);
+int						vm_check_process(int *tab, int address);
 t_process				*vm_new_pro(t_all *all, t_process *father, int pc);
 t_process				*vm_add_pro_frt(t_process **list, t_process *new);
 t_process				*vm_del_one_pro(t_process **list, t_process *target);

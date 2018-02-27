@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/27 16:59:18 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 17:58:25 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 21:40:26 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_process	*get_proc(t_all *all, int nb)
 	return (proc);
 }
 
-static void	visu_clear_win_proc(t_all *all)
+static void			visu_clear_win_proc(t_all *all)
 {
 	int		i;
 
@@ -33,7 +33,7 @@ static void	visu_clear_win_proc(t_all *all)
 		wprintw(all->win_proc, "%50s", " ");
 }
 
-void	visu_print_process(t_all *all)
+void				visu_print_process(t_all *all)
 {
 	t_process	*proc;
 	static int	alive = 1;
@@ -66,7 +66,7 @@ static t_process	*last_process(t_all *all)
 	return (proc);
 }
 
-void	visu_change_proc(t_all *all, int c)
+void				visu_change_proc(t_all *all, int c)
 {
 	t_process	*proc;
 

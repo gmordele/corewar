@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:19:30 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/23 00:17:25 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/27 21:31:10 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	vm_st(t_all *all, t_process *pro)
 {
 	int	address;
 
-			ft_strcpy(pro->op, "st");				//	Debug
 	if (vm_check_and_get_args(all, pro, 3))
 	{
 		if (pro->decoded[1] & T_REG)
@@ -42,10 +41,7 @@ void	vm_st(t_all *all, t_process *pro)
 		}
 	}
 	else
-	{
 		visu_print(all, "can't st !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -62,7 +58,6 @@ void	vm_sti(t_all *all, t_process *pro)
 {
 	int	address;
 
-			ft_strcpy(pro->op, "sti");				//	Debug
 	if (vm_check_and_get_args(all, pro, 11))
 	{
 		address = (pro->value[1] + pro->value[2]) % IDX_MOD;
@@ -71,10 +66,7 @@ void	vm_sti(t_all *all, t_process *pro)
 		visu_print(all, "sti %08x at %04x\n", pro->value[0], address);
 	}
 	else
-	{
 		visu_print(all, "can't sti !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -82,19 +74,14 @@ void	vm_fork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-			ft_strcpy(pro->op, "fork");				//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
 		new_pc = vm_ajust_addr(pro->pc + (pro->value[0] % IDX_MOD));
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
 		visu_print(all, "fork to %d\n", new_pc);
-	//	init_pro_cycle(all, all->process_list);
 	}
-	else	//	Optionnel: la condition if est toujours vraie
-	{
+	else
 		visu_print(all, "can't fork !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += pro->arg_size[0];
 }
 
@@ -102,20 +89,13 @@ void	vm_lfork(t_all *all, t_process *pro)
 {
 	int			new_pc;
 
-	ft_strcpy(pro->op, "lfork");				//	Debug
-//	pf("{y}vm_lfork\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 12))
 	{
-//		vm_visu(all);
 		new_pc = vm_ajust_addr(pro->pc + pro->value[0]);
 		vm_add_pro_frt(&all->process_list, vm_new_pro(all, pro, new_pc));
 		visu_print(all, "lfork to %d\n", new_pc);
-	//	init_pro_cycle(all, all->process_list);
 	}
-	else	//	Optionnel: la condition if est toujours vraie
-	{
+	else
 		visu_print(all, "can't lfork !\n");
-		ft_strcat(pro->op, " invalide");
-	}
 	pro->step += pro->arg_size[0];
 }

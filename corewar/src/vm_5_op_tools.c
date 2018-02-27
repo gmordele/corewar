@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 16:01:51 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/19 16:01:53 by edebise          ###   ########.fr       */
+/*   Updated: 2018/02/27 21:52:32 by proso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,23 @@
 **		value is set with 4 bytes from arena
 */
 
-int		vm_get_values(t_all *all, t_process *process)
+int		vm_get_values(t_all *all, t_process *proc)
 {
 	int n;
 
-//	pf("Get values\n");
 	n = 0;
-	while (n < MAX_ARGS_NUMBER && process->decoded[n])
+	while (n < MAX_ARGS_NUMBER && proc->decoded[n])
 	{
-		if (process->decoded[n] & T_DIR)
-			process->value[n] = process->arg[n];
-		else if (process->decoded[n] & T_REG)
+		if (proc->decoded[n] & T_DIR)
+			proc->value[n] = proc->arg[n];
+		else if (proc->decoded[n] & T_REG)
 		{
-			if (process->arg[n] < 1 || process->arg[n] > REG_NUMBER)
+			if (proc->arg[n] < 1 || proc->arg[n] > REG_NUMBER)
 				return (0);
-			process->value[n] = process->r[process->arg[n]];
+			proc->value[n] = proc->r[proc->arg[n]];
 		}
-		else if (process->decoded[n] & T_IND)
-			process->value[n] = vm_get_mem(all, process->pc + process->arg[n], 4);
+		else if (proc->decoded[n] & T_IND)
+			proc->value[n] = vm_get_mem(all, proc->pc + proc->arg[n], 4);
 		n++;
 	}
 	return (1);
