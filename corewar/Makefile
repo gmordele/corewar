@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 00:00:01 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/27 17:09:49 by gmordele         ###   ########.fr        #
+#    Updated: 2018/02/27 23:57:02 by gmordele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,11 +66,9 @@ mklib			:
 	make -C $(DEST_LIB)
 
 clean			:
-	make clean -C $(DEST_LIB)
 	rm -rf $(DEST_OBJ)
 
 fclean			:	clean
-	make fclean -C $(DEST_LIB)
 	rm -f $(NAME)
 
 re				:	fclean all
