@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 21:41:10 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/28 00:02:07 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,6 @@
 #include <stdarg.h>
 #include "vm_0.h"
 #include "op.h"
-
-static void	vm_init_colors(void)
-{
-	init_color(COLOR_WHITE, 500, 500, 500);
-	init_pair(P0_COL, COLOR_WHITE, COLOR_BLACK);
-	init_pair(P0_COL_PC, COLOR_BLACK, COLOR_WHITE);
-	init_pair(P1_COL, COLOR_GREEN, COLOR_BLACK);
-	init_pair(P1_COL_PC, COLOR_BLACK, COLOR_GREEN);
-	init_pair(P2_COL, COLOR_BLUE, COLOR_BLACK);
-	init_pair(P2_COL_PC, COLOR_BLACK, COLOR_BLUE);
-	init_pair(P3_COL, COLOR_RED, COLOR_BLACK);
-	init_pair(P3_COL_PC, COLOR_BLACK, COLOR_RED);
-	init_pair(P4_COL, COLOR_YELLOW, COLOR_BLACK);
-	init_pair(P4_COL_PC, COLOR_BLACK, COLOR_YELLOW);
-	init_pair(BORDER_COL, COLOR_BLACK, COLOR_WHITE);
-	init_pair(SELECT_PC, COLOR_BLACK, COLOR_MAGENTA);
-}
 
 static void	vm_visu_print_border(t_all *all)
 {
@@ -47,10 +30,10 @@ static void	vm_visu_print_border(t_all *all)
 	}
 	i = 0;
 	while (i < 65)
- 		mvwprintw(all->win_arena, i++, 64 * 3 + 5, "  ");
+		mvwprintw(all->win_arena, i++, 64 * 3 + 5, "  ");
 	i = 0;
 	while (i++ < 64)
-		mvwprintw(all->win_arena, 0, (i +1 ) * 3 - 1, "%02x ", i - 1);
+		mvwprintw(all->win_arena, 0, (i + 1) * 3 - 1, "%02x ", i - 1);
 	i = 0;
 	while (i++ < 64)
 		mvwprintw(all->win_arena, (i - 1) + 1, 0, "%03x ", (i - 1) * 64);
@@ -68,7 +51,7 @@ void		vm_visu_print_players(t_all *all)
 	i = 0;
 	while (i < all->nb_champ)
 	{
- 		wmove(all->win_info, row, 0);
+		wmove(all->win_info, row, 0);
 		wprintw(all->win_info, "Player %d\n", all->champ[i].nb);
 		color = i + 2;
 		wattron(all->win_info, COLOR_PAIR(color));
@@ -89,7 +72,7 @@ static void	vm_make_windows(t_all *all)
 	top_row = 64 + 2;
 	side_col = 50;
 	arena_col = 64 * 3 + 4 + 4;
-	if (LINES < top_row + 3|| COLS < side_col * 2 + arena_col)
+	if (LINES < top_row + 3 || COLS < side_col * 2 + arena_col)
 		vm_exit(all, "Screen is too small\n");
 	marge = (COLS - side_col * 2 - arena_col) / 2;
 	if ((all->win_proc = newwin(top_row, side_col, 0, marge)) == NULL)
@@ -100,7 +83,8 @@ static void	vm_make_windows(t_all *all)
 	if ((all->win_info = newwin(top_row, side_col, 0, marge + side_col
 								+ arena_col)) == NULL)
 		vm_exit(all, "newwin() failed\n");
-	if ((all->win_dial = newwin(LINES - top_row - 1, arena_col, top_row + 1, side_col + marge)) == NULL)
+	if ((all->win_dial = newwin(LINES - top_row - 1, arena_col,
+								top_row + 1, side_col + marge)) == NULL)
 		vm_exit(all, "newwin() failed\n");
 	scrollok(all->win_dial, 1);
 }
