@@ -6,13 +6,14 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 01:17:11 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 03:17:05 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <ncurses.h>
 #include <sys/time.h>
+#include <stdarg.h>
 #include "vm_0.h"
 #include "op.h"
 
@@ -218,6 +219,16 @@ void	print_proc(t_all *all, t_process *proc)
 		wprintw(all->win_proc, "reg%02x: %08x\n", i, proc->r[i]);
 }
 
+void	visu_clear_win_proc(t_all *all)
+{
+	int		i;
+
+	wmove(all->win_proc, 0, 0);
+	i = 0;
+	while (i++ < 30)
+		wprintw(all->win_proc, "%50s", " ");
+}
+
 void	visu_print_process(t_all *all)
 {
 	t_process	*proc;
@@ -227,14 +238,14 @@ void	visu_print_process(t_all *all)
 	if (proc != NULL)
 	{
 		if (!alive)
-			wclear(all->win_proc);
+			visu_clear_win_proc(all);
 		print_proc(all, proc);
 		alive = 1;
 	}
 	else if (alive == 1)
 	{
 		alive = 0;
-		wclear(all->win_proc);
+		visu_clear_win_proc(all);
 		wmove(all->win_proc, 0, 0);
 		wprintw(all->win_proc, "Process %4d:\nDEAD", all->current_proc);
 	}
@@ -277,6 +288,17 @@ void	visu_change_proc(t_all *all, int c)
 	all->current_proc = proc->nb;
 	visu_print_process(all);
 	visu_print_arena(all);
+}
+
+void	visu_print(t_all *all, char *format, ...)
+{
+	va_list		ap;
+
+	use_default_colors();
+	va_start(ap, format);
+	vwprintw(all->win_dial, format, ap);
+	va_end(ap);
+	wrefresh(all->win_dial);
 }
 
 void	vm_visu(t_all *all)
@@ -329,6 +351,28 @@ void	vm_visu_print_border(t_all *all)
 	wattroff(all->win_arena, COLOR_PAIR(BORDER_COL));
 }
 
+void	vm_visu_print_players(t_all *all)
+{
+	int		row;
+	int		color;
+	int		i;
+
+	use_default_colors();
+	row = 25;
+	i = 0;
+	while (i < all->nb_champ)
+	{
+		wmove(all->win_info, row, 0);
+		wprintw(all->win_info, "Player %d\n", all->champ[i].nb);
+		color = all->color[i] < 0 ? 1 : all->color[i] + 2;
+		wattron(all->win_arena, COLOR_PAIR(color));		
+		wprintw(all->win_info, "\t%s", all->champ[i].path); //ici
+		wattroff(all->win_arena, COLOR_PAIR(color));
+		++i;
+		row += 4;
+	}
+}
+
 void	vm_make_windows(t_all *all)
 {
 	int	side_col;
@@ -339,7 +383,7 @@ void	vm_make_windows(t_all *all)
 	top_row = 64 + 2;
 	side_col = 50;
 	arena_col = 64 * 3 + 4 + 6;
-	if (LINES < top_row || COLS < side_col * 2 + arena_col) // to update
+	if (LINES < top_row + 3|| COLS < side_col * 2 + arena_col)
 		vm_exit(all, "Screen is too small\n");
 	marge = (COLS - side_col * 2 - arena_col) / 2;
 	if ((all->win_proc = newwin(top_row, side_col, 0, marge)) == NULL)
@@ -350,9 +394,12 @@ void	vm_make_windows(t_all *all)
 	if ((all->win_info = newwin(top_row, side_col, 0, marge + side_col
 								+ arena_col)) == NULL)
 		vm_exit(all, "newwin() failed\n");
-	box(all->win_proc, 0, 0);
-	box(all->win_arena, 0, 0);
-	box(all->win_info, 0, 0);
+	if ((all->win_dial = newwin(LINES - top_row - 1, arena_col, top_row + 1, side_col + marge)) == NULL)
+		vm_exit(all, "newwin() failed\n");
+	scrollok(all->win_dial, 1);
+//	box(all->win_proc, 0, 0);
+//	box(all->win_arena, 0, 0);
+//	box(all->win_info, 0, 0);
 }
 
 void	vm_init_visu(t_all *all)
@@ -369,6 +416,7 @@ void	vm_init_visu(t_all *all)
 	keypad(stdscr, 1);
 	vm_make_windows(all);
 	vm_visu_print_border(all);
+	vm_visu_print_players(all);
 }
 
 void	vm_exit_visu(t_all *all)

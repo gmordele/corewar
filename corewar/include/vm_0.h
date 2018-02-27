@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/26 02:09:34 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 03:09:59 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef	struct			s_all
 	WINDOW				*win_arena;
 	WINDOW				*win_info;
 	WINDOW				*win_proc;
+	WINDOW				*win_dial;
 	int					cycles_sec;
 	useconds_t			time_step;
 	int					pause;
@@ -127,5 +128,6 @@ void					db_print_process(t_process *proc, int num);
 void					vm_visu(t_all *all);
 void					vm_init_visu(t_all *all);
 void					vm_exit_visu(t_all *all);
+void					visu_print(t_all *all, char *format, ...);
 
 #endif

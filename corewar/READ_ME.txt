@@ -1,3 +1,10 @@
+Ajout de 
+void visu_print(t_all *all, char *format, ...) 
+pour afficher sous l'arene avec un formatage a la printf
+Exemple : visu_print(all, "salut les %s, il est %d:%d\n", "homos", 23, 42)
+
+==
+
 Visu :
 Utiliser les fleches pour se deplacer entre les processus
 page up, page down, home et end pour modifier la vitesse (seulement pendant une pause)
