@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 15:59:18 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 16:39:57 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	visu_print_pcs(t_all *all)
 	while (process != NULL)
 	{
 		wmove(all->win_arena, (process->pc / 64) + 1,
-			(process->pc % 64 * 3) + 7);
+			(process->pc % 64 * 3) + 4);
 		if (process->nb == all->current_proc)
 			select_pc = process->pc;
 		color = all->color[process->pc] < 0 ? 6 : all->color[process->pc] + 7;
@@ -143,7 +143,7 @@ void	visu_print_pcs(t_all *all)
 	}
 	if (select_pc != -1)
 	{
-		wmove(all->win_arena, (select_pc / 64) + 1, (select_pc % 64 * 3) + 7);
+		wmove(all->win_arena, (select_pc / 64) + 1, (select_pc % 64 * 3) + 4);
 		wattron(all->win_arena, COLOR_PAIR(SELECT_PC));
 		wprintw(all->win_arena, "%02hhx", all->arena[select_pc]);
 		wattroff(all->win_arena, COLOR_PAIR(SELECT_PC));
@@ -162,7 +162,7 @@ void	visu_print_arena(t_all *all)
 	row = 0;
 	while (i < MEM_SIZE)
 	{
-		wmove(all->win_arena, row + 1, col + 7);
+		wmove(all->win_arena, row + 1, col + 4);
 		color = all->color[i] < 0 ? 1 : all->color[i] + 2;
 		wattron(all->win_arena, COLOR_PAIR(color));
 		wprintw(all->win_arena, "%02hhx", all->arena[i]);
@@ -342,20 +342,20 @@ void	vm_visu_print_border(t_all *all)
 
 	i = 0;
 	wattron(all->win_arena, COLOR_PAIR(BORDER_COL));
-	while (i < 64 * 3 + 3 + 6)
+	while (i < 64 * 3 + 3 + 3)
 	{
 		mvwprintw(all->win_arena, 0, i, " ");
 		mvwprintw(all->win_arena, 65, i++, " ");
 	}
 	i = 0;
 	while (i < 65)
- 		mvwprintw(all->win_arena, i++, 64 * 3 + 7, "  "); 
+ 		mvwprintw(all->win_arena, i++, 64 * 3 + 4, "  "); 
 	i = 0;
 	while (i++ < 64)
-		mvwprintw(all->win_arena, 0, (i +1 ) * 3 + 1, "%02x ", i - 1);
+		mvwprintw(all->win_arena, 0, (i +1 ) * 3 - 2, "%02x ", i - 1);
 	i = 0;
 	while (i++ < 64)
-		mvwprintw(all->win_arena, (i - 1) + 1, 0, "%#06x", (i - 1) * 64);
+		mvwprintw(all->win_arena, (i - 1) + 1, 0, "%03x ", (i - 1) * 64);
 	wattroff(all->win_arena, COLOR_PAIR(BORDER_COL));
 }
 
@@ -372,7 +372,7 @@ void	vm_visu_print_players(t_all *all)
 	{
 		wmove(all->win_info, row, 0);
 		wprintw(all->win_info, "Player %d\n", all->champ[i].nb);
-		color = all->color[i] = i + 2;
+		color = all->color[i] + 2;
 		wattron(all->win_info, COLOR_PAIR(color));		
 		wprintw(all->win_info, "\t%s", all->champ[i].header.prog_name);
 		wattroff(all->win_info, COLOR_PAIR(color));
@@ -390,7 +390,7 @@ void	vm_make_windows(t_all *all)
 
 	top_row = 64 + 2;
 	side_col = 50;
-	arena_col = 64 * 3 + 4 + 6;
+	arena_col = 64 * 3 + 4 + 3;
 	if (LINES < top_row + 3|| COLS < side_col * 2 + arena_col)
 		vm_exit(all, "Screen is too small\n");
 	marge = (COLS - side_col * 2 - arena_col) / 2;
