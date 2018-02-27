@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/27 03:17:05 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 15:59:18 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 void	visu_print_info(t_all *all);
 void	visu_change_proc(t_all *all, int c);
+void	vm_visu_print_players(t_all *all);
 
 void	vm_init_colors(void)
 {
@@ -180,7 +181,14 @@ void	visu_print_arena(t_all *all)
 
 void	visu_print_info(t_all *all)
 {
+	static int	begin = 1;
+
 	use_default_colors();
+	if (begin)
+	{
+		begin = 0;
+		vm_visu_print_players(all);
+	}
 	if (all->pause)
 		mvwprintw(all->win_info, 0, 0, "PAUSE   ");
 	else
@@ -364,10 +372,10 @@ void	vm_visu_print_players(t_all *all)
 	{
 		wmove(all->win_info, row, 0);
 		wprintw(all->win_info, "Player %d\n", all->champ[i].nb);
-		color = all->color[i] < 0 ? 1 : all->color[i] + 2;
-		wattron(all->win_arena, COLOR_PAIR(color));		
-		wprintw(all->win_info, "\t%s", all->champ[i].path); //ici
-		wattroff(all->win_arena, COLOR_PAIR(color));
+		color = all->color[i] = i + 2;
+		wattron(all->win_info, COLOR_PAIR(color));		
+		wprintw(all->win_info, "\t%s", all->champ[i].header.prog_name);
+		wattroff(all->win_info, COLOR_PAIR(color));
 		++i;
 		row += 4;
 	}
@@ -416,7 +424,7 @@ void	vm_init_visu(t_all *all)
 	keypad(stdscr, 1);
 	vm_make_windows(all);
 	vm_visu_print_border(all);
-	vm_visu_print_players(all);
+	refresh();
 }
 
 void	vm_exit_visu(t_all *all)
