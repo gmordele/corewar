@@ -30,7 +30,6 @@ void	vm_ld(t_all *all, t_process *pro)
 	int	address;
 
 	ft_strcpy(pro->op, "ld");			//	Debug
-//	pf("{y}vm_ld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 2))
 	{
 		if (pro->decoded[0] & T_IND)
@@ -40,9 +39,13 @@ void	vm_ld(t_all *all, t_process *pro)
 		}
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
+		visu_print(all, "ld %08x in r%02x\n", pro->value[0], pro->arg[1]);
 	}
 	else
+	{
+		visu_print(all, "can't ld !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -64,7 +67,6 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 	int	address;
 
 	ft_strcpy(pro->op, "lld");				//	Debug
-//	pf("{y}vm_lld\n{0}");						//	Debug
 	if (vm_check_and_get_args(all, pro, 13))
 	{
 		if (pro->decoded[0] & T_IND)
@@ -75,9 +77,13 @@ void	vm_lld(t_all *all, t_process *pro)		//	A modifier, le lld de zaz ne prend
 		}
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
+		visu_print(all, "lld %08x in r%02x\n", pro->value[0], pro->arg[1]);
 	}
 	else
+	{
+		visu_print(all, "can't lld !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1];
 }
 
@@ -95,15 +101,20 @@ void	vm_ldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "ldi");				//	Debug
-//	pf("{y}vm_ldi\n{0}");						//	Debug
+			ft_strcpy(pro->op, "ldi");				//	Debug
 	if (vm_check_and_get_args(all, pro, 10))
 	{
 		address = pro->pc + ((pro->value[0] + pro->value[1]) % IDX_MOD);
+		address = vm_ajust_addr(address);
 		pro->r[pro->arg[2]] = vm_get_mem(all, address, 4);
+		visu_print(all, "ldi %08x (from %04x) ", pro->r[pro->arg[2]], address);
+		visu_print(all, "in r%02x\n", pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't ldi !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -122,15 +133,19 @@ void	vm_lldi(t_all *all, t_process *pro)
 {
 	int	address;
 
-	ft_strcpy(pro->op, "lldi");				//	Debug
-//	pf("{y}vm_lldi\n{0}");						//	Debug
+			ft_strcpy(pro->op, "lldi");				//	Debug
 	if (vm_check_and_get_args(all, pro, 14))
 	{
-		address = pro->pc + pro->value[0] + pro->value[1];
+		address = vm_ajust_addr(pro->pc + pro->value[0] + pro->value[1]);
 		pro->r[pro->arg[2]] = vm_get_mem(all, address, 4);
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
+		visu_print(all, "lldi %08x (from %04x) ", pro->r[pro->arg[2]], address);
+		visu_print(all, "in r%02x\n", pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't lldi !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

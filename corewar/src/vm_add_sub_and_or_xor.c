@@ -24,9 +24,14 @@ void	vm_add(t_all *all, t_process *pro)
 	{
 		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
+		visu_print(all, "add %08x + %08x ", pro->value[0], pro->value[1]);
+		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't add !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -42,9 +47,14 @@ void	vm_sub(t_all *all, t_process *pro)
 	{
 		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
+		visu_print(all, "sub %08x - %08x ", pro->value[0], pro->value[1]);
+		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't sub !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -73,9 +83,14 @@ void	vm_and(t_all *all, t_process *pro)
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] & pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
+		visu_print(all, "and %08x & %08x ", pro->value[0], pro->value[1]);
+		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't and !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -104,9 +119,14 @@ void	vm_or(t_all *all, t_process *pro)
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] | pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
+		visu_print(all, "or %08x | %08x ", pro->value[0], pro->value[1]);
+		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't or !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }
 
@@ -135,8 +155,13 @@ void	vm_xor(t_all *all, t_process *pro)
 		reg = pro->r + pro->arg[2];
 		*reg = rev_endian_int(pro->value[0] ^ pro->value[1]);
 		pro->carry = (*reg ? 0 : 1);
+		visu_print(all, "xor %08x ^ %08x ", pro->value[0], pro->value[1]);
+		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
 	}
 	else
+	{
+		visu_print(all, "can't xor !\n");
 		ft_strcat(pro->op, " invalide");
+	}
 	pro->step += 1 + pro->arg_size[0] + pro->arg_size[1] + pro->arg_size[2];
 }

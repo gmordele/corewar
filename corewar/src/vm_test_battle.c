@@ -22,6 +22,7 @@ void	vm_clean_process_list(t_all *all)
 	{
 		if (!process->nb_live)
 		{
+			visu_print(all, "R.I.P.: Process_%d\n", process->nb);
 			tmp = process;
 			process = process->next;
 			vm_del_one_pro(&all->process_list, tmp);
@@ -38,14 +39,18 @@ void	vm_clean_process_list(t_all *all)
 void	vm_update_process(t_all *all, t_process *process)
 {
 	extern t_op	g_op_tab[];
+	int			nb_champ;
 	int			op;
 
 	process->pc = vm_ajust_addr(process->pc + process->step);
 	process->step = 1;
 	if ((op = vm_get_mem(all, process->pc, 1)) > 0 && op <= 16)
 	{
-		ft_strcat(process->op, "->");						//	Debug
-		ft_strcat(process->op, g_op_tab[op - 1].name);		//	Debug
+		nb_champ = all->color[vm_ajust_addr(process->pc)];
+		visu_print(all, "Process_%d: (%.3s): ", process->nb, all->champ[nb_champ].header.prog_name);
+		visu_print(all, "%s in %d cycles\n", g_op_tab[op - 1].name, g_op_tab[op - 1].cycles);
+				ft_strcat(process->op, "->");						//	Debug
+				ft_strcat(process->op, g_op_tab[op - 1].name);		//	Debug
 		process->cycle = g_op_tab[op - 1].cycles - 1;
 	}
 }
@@ -67,7 +72,10 @@ void	vm_run_battle(t_all *all)
 			if (process->cycle < 0)
 				vm_update_process(all, process);
 			if (!process->cycle && (op = vm_get_mem(all, process->pc, 1)) > 0 && op <= 16)
+			{
+				visu_print(all, "Process_%d: ", process->nb);
 				all->op_fn[op](all, process);
+			}
 			process = process->next;
 		}
 		if (--all->cycle_to_die <= 0)
