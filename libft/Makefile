@@ -6,7 +6,7 @@
 #    By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/12 16:55:22 by gmordele          #+#    #+#              #
-#    Updated: 2018/02/17 01:13:39 by proso            ###   ########.fr        #
+#    Updated: 2018/02/27 15:06:42 by gmordele         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -14,7 +14,7 @@ NAME			=	libft.a
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Werror -Wextra
+CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
 
 SRC				=	ft_atoi.c				ft_bzero.c					ft_isalnum.c				\
 					ft_isalpha.c			ft_isascii.c	    		ft_isdigit.c				\
