@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/27 21:43:45 by proso            ###   ########.fr       */
+/*   Updated: 2018/02/28 00:00:08 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,5 +152,6 @@ void					visu_print_arena(t_all *all);
 void					visu_change_proc(t_all *all, int c);
 void					vm_visu_print_players(t_all *all);
 void					print_proc(t_all *all, t_process *proc);
+void					vm_init_colors(void);
 
 #endif
