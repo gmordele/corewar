@@ -6,7 +6,7 @@
 /*   By: edebise <edebise@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/11 20:29:04 by edebise           #+#    #+#             */
-/*   Updated: 2018/02/27 17:12:13 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/02/27 17:52:07 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define P4_COL_PC	10
 # define BORDER_COL	11
 # define SELECT_PC	12
+
+# define MARGE_PROC	34
 
 typedef	struct			s_process
 {
