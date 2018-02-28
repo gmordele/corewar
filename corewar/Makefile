@@ -20,20 +20,20 @@ SRC				=	vm_0_main.c					\
 					vm_1_get_params.c			\
 					vm_2_get_champs.c			\
 					vm_3_set_match.c			\
-					vm_test_battle.c			\
+					vm_4_run_battle.c			\
 					vm_5_process_tools.c		\
-					vm_5_op_tools.c				\
-					vm_5_mem_tools.c			\
-					vm_live_zjmp_aff.c			\
-					vm_ld_lld_ldi_lldi.c		\
-					vm_st_sti_fork_lfork.c		\
-					vm_add_sub_and_or_xor.c		\
-					op.c						\
+					vm_6_mem_tools.c			\
+					vm_70_op_tools.c			\
+					vm_71_live_zjmp_aff.c		\
+					vm_72_ld_lld_ldi_lldi.c		\
+					vm_73_st_sti_fork_lfork.c	\
+					vm_74_add_sub_and_or_xor.c	\
 					vm_visu.c					\
 					vm_visu_1.c					\
 					vm_visu_2.c					\
 					vm_visu_3.c					\
 					vm_visu_4.c					\
+					op.c						\
 
 OBJ				=	$(addprefix $(DEST_OBJ), $(SRC:%.c=%.o))
 

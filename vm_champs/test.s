@@ -1,5 +1,5 @@
 .name "Test"
-.comment "Test"
+.comment "Test.comment"
 
 	live	%0
 	live	%0

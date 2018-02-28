@@ -12,64 +12,6 @@
 
 #include "vm_0.h"
 
-void	vm_print_process(t_all *all, t_process *pro, t_process *current, int y)
-{
-	int n;
-
-	n = 10;
-	while (pf(" ") && pro && n--)
-	{
-		if (y == 1)
-			pf(" %spc_%-2d%5d {0} ", all->color[vm_ajust_addr(pro->pc)] >= 0 ?
-				all->champ[(int)all->color[pro->pc % MEM_SIZE]].color : "",
-				pro->nb, vm_ajust_addr(pro->pc));
-		else if (y == 2)
-			pf("(%sy %02d, x %02d{0}) ", all->color[vm_ajust_addr(pro->pc)]
-				>= 0 ? all->champ[(int)all->color[pro->pc % MEM_SIZE]].color
-				: "", vm_ajust_addr(pro->pc) / 64, vm_ajust_addr(pro->pc) % 64);
-		else if (y == 3)
-			pf(pro == current ? "{B} %-11.11s{0} " : "{R} %-11.11s{0} ",
-				pro->op);
-		else if (y == 4)
-			pf(" cycle %4d  ", pro->cycle);
-		else if (y == 5)
-			pf(" carry %4d  ", pro->carry);
-		else if (y > 5 && y < 22)
-			pf("r%02x %08x ", y - 5, pro->r[y - 5]);
-		pro = pro->next;
-	}
-}
-
-/*
-**	vm_print_dump()
-**	print arena on stdout at 'all->dump' cycle
-*/
-
-void	vm_print_dump(t_all *all)
-{
-	int n;
-
-	n = 0;
-	pf("Introducing contestants...\n");
-	while (n < all->nb_champ)
-	{
-		pf("* Player %d, weighing %d bytes,", n + 1, all->champ[n].prog_size);
-		pf(" \"%s\" ", all->champ[n].header.prog_name);
-		pf("(\"%s\") !\n", all->champ[n++].header.comment);
-	}
-	if (all->cycle != all->dump)
-		pf("dump %d, {y}cycle %d, cycle_to_die %d.{0}\n", all->dump,
-			all->cycle, CYCLE_TO_DIE - all->cycle_delta);
-	n = 0;
-	while (n < MEM_SIZE)
-	{
-		pf("0x%04x : %02hhx ", n, all->arena[n]);
-		while (++n % 64)
-			pf("%02hhx ", all->arena[n]);
-		pf("\n");
-	}
-}
-
 /*
 **	vm_set_op_function()
 **	initialize op_fn with op function ptr
@@ -118,4 +60,51 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	vm_set_op_function(all);
+}
+
+/*
+**	vm_print_dump()
+**	print arena memory on stdout at 'all->dump' cycle
+*/
+
+void	vm_print_dump(t_all *all)
+{
+	int n;
+
+	n = 0;
+	while (n < MEM_SIZE)
+	{
+		pf("0x%04x : %02hhx ", n, all->arena[n]);
+		while (++n % 64)
+			pf("%02hhx ", all->arena[n]);
+		pf("\n");
+	}
+}
+
+/*
+**	vm_print_winner()
+**	print winner or dump on stdout
+*/
+
+void	vm_print_winner(t_all *all)
+{
+	int n;
+
+	n = 0;
+	pf("Introducing contestants...\n");
+	while (n < all->nb_champ)
+	{
+		pf("* Player %d, weighing %d bytes,", n + 1, all->champ[n].prog_size);
+		pf(" \"%s\" ", all->champ[n].header.prog_name);
+		pf("(\"%s\") !\n", all->champ[n++].header.comment);
+	}
+	n = 0;
+	if (all->flag & DUMP && all->cycle == all->dump)
+		vm_print_dump(all);
+	else
+	{
+		pf("Contestant %d, \"%s\", ", all->last_live + 1,
+			all->champ[all->last_live].header.prog_name, all->cycle);
+		pf("has won in %d cycles !\n", all->cycle);
+	}
 }
