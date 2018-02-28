@@ -1,3 +1,8 @@
+J'ai rajoute un dossier champs a la base avec un script de test pour faire beaucoup de tests
+Il y a des fails mais je crois que c'est juste une question de formatage quand il y a un gagnant
+
+==
+
 Ajout de 
 void visu_print(t_all *all, char *format, ...) 
 pour afficher sous l'arene avec un formatage a la printf
