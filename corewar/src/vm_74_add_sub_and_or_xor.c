@@ -69,10 +69,10 @@ void	vm_and(t_all *all, t_process *pro)
 	if (vm_check_and_get_args(all, pro, 6))
 	{
 		reg = pro->r + pro->arg[2];
-		*reg = rev_endian_int(pro->value[0] & pro->value[1]);
+		*reg = pro->value[0] & pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "and %08x & %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
+		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't and !\n");
@@ -100,10 +100,10 @@ void	vm_or(t_all *all, t_process *pro)
 	if (vm_check_and_get_args(all, pro, 7))
 	{
 		reg = pro->r + pro->arg[2];
-		*reg = rev_endian_int(pro->value[0] | pro->value[1]);
+		*reg = pro->value[0] | pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "or %08x | %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
+		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't or !\n");
@@ -131,10 +131,10 @@ void	vm_xor(t_all *all, t_process *pro)
 	if (vm_check_and_get_args(all, pro, 8))
 	{
 		reg = pro->r + pro->arg[2];
-		*reg = rev_endian_int(pro->value[0] ^ pro->value[1]);
+		*reg = pro->value[0] ^ pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "xor %08x ^ %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
+		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't xor !\n");

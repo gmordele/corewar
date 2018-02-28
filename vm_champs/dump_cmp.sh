@@ -20,8 +20,8 @@ else
 		if [ "$df" != "" ]
 			then
 			echo "\x1b[31m" $dump "\x1b[39m\n" "$df"
-		#	exit
-		elif [ $((dump % ($step * 100))) -eq 0 ]
+			exit
+		elif [ $((dump % ($step * 10))) -eq 0 ]
 			then
 			echo "\x1b[36m" $dump "\x1b[39m"
 		fi
