@@ -24,23 +24,27 @@
 **		value is set with 4 bytes from arena
 */
 
-int		vm_get_values(t_all *all, t_process *proc)
+int		vm_get_values(t_all *all, t_process *pro)
 {
 	int n;
 
 	n = 0;
-	while (n < MAX_ARGS_NUMBER && proc->decoded[n])
+	while (n < MAX_ARGS_NUMBER && pro->decoded[n])
 	{
-		if (proc->decoded[n] & T_DIR)
-			proc->value[n] = proc->arg[n];
-		else if (proc->decoded[n] & T_REG)
+		if (pro->decoded[n] & T_DIR)
+			pro->value[n] = pro->arg[n];
+		else if (pro->decoded[n] & T_REG)
 		{
-			if (proc->arg[n] < 1 || proc->arg[n] > REG_NUMBER)
+			if (pro->arg[n] < 1 || pro->arg[n] > REG_NUMBER)
 				return (0);
-			proc->value[n] = proc->r[proc->arg[n]];
+			pro->value[n] = pro->r[pro->arg[n]];
 		}
-		else if (proc->decoded[n] & T_IND)
-			proc->value[n] = vm_get_mem(all, proc->pc + proc->arg[n], 4);
+		else if (pro->decoded[n] & T_IND)
+		{
+			if (pro->op == 2 || pro->op == 6 || pro->op == 7 || pro->op == 8)
+				pro->arg[n] %= IDX_MOD;
+			pro->value[n] = vm_get_mem(all, pro->pc + pro->arg[n], 4);
+		}
 		n++;
 	}
 	return (1);
@@ -79,16 +83,16 @@ void	vm_decode_byte(t_all *all, t_process *process, t_op *tab)
 	if (tab->encod_byte)
 	{
 		process->encoded = vm_get_mem(all, process->pc + 1, 1);
-		n = MAX_ARGS_NUMBER;
+		n = MAX_ARGS_NUMBER - 1;
 		while (n-- > 0)
 		{
+			process->encoded >>= 2;
 			if ((process->encoded & 0x3) == REG_CODE)
 				process->decoded[n] = T_REG;
 			else if ((process->encoded & 0x3) == DIR_CODE)
 				process->decoded[n] = T_DIR;
 			else if ((process->encoded & 0x3) == IND_CODE)
 				process->decoded[n] = T_IND;
-			process->encoded >>= 2;
 		}
 	}
 	else
