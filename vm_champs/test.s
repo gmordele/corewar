@@ -1,6 +1,8 @@
 .name "Test"
 .comment "Test.comment"
 
-	live	%0
-	live	%0
-	st		r1, 64
+	ld		%252645135, r1
+	ld		%4294966790, r2
+	ld		%190055425, r3
+label:
+	sti		r1, r2, r3

@@ -99,7 +99,7 @@ void	vm_print_winner(t_all *all)
 		pf("(\"%s\") !\n", all->champ[n++].header.comment);
 	}
 	n = 0;
-	if (all->flag & DUMP && all->cycle == all->dump)
+	if (all->flag & DUMP && all->cycle == all->dump && all->process_list)
 		vm_print_dump(all);
 	else
 	{

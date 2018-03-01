@@ -79,7 +79,7 @@ void		vm_run_battle(t_all *all)
 	while ((process = all->process_list) && all->cycle_to_die > 0
 		&& all->cycle < all->dump)
 	{
-		if (all->flag & VISU && all->cycle >= 39000)
+		if (all->flag & VISU)// && all->cycle >= 39000)
 			vm_visu(all);
 		++all->cycle;
 		while (process)

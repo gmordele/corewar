@@ -1,7 +1,13 @@
+probleme corrigés:
+	%IDX_MOD sur and, or et xor
+	all->nb_live += 1 (même si le live est bidon)
+	all->nb_checks >= MAX_CHECKS (dans manage_cycle)
+	
+
+==
+
 Ces champions different par rapport a notre vm
 ./cor/Explosive_Kitty.cor ./cor/mewtwo3__gen.cor entre 2000 et 3000
-./cor/Explosive_Kitty.cor ./cor/salamahenagalabadoun.cor entre 1000 et 2000
-./cor/Kappa.cor ./cor/salamahenagalabadoun.cor entre 2000 et 3000
 
 ==
 

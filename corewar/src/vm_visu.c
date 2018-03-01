@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/22 15:23:17 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/28 00:02:07 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/03/01 15:44:14 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,7 @@ void		vm_exit_visu(t_all *all)
 		delwin(all->win_arena);
 	if (all->win_info != NULL)
 		delwin(all->win_info);
+	if (all->win_dial != NULL)
+		delwin(all->win_dial);
 	endwin();
 }
