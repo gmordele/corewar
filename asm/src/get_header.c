@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 00:54:39 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/17 02:18:51 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/03/01 20:31:22 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void		get_header(int fd, t_data *data)
 {
 	t_token		*token;
 
-	data->header.magic = reverse_endian_int(COREWAR_EXEC_MAGIC);
 	token = pass_endl_token(fd, data);
 	if (token->type == TOK_COMMAND_NAME)
 	{
@@ -59,6 +58,7 @@ void		get_header(int fd, t_data *data)
 		token = pass_endl_token(fd, data);
 		if (token->type != TOK_COMMAND_COMMENT)
 			syntax_error(token, data);
+		free_token(token);
 		get_comment(fd, data);
 	}
 	else if (token->type == TOK_COMMAND_COMMENT)
@@ -68,9 +68,9 @@ void		get_header(int fd, t_data *data)
 		token = pass_endl_token(fd, data);
 		if (token->type != TOK_COMMAND_NAME)
 			syntax_error(token, data);
+		free_token(token);
 		get_name(fd, data);
 	}
 	else
 		syntax_error(token, data);
-	free_token(token);
 }

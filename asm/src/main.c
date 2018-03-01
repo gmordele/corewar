@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:24:15 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/17 02:28:34 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/03/01 20:29:38 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void	init_data(t_data *data, char *file_name)
 		err_exit_str("init_data(): ft_strdup() failed", data);
 	if ((data->new_file_name = new_file_name(file_name, data)) == NULL)
 		err_exit_str("bad file name", data);
+	data->header.magic = reverse_endian_int(COREWAR_EXEC_MAGIC);
 }
 
 void		free_data(t_data *data)
