@@ -60,12 +60,13 @@ static void	manage_cycle(t_all *all)
 	if (--all->cycle_to_die <= 0)
 	{
 		vm_clean_process_list(all);
-		if (all->nb_live >= NBR_LIVE || ++all->nb_checks > MAX_CHECKS)
+		if (all->nb_live >= NBR_LIVE || ++all->nb_checks >= MAX_CHECKS)
 		{
 			all->cycle_delta += CYCLE_DELTA;
 			all->nb_checks = 0;
 		}
 		all->cycle_to_die = CYCLE_TO_DIE - all->cycle_delta;
+	//	vm_visu(all);
 		all->nb_live = 0;
 	}
 }
@@ -75,10 +76,10 @@ void		vm_run_battle(t_all *all)
 	t_process	*process;
 
 	all->cycle_to_die = CYCLE_TO_DIE;
-	while ((process = all->process_list) && all->cycle_to_die > 0 &&
-														all->cycle < all->dump)
+	while ((process = all->process_list) && all->cycle_to_die > 0
+		&& all->cycle < all->dump)
 	{
-		if (all->flag & VISU) //&& all->cycle >= 00)
+		if (all->flag & VISU && all->cycle >= 39000)
 			vm_visu(all);
 		++all->cycle;
 		while (process)
