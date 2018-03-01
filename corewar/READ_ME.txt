@@ -1,3 +1,10 @@
+Ces champions different par rapport a notre vm
+./cor/Explosive_Kitty.cor ./cor/mewtwo3__gen.cor entre 2000 et 3000
+./cor/Explosive_Kitty.cor ./cor/salamahenagalabadoun.cor entre 1000 et 2000
+./cor/Kappa.cor ./cor/salamahenagalabadoun.cor entre 2000 et 3000
+
+==
+
 J'ai rajoute un dossier champs a la base avec un script de test pour faire beaucoup de tests
 Il y a des fails mais je crois que c'est juste une question de formatage quand il y a un gagnant
 
