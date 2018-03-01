@@ -27,13 +27,14 @@ void	vm_live(t_all *all, t_process *process)
 	if (vm_check_and_get_args(all, process, 1))
 	{
 		++process->nb_live;
+		++all->nb_live;
 		visu_print(all, "made a live");
 		n = all->nb_champ;
 		while (n-- > 0)
 			if (process->value[0] == all->champ[n].nb)
 			{
 				all->last_live = n;
-				++all->nb_live;
+			//	++all->nb_live;
 				visu_print(all, " from %08x", process->value[0]);
 			}
 		visu_print(all, "\n");
