@@ -36,7 +36,10 @@ int		vm_get_values(t_all *all, t_process *pro)
 		else if (pro->decoded[n] & T_REG)
 		{
 			if (pro->arg[n] < 1 || pro->arg[n] > REG_NUMBER)
+			{
+				visu_print(all, " Bad reg ");
 				return (0);
+			}
 			pro->value[n] = pro->r[pro->arg[n]];
 		}
 		else if (pro->decoded[n] & T_IND)
@@ -83,16 +86,16 @@ void	vm_decode_byte(t_all *all, t_process *process, t_op *tab)
 	if (tab->encod_byte)
 	{
 		process->encoded = vm_get_mem(all, process->pc + 1, 1);
-		n = MAX_ARGS_NUMBER - 1;
-		while (n-- > 0)
+		n = 0;
+		while (n < MAX_ARGS_NUMBER && tab->args[n])
 		{
-			process->encoded >>= 2;
-			if ((process->encoded & 0x3) == REG_CODE)
+			if ((process->encoded >> (6 - (2 * n)) & 0x3) == REG_CODE)
 				process->decoded[n] = T_REG;
-			else if ((process->encoded & 0x3) == DIR_CODE)
+			if ((process->encoded >> (6 - (2 * n)) & 0x3) == DIR_CODE)
 				process->decoded[n] = T_DIR;
-			else if ((process->encoded & 0x3) == IND_CODE)
+			if ((process->encoded >> (6 - (2 * n)) & 0x3) == IND_CODE)
 				process->decoded[n] = T_IND;
+			++n;
 		}
 	}
 	else
@@ -104,21 +107,32 @@ void	vm_decode_byte(t_all *all, t_process *process, t_op *tab)
 **	get size of each arg of decoded_byte[]
 */
 
-void	vm_get_arg_size(t_process *process, t_op *tab)
+void	vm_get_arg_size(t_all *all, t_process *process, t_op *tab)
 {
 	int			n;
 
 	n = 0;
+	visu_print(all, "Code");
 	while (tab->args[n])
 	{
 		if (process->decoded[n] & T_REG)
+		{
+			visu_print(all, "_R");
 			process->arg_size[n] = 1;
+		}
 		else if (process->decoded[n] & T_IND)
+		{
+			visu_print(all, "_I");
 			process->arg_size[n] = 2;
+		}
 		else if (process->decoded[n] & T_DIR)
+		{
+			visu_print(all, "_D");
 			process->arg_size[n] = (tab->index ? 2 : 4);
+		}
 		n++;
 	}
+	visu_print(all, " ");
 }
 
 /*
@@ -142,7 +156,7 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 	ft_bzero(process->arg, sizeof(int) * MAX_ARGS_NUMBER);
 	ft_bzero(process->value, sizeof(int) * MAX_ARGS_NUMBER);
 	vm_decode_byte(all, process, &g_op_tab[op_code - 1]);
-	vm_get_arg_size(process, &g_op_tab[op_code - 1]);
+	vm_get_arg_size(all, process, &g_op_tab[op_code - 1]);
 	n = 0;
 	while (g_op_tab[op_code - 1].args[n])
 	{

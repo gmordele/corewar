@@ -66,7 +66,6 @@ static void	manage_cycle(t_all *all)
 			all->nb_checks = 0;
 		}
 		all->cycle_to_die = CYCLE_TO_DIE - all->cycle_delta;
-	//	vm_visu(all);
 		all->nb_live = 0;
 	}
 }
@@ -79,7 +78,7 @@ void		vm_run_battle(t_all *all)
 	while ((process = all->process_list) && all->cycle_to_die > 0
 		&& all->cycle < all->dump)
 	{
-		if (all->flag & VISU)// && all->cycle >= 39000)
+		if (all->flag & VISU)
 			vm_visu(all);
 		++all->cycle;
 		while (process)

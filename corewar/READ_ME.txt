@@ -1,14 +1,17 @@
+J'ai corrigé l'erreur, elle dans la fonction decode_byte().
+C'est encore le encod_byte dans le cas ou les arguments n'existent pas qui faisait une erreur
+Du coup on sautait un st qui changeait le r2 alors qu'il était valide.
+mea culpa
+
+Il reste a continuer les tests de battle et à vérifier aff.
+
+==
+
 probleme corrigés:
 	%IDX_MOD sur and, or et xor
 	all->nb_live += 1 (même si le live est bidon)
 	all->nb_checks >= MAX_CHECKS (dans manage_cycle)
 	
-
-==
-
-Ces champions different par rapport a notre vm
-./cor/Explosive_Kitty.cor ./cor/mewtwo3__gen.cor entre 2000 et 3000
-
 ==
 
 J'ai rajoute un dossier champs a la base avec un script de test pour faire beaucoup de tests
