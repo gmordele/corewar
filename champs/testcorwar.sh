@@ -31,5 +31,6 @@ do
 				break
 			fi
 		done
+		echo ${corarr[$i]} ${corarr[$j]} done
 	done
 done
