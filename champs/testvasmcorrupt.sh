@@ -6,7 +6,7 @@ DEFAULT='\033[0;37m'
 
 CORRUPTDIR='svcorrupt'
 
-noleak=$(valgrind ./dum 2>&1 | grep lost | cut -c 14-)
+noleak=$(valgrind ./dum 2>&1 | grep lost | sed 's/[^ ]* *//')
 
 while :
 do
@@ -15,8 +15,8 @@ do
 	python3 ./corrupt.py $CORRUPTDIR/*.s
 	for file in $CORRUPTDIR/*
 	do
-		leak=$(valgrind ../asm/asm $file 2>&1 1>& -| grep lost | cut -c 14-)
- 		if [ "$leak" == "$noleak"  ]
+		leak=$(valgrind ../asm/asm $file 2>&1 1>& -| grep lost | sed 's/[^ ]* *//')
+ 		if [ "$leak" == "$noleak" ]
  		then
  			echo "$GREEN $file $DEFAULT"
  		else
