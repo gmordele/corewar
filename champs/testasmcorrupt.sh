@@ -15,7 +15,7 @@ do
 	do
 		../asm/asm $file 1>&- 2>&-
 		ret=$?
-		if [ $ret == 0 -o $ret == 1 ]
+		if [ "$ret" = 0 -o "$ret" = 1 ]
 		then
 			echo "$GREEN $file $ret $DEFAULT"
 		else

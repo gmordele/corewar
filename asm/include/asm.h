@@ -134,5 +134,6 @@ int				reverse_endian_int(int	n);
 short			reverse_endian_short(short n);
 void			write_buf_dir_indir(int *i, int j, t_instruction instruction);
 void			write_buf(int fd, t_data *data);
+t_token			*get_next_token_no_exit(int fd, t_data *data);
 
 #endif

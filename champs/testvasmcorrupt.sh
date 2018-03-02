@@ -18,7 +18,7 @@ do
 	do
 		leak=$(valgrind ../asm/asm $file 2>&1 1>& -| grep lost | sed 's/[^ ]* *//')
 		stillreach=$(valgrind ../asm/asm $file 2>&1 | grep reachable | sed 's/[^ ]* *//')
- 		if [ "$leak" == "$noleak" ] && [ "$stillreach" == "$nostillreach" ]
+ 		if [ "$leak" = "$noleak" ] && [ "$stillreach" = "$nostillreach" ]
  		then
  			echo "$GREEN $file $DEFAULT"
  		else
