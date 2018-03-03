@@ -46,6 +46,7 @@ static void	init_data(t_data *data, char *file_name)
 	if ((data->new_file_name = new_file_name(file_name, data)) == NULL)
 		err_exit_str("bad file name", data);
 	data->header.magic = reverse_endian_int(COREWAR_EXEC_MAGIC);
+	data->row = 1;
 }
 
 void		free_data(t_data *data)
