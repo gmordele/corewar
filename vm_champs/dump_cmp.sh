@@ -14,16 +14,20 @@ else
 	while [ 1 ]
 	do
 #		echo "\x1b[36m" $dump "\x1b[39m"
-		./corewar -d $dump $3 $4 $5 $6 > dump_zaz.txt
-		../corewar/corewar -d $dump $3 $4 $5 $6 > dump_team.txt
-		df=`diff dump_zaz.txt dump_team.txt`
-		if [ "$df" != "" ]
+		if [ $((dump % ($step * 10))) -eq 0 ]
 			then
-			echo "\x1b[31m" $dump "\x1b[39m\n" "$df"
+			#echo "\x1b[2K$3 $4 $5 $6 $dump\x1b[A"
+			echo "\x1b[2K \x1b[32m$dump\x1b[39m\x1b[A"
+		fi
+		zaz=`./corewar -d $dump $3 $4 $5 $6`
+		team=`../corewar/corewar -d $dump $3 $4 $5 $6`
+		if [ "$zaz" != "$team" ]
+			then
+			echo "\x1b[2K\x1b[31m$dump\x1b[39m"
+			echo "$zaz" > dump_zaz.txt
+			echo "$team" > dump_team.txt
+			diff dump_zaz.txt dump_team.txt
 			exit
-		elif [ $((dump % ($step * 10))) -eq 0 ]
-			then
-			echo "\x1b[36m" $dump "\x1b[39m"
 		fi
 		dump=$(($dump+$step))
 	done
