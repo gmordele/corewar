@@ -59,6 +59,7 @@ void	vm_set_match(t_all *all)
 		all->process_list->r[1] = all->champ[n].nb;
 		n++;
 	}
+	all->last_live = all->nb_champ - 1;
 	vm_set_op_function(all);
 }
 
@@ -105,6 +106,6 @@ void	vm_print_winner(t_all *all)
 	{
 		pf("Contestant %d, \"%s\", ", all->last_live + 1,
 			all->champ[all->last_live].header.prog_name, all->cycle);
-		pf("has won in %d cycles !\n", all->cycle);
+		pf("has won !\n");//in %d cycles !\n", all->cycle);
 	}
 }
