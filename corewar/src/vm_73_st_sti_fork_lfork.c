@@ -36,7 +36,7 @@ void	vm_st(t_all *all, t_process *pro)
 		{
 			address = (pro->pc + (pro->arg[1] % IDX_MOD));
 			vm_put_mem(all, pro->value[0], address, REG_SIZE);
-			vm_put_color(all, pro, pro->pc + pro->arg[1], REG_SIZE);
+			vm_put_color(all, pro, address, REG_SIZE);
 			visu_print(all, "st %08x at %04x\n", pro->value[0], address);
 		}
 	}
