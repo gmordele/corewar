@@ -96,6 +96,8 @@ typedef struct	s_data
 	char				*str;
 	t_header			header;
 	t_statement_lst		*statement_lst;
+	int					i;
+	int					row;
 }				t_data;
 
 void			err_exit(t_data *data);
