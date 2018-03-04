@@ -1,7 +1,7 @@
 #!/bin/sh
 
-STEP=2000
-MAX=5000
+STEP=5000
+MAX=6000
 CORDIR=./cor
 COREWAR1=../corewar/corewar
 COREWAR2=../vm_champs/corewar
@@ -18,7 +18,7 @@ do
 	#	echo "\x1b[2K\x1b[32m${corarr[$i]}\x1b[0m vs \x1b[36m${corarr[$j]}\x1b[0m\x1b[A"
 		for dump in `seq 1000 $STEP $MAX`
 		do
-			echo "\x1b[2K $dump \x1b[32m${corarr[$i]}\x1b[0m vs \x1b[36m${corarr[$j]}\x1b[0m\x1b[A"
+			echo "\x1b[2K $i/$arrlen $dump \x1b[32m${corarr[$i]}\x1b[0m vs \x1b[36m${corarr[$j]}\x1b[0m\x1b[A"
 			df1=`$COREWAR1 ${corarr[$i]} ${corarr[$j]} -d $dump`
 			df2=`$COREWAR2 ${corarr[$i]} ${corarr[$j]} -d $dump`
 			if [ "$df1" != "$df2" ]
