@@ -14,6 +14,7 @@
 
 /*
 **	vm_add()	code:4
+**	r(arg[0]) + r(arg[1]) -> r(arg[2])
 */
 
 void	vm_add(t_all *all, t_process *pro)
@@ -32,6 +33,7 @@ void	vm_add(t_all *all, t_process *pro)
 
 /*
 **	vm_sub()	code:5
+**	r(arg[0]) - r(arg[1]) -> r(arg[2])
 */
 
 void	vm_sub(t_all *all, t_process *pro)

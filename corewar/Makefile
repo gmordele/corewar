@@ -14,7 +14,7 @@ NAME			=	corewar
 
 CC				=	gcc
 
-CFLAGS			=	-Wall -Werror -Wextra -fsanitize=address
+CFLAGS			=	-Wall -Werror -Wextra #-fsanitize=address
 
 SRC				=	vm_0_main.c					\
 					vm_1_get_params.c			\

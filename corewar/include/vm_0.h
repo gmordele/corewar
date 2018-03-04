@@ -71,7 +71,7 @@ typedef	struct			s_champ
 typedef	struct			s_all
 {
 	t_champ				champ[MAX_PLAYERS];
-	void 				(*op_fn[17])(struct s_all*, t_process*);
+	void				(*op_fn[17])(struct s_all*, t_process*);
 	t_process			*process_list;
 	int					nb_champ;
 	int					nb_process;
@@ -109,8 +109,6 @@ short					rev_endian_short(short in);
 int						rev_endian_int(int in);
 void					vm_set_match(t_all *all);
 void					vm_run_battle(t_all *all);
-void					vm_set_process(t_all *all);
-int						vm_check_process(int *tab, int address);
 t_process				*vm_new_pro(t_all *all, t_process *father, int pc);
 t_process				*vm_add_pro_frt(t_process **list, t_process *new);
 t_process				*vm_del_one_pro(t_process **list, t_process *target);
@@ -120,7 +118,6 @@ int						vm_ajust_addr(long addr);
 int						vm_get_mem(t_all *all, int addr, int size);
 void					vm_put_mem(t_all *all, int in, int addr, int size);
 void					vm_put_color(t_all *a, t_process *p, int addr, int sz);
-void					init_pro_cycle(t_all *all, t_process *proc);
 void					vm_live(t_all *all, t_process *process);
 void					vm_ld(t_all *all, t_process *process);
 void					vm_lld(t_all *all, t_process *proc);
@@ -138,9 +135,6 @@ void					vm_fork(t_all *all, t_process *proc);
 void					vm_lfork(t_all *all, t_process *proc);
 void					vm_aff(t_all *all, t_process *process);
 void					vm_print_winner(t_all *all);
-
-void					vm_print_arena(t_all *all, t_process * process);
-void					db_print_process(t_process *proc, int num);
 void					vm_visu(t_all *all);
 void					vm_init_visu(t_all *all);
 void					vm_exit_visu(t_all *all);

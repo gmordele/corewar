@@ -34,7 +34,7 @@ void	vm_st(t_all *all, t_process *pro)
 		}
 		else
 		{
-			address = (pro->pc + (pro->arg[1] % IDX_MOD));
+			address = pro->pc + (pro->arg[1] % IDX_MOD);
 			vm_put_mem(all, pro->value[0], address, REG_SIZE);
 			vm_put_color(all, pro, address, REG_SIZE);
 			visu_print(all, "st %08x at %04x\n", pro->value[0], address);
@@ -60,9 +60,9 @@ void	vm_sti(t_all *all, t_process *pro)
 
 	if (vm_check_and_get_args(all, pro, 11))
 	{
-		address = (pro->value[1] + pro->value[2]) % IDX_MOD;
-		vm_put_mem(all, pro->value[0], pro->pc + address, REG_SIZE);
-		vm_put_color(all, pro, pro->pc + address, REG_SIZE);
+		address = pro->pc + (pro->value[1] + pro->value[2]) % IDX_MOD;
+		vm_put_mem(all, pro->value[0], address, REG_SIZE);
+		vm_put_color(all, pro, address, REG_SIZE);
 		visu_print(all, "sti %08x at %04x\n", pro->value[0], address);
 	}
 	else

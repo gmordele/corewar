@@ -60,6 +60,7 @@ void	vm_set_match(t_all *all)
 		n++;
 	}
 	all->last_live = all->nb_champ - 1;
+	all->cycle_to_die = CYCLE_TO_DIE;
 	vm_set_op_function(all);
 }
 

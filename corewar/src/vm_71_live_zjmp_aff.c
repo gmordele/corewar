@@ -34,7 +34,6 @@ void	vm_live(t_all *all, t_process *process)
 			if (process->value[0] == all->champ[n].nb)
 			{
 				all->last_live = n;
-			//	++all->nb_live;
 				visu_print(all, " from %08x", process->value[0]);
 			}
 		visu_print(all, "\n");
@@ -80,7 +79,7 @@ void	vm_aff(t_all *all, t_process *process)
 		all->aff_str_size += 1;
 		str = (char*)vm_malloc(all, all->aff_str_size + 1);
 		all->aff_str ? ft_strcpy(str, all->aff_str) : 0;
-		ft_strncat(str, (char*)process->value,1);
+		ft_strncat(str, (char*)process->value, 1);
 		ft_free(1, &all->aff_str);
 		all->aff_str = str;
 		visu_print(all, "aff: %s\n", all->aff_str);

@@ -65,12 +65,3 @@ void		vm_del_all_pro(t_process **list)
 	while (*list)
 		vm_del_one_pro(list, *list);
 }
-
-int			vm_check_process(int *tab, int address)
-{
-	int	n = 0;
-
-	while (tab[n] >= 0 && tab[n] != address)
-		n++;
-	return (tab[n] >= 0);
-}

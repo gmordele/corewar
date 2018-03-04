@@ -38,14 +38,13 @@ int		vm_get_values(t_all *all, t_process *pro)
 		{
 			if (pro->arg[n] < 1 || pro->arg[n] > REG_NUMBER)
 			{
-				visu_print(all, " Bad reg ");
+				visu_print(all, " Bad reg, ");
 				return (0);
 			}
 			pro->value[n] = pro->r[pro->arg[n]];
 		}
 		else if (pro->decoded[n] & T_IND)
 		{
-			//if (pro->op == 2 || pro->op == 6 || pro->op == 7 || pro->op == 8)
 			if (pro->op != 14)
 				pro->arg[n] %= IDX_MOD;
 			pro->value[n] = vm_get_mem(all, pro->pc + pro->arg[n], 4);
@@ -163,7 +162,10 @@ int		vm_check_and_get_args(t_all *all, t_process *process, int op_code)
 	while (g_op_tab[op_code - 1].args[n])
 	{
 		if (!(g_op_tab[op_code - 1].args[n] & process->decoded[n]))
+		{
+			visu_print(all, " Bad encod_byte, ");
 			return (0);
+		}
 		n++;
 	}
 	vm_get_args(all, process, &g_op_tab[op_code - 1]);

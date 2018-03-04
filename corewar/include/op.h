@@ -51,28 +51,28 @@ typedef char	t_arg_type;
 # define T_IND					4
 # define T_LAB					8
 
-typedef struct	s_op
+typedef struct					s_op
 {
-	char		*name;
-	int			n_args;
-	t_arg_type	args[MAX_ARGS_NUMBER];
-	int			opcode;
-	int			cycles;
-	char		*comment;
-	int			encod_byte;
-	int			index;
-}				t_op;
+	char						*name;
+	int							n_args;
+	t_arg_type					args[MAX_ARGS_NUMBER];
+	int							opcode;
+	int							cycles;
+	char						*comment;
+	int							encod_byte;
+	int							index;
+}								t_op;
 
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
-typedef struct		s_header
+typedef struct					s_header
 {
-	unsigned int		magic;
-	char				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int		prog_size;
-	char				comment[COMMENT_LENGTH + 1];
-}					t_header;
+	unsigned int				magic;
+	char						prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int				prog_size;
+	char						comment[COMMENT_LENGTH + 1];
+}								t_header;
 
 #endif
