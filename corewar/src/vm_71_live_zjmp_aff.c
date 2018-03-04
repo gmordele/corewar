@@ -77,12 +77,13 @@ void	vm_aff(t_all *all, t_process *process)
 
 	if (vm_check_and_get_args(all, process, 16))
 	{
-		str = (char*)vm_malloc(all, all->aff_str_size + 2);
-		ft_memcpy(str, all->aff_str, all->aff_str_size);
-		str[all->aff_str_size++] = (char)process->value[0];
+		all->aff_str_size += 1;
+		str = (char*)vm_malloc(all, all->aff_str_size + 1);
+		all->aff_str ? ft_strcpy(str, all->aff_str) : 0;
+		ft_strncat(str, (char*)process->value,1);
 		ft_free(1, &all->aff_str);
 		all->aff_str = str;
-		visu_print(all, "aff > %s\n", all->aff_str);
+		visu_print(all, "aff: %s\n", all->aff_str);
 	}
 	else
 		visu_print(all, "can't aff !\n");

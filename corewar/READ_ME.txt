@@ -1,3 +1,11 @@
+Il faudrait prévoir de faire pause quand la partie est finie !
+
+J'ai encore corrigé une erreur de %IDX_MOD qui faisait merder un seul combat parmis tous les match possibles dans champs/cor/
+
+J'ai fait les tests avec l'instruction aff, j'ai ajouté le flag -a (--aff).
+
+==
+
 J'ai corrigé l'erreur, elle dans la fonction decode_byte().
 C'est encore le encod_byte dans le cas ou les arguments n'existent pas qui faisait une erreur
 Du coup on sautait un st qui changeait le r2 alors qu'il était valide.

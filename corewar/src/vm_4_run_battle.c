@@ -39,18 +39,18 @@ void		vm_clean_process_list(t_all *all)
 void		vm_update_process(t_all *all, t_process *process)
 {
 	extern t_op	g_op_tab[];
-	int			nb_champ;
+//	int			nb_champ;
 
 	process->pc = vm_ajust_addr(process->pc + process->step);
 	process->step = 1;
 	if ((process->op = vm_get_mem(all, process->pc, 1)) > 0
 														&& process->op <= 16)
 	{
-		nb_champ = all->color[vm_ajust_addr(process->pc)];
-		visu_print(all, "Process_%d: (%.3s): ", process->nb,
-										all->champ[nb_champ].header.prog_name);
-		visu_print(all, "%s in %d cycles\n", g_op_tab[process->op - 1].name,
-											g_op_tab[process->op - 1].cycles);
+	//	nb_champ = all->color[vm_ajust_addr(process->pc)];
+	//	visu_print(all, "Process_%d: (%.3s): ", process->nb,
+	//									all->champ[nb_champ].header.prog_name);
+	//	visu_print(all, "%s in %d cycles\n", g_op_tab[process->op - 1].name,
+	//										g_op_tab[process->op - 1].cycles);
 		process->cycle = g_op_tab[process->op - 1].cycles - 1;
 	}
 }
@@ -95,4 +95,7 @@ void		vm_run_battle(t_all *all)
 		}
 		manage_cycle(all);
 	}
+	all->aff_str_size ? visu_print(all, "\nAff:%.*s\n", all->aff_str_size, all->aff_str) : 0;
+	visu_print(all, "\n##### THE WINNER IS \"%s\" #####", all->champ[all->last_live].header.prog_name);
+	all->flag & VISU && !all->pause++ ? vm_visu(all) : 0;	//	End
 }

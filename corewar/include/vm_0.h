@@ -19,6 +19,7 @@
 # include <unistd.h>
 # define VISU 1
 # define DUMP 2
+# define AFF 4
 
 # define P0_COL		1
 # define P1_COL		2
@@ -84,7 +85,6 @@ typedef	struct			s_all
 	int					nb_checks;
 	int					aff_str_size;
 	char				*aff_str;
-	char				*gnl;
 	char				arena[MEM_SIZE];
 	char				color[MEM_SIZE];
 	WINDOW				*win_arena;

@@ -104,6 +104,8 @@ void	vm_print_winner(t_all *all)
 		vm_print_dump(all);
 	else
 	{
+		if (all->flag & AFF)
+			pf("Aff:%s\n", all->aff_str);
 		pf("Contestant %d, \"%s\", ", all->last_live + 1,
 			all->champ[all->last_live].header.prog_name, all->cycle);
 		pf("has won !\n");//in %d cycles !\n", all->cycle);

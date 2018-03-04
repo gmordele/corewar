@@ -108,11 +108,12 @@ void	vm_get_flag(t_all *all, int *n, char **av)
 {
 	if (!ft_strcmp(av[*n], "-help") || !ft_strcmp(av[*n], "--help"))
 		vm_usage(all, 0);
-	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "-dump")
-		|| !ft_strcmp(av[*n], "--dump"))
+	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "--dump"))
 		vm_get_dump(all, n, av);
 	else if (!ft_strcmp(av[*n], "-visu") || !ft_strcmp(av[*n], "--visu"))
 		all->flag += (all->flag & VISU ? 0 : VISU);
+	else if (!ft_strcmp(av[*n], "-a") || !ft_strcmp(av[*n], "--aff"))
+		all->flag += (all->flag & AFF ? 0 : AFF);
 	else
 		vm_usage(all, spf("corewar: '%s' is not a valid flag\n", av[*n]));
 }
