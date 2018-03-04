@@ -1,6 +1,11 @@
+Et merde, testcorwar.sh m'a trouvé une merde avec 
+../champs/cor/ultima.cor ../champs/cor/youforkmytralala.cor a 5793
+
 Il manque peu être un usage dans l'asm ??
 
 Il faudrait prévoir de faire pause quand la partie est finie !
+
+==
 
 J'ai encore corrigé une erreur de %IDX_MOD qui faisait merder un seul combat parmis tous les match possibles dans champs/cor/
 
