@@ -22,6 +22,7 @@
 **		value[n] is set with the arg[n]
 **	if decoded[n] is a T_IND
 **		value is set with 4 bytes from arena
+**		the address is set with %IDX_MOD except for lldi
 */
 
 int		vm_get_values(t_all *all, t_process *pro)
@@ -44,7 +45,8 @@ int		vm_get_values(t_all *all, t_process *pro)
 		}
 		else if (pro->decoded[n] & T_IND)
 		{
-			if (pro->op == 2 || pro->op == 6 || pro->op == 7 || pro->op == 8)
+			//if (pro->op == 2 || pro->op == 6 || pro->op == 7 || pro->op == 8)
+			if (pro->op != 14)
 				pro->arg[n] %= IDX_MOD;
 			pro->value[n] = vm_get_mem(all, pro->pc + pro->arg[n], 4);
 		}
@@ -112,7 +114,7 @@ void	vm_get_arg_size(t_all *all, t_process *process, t_op *tab)
 	int			n;
 
 	n = 0;
-	visu_print(all, "Code");
+	visu_print(all, "Arg");
 	while (tab->args[n])
 	{
 		if (process->decoded[n] & T_REG)
@@ -132,7 +134,7 @@ void	vm_get_arg_size(t_all *all, t_process *process, t_op *tab)
 		}
 		n++;
 	}
-	visu_print(all, " ");
+	visu_print(all, "\t");
 }
 
 /*
