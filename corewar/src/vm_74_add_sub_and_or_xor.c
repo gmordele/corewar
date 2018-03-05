@@ -14,6 +14,7 @@
 
 /*
 **	vm_add()	code:4
+**	r(arg[0]) + r(arg[1]) -> r(arg[2])
 */
 
 void	vm_add(t_all *all, t_process *pro)
@@ -23,7 +24,7 @@ void	vm_add(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = pro->value[0] + pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 		visu_print(all, "add %08x + %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
+		visu_print(all, "= %08x -> r%02x\n", pro->value[0], pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't add !\n");
@@ -32,6 +33,7 @@ void	vm_add(t_all *all, t_process *pro)
 
 /*
 **	vm_sub()	code:5
+**	r(arg[0]) - r(arg[1]) -> r(arg[2])
 */
 
 void	vm_sub(t_all *all, t_process *pro)
@@ -41,7 +43,7 @@ void	vm_sub(t_all *all, t_process *pro)
 		pro->r[pro->arg[2]] = pro->value[0] - pro->value[1];
 		pro->carry = (pro->r[pro->arg[2]] ? 0 : 1);
 		visu_print(all, "sub %08x - %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", pro->value[0], pro->arg[2]);
+		visu_print(all, "= %08x -> r%02x\n", pro->value[0], pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't sub !\n");
@@ -72,7 +74,7 @@ void	vm_and(t_all *all, t_process *pro)
 		*reg = pro->value[0] & pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "and %08x & %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
+		visu_print(all, "= %08x -> r%02x\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't and !\n");
@@ -103,7 +105,7 @@ void	vm_or(t_all *all, t_process *pro)
 		*reg = pro->value[0] | pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "or %08x | %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
+		visu_print(all, "= %08x -> r%02x\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't or !\n");
@@ -134,7 +136,7 @@ void	vm_xor(t_all *all, t_process *pro)
 		*reg = pro->value[0] ^ pro->value[1];
 		pro->carry = (*reg ? 0 : 1);
 		visu_print(all, "xor %08x ^ %08x ", pro->value[0], pro->value[1]);
-		visu_print(all, "= %08x (r%02x)\n", *reg, pro->arg[2]);
+		visu_print(all, "= %08x -> r%02x\n", *reg, pro->arg[2]);
 	}
 	else
 		visu_print(all, "can't xor !\n");

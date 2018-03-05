@@ -21,6 +21,7 @@
 int		vm_exit(t_all *all, char *error_mail)
 {
 	vm_del_all_pro(&all->process_list);
+	ft_free(1, &all->aff_str);
 	while (all->nb_champ-- > 0)
 		close(all->champ[all->nb_champ].fd);
 	if (all->flag & VISU)

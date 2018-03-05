@@ -63,9 +63,16 @@ static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 	free_token(token);
 	while (i < stat_instruc->op_instruc->n_args)
 	{
-		token = get_next_token(fd, data);
+		if ((token = get_next_token_no_exit(fd, data)) == NULL)
+		{
+			free_parameters(i, stat_instruc);
+			err_exit(data);
+		}
 		if (token->type != TOK_SEPARATOR)
+		{
+			free_parameters(i, stat_instruc);
 			syntax_error(token, data);
+		}
 		free_token(token);
 		token = get_next_token(fd, data);
 		get_parameter(token, stat_instruc, i, data);

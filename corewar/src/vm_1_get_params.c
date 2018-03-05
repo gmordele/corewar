@@ -14,11 +14,11 @@
 
 /*
 **	vm_get_champ_nb()
-**	si le flag -n est absent : défini le nb du champion a 0
-**	si le flag -n est présent : défini le nb du champion avec le param suivant
-**					sort avec vm_usage() si le param n'est pas valide
-**					sort avec vm_usage() si le nb est celui d'un autre champ
-**					l'index *n des params est incrémenté si besoin
+**	define champ_nb to 0 if no flag '-n'
+**	otherwise, get champ_nb with the following param
+**		the program quits with vm_usage() if:
+**			the param is not an int
+**			another champ has the same int
 */
 
 int		vm_get_champ_nb(t_all *all, int *n, char **av)
@@ -35,11 +35,11 @@ int		vm_get_champ_nb(t_all *all, int *n, char **av)
 		champ_nb = (s ? ft_atoi_next(&s) : 0);
 		if (!s || *s || !champ_nb || champ_nb != l)
 			vm_usage(all, spf("corewar: '%s' is not a valid champ number\n",
-																	av[*n]));
+			av[*n]));
 		if (champ_nb == all->champ[0].nb || champ_nb == all->champ[1].nb
-												|| champ_nb == all->champ[2].nb)
-			vm_usage(all, spf("corewar: many champs have the same number '%s'\n"
-																	, av[*n]));
+			|| champ_nb == all->champ[2].nb)
+			vm_usage(all, spf("corewar: many champs have the same nb '%s'\n",
+			av[*n]));
 		n[0]++;
 	}
 	return (champ_nb);
@@ -47,12 +47,12 @@ int		vm_get_champ_nb(t_all *all, int *n, char **av)
 
 /*
 **	vm_get_champ_path()
-**	la fonction est appellée pour tous les params concernant les champs
-**	défini champ->nb avec vm_get_champ_nb()
-**	un champ est ajouté dans la liste all->champs :
-**		si le path contient une extension '.cor'
-**		si le fd du path est valide (fd = open(path))
-**	sinon, le programme sort avec vm_usage()
+**	function called for each champ path in av[]
+**	define a champ_nb with vm_get_champ_nb()
+**	the champ path is checked
+**		if it is a .cor extension
+**		if open(path) works
+**	otherwise, the program quits with vm_usage()
 */
 
 void	vm_get_champ_path(t_all *all, int *n, char **av)
@@ -72,10 +72,9 @@ void	vm_get_champ_path(t_all *all, int *n, char **av)
 
 /*
 **	vm_get_dump()
-**	la fonction est appellée après le flag '-dump'
-**	l'index *n des params est incrémenté
-**	défini all->dump si le param suivant est un int valide
-**	sinon, le programme sort avec vm_usage()
+**	function called after flag DUMP
+**	get value of all->dump in param after DUMP
+**	if the value is not valid, the program quits with vm_usage()
 */
 
 void	vm_get_dump(t_all *all, int *n, char **av)
@@ -99,20 +98,21 @@ void	vm_get_dump(t_all *all, int *n, char **av)
 
 /*
 **	vm_get_flag()
-**	la fonction est appellée si un param commence par '-'
-**	si le flag est traité si il est valide
-**	sinon, le programme sort avec vm_usage()
+**	function called if av[*n] begin with '-'
+**	get flag if av[*n] is a valid flag string
+**	otherwise, the program quits with vm_usage()
 */
 
 void	vm_get_flag(t_all *all, int *n, char **av)
 {
 	if (!ft_strcmp(av[*n], "-help") || !ft_strcmp(av[*n], "--help"))
 		vm_usage(all, 0);
-	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "-dump")
-		|| !ft_strcmp(av[*n], "--dump"))
+	else if (!ft_strcmp(av[*n], "-d") || !ft_strcmp(av[*n], "--dump"))
 		vm_get_dump(all, n, av);
 	else if (!ft_strcmp(av[*n], "-visu") || !ft_strcmp(av[*n], "--visu"))
 		all->flag += (all->flag & VISU ? 0 : VISU);
+	else if (!ft_strcmp(av[*n], "-a") || !ft_strcmp(av[*n], "--aff"))
+		all->flag += (all->flag & AFF ? 0 : AFF);
 	else
 		vm_usage(all, spf("corewar: '%s' is not a valid flag\n", av[*n]));
 }

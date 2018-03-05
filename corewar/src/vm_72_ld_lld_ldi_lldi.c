@@ -27,15 +27,8 @@
 
 void	vm_ld(t_all *all, t_process *pro)
 {
-//	int	address;
-
 	if (vm_check_and_get_args(all, pro, 2))
 	{
-	/*	if (pro->decoded[0] & T_IND)
-		{
-			address = pro->pc + (pro->arg[0] % IDX_MOD);
-			pro->value[0] = vm_get_mem(all, address, 4);
-		}*/
 		pro->r[pro->arg[1]] = pro->value[0];
 		pro->carry = (pro->r[pro->arg[1]] ? 0 : 1);
 		visu_print(all, "ld %08x in r%02x\n", pro->value[0], pro->arg[1]);

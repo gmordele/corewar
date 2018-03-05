@@ -59,6 +59,8 @@ void	vm_set_match(t_all *all)
 		all->process_list->r[1] = all->champ[n].nb;
 		n++;
 	}
+	all->last_live = all->nb_champ - 1;
+	all->cycle_to_die = CYCLE_TO_DIE;
 	vm_set_op_function(all);
 }
 
@@ -103,8 +105,10 @@ void	vm_print_winner(t_all *all)
 		vm_print_dump(all);
 	else
 	{
+		if (all->flag & AFF)
+			pf("Aff:%s\n", all->aff_str);
 		pf("Contestant %d, \"%s\", ", all->last_live + 1,
 			all->champ[all->last_live].header.prog_name, all->cycle);
-		pf("has won in %d cycles !\n", all->cycle);
+		pf("has won !\n");//in %d cycles !\n", all->cycle);
 	}
 }

@@ -62,23 +62,41 @@ static t_token	*end_gnl(int ret_gnl, int i, int row, t_data *data)
 	return (ret);
 }
 
-t_token			*get_next_token(int fd, t_data *data)
+t_token			*get_next_token_no_exit(int fd, t_data *data)
 {
-	static int	i = 0;
-	static int	row = 1;
 	t_token		*token;
 	int			ret_gnl;
 
 	data->fd = fd;
 	if (data->str == NULL)
 		if ((ret_gnl = get_next_line(data->fd, &(data->str))) <= 0)
-			return (end_gnl(ret_gnl, i, row, data));
-	pass_space_com(&i, data->str);
-	token = get_token(&(data->str), &i, &row, data);
+			return (end_gnl(ret_gnl, data->i, data->row, data));
+	pass_space_com(&(data->i), data->str);
+	token = get_token(&(data->str), &(data->i), &(data->row), data);
 	if (token == NULL)
 	{
 		ft_strdel(&(data->str));
-		ft_dprintf(2, "Lexical error at [%d:%d]\n", row, i + 1);
+		ft_dprintf(2, "Lexical error at [%d:%d]\n", data->row, data->i + 1);
+		return (NULL);
+	}
+	return (token);
+}
+
+t_token			*get_next_token(int fd, t_data *data)
+{
+	t_token		*token;
+	int			ret_gnl;
+
+	data->fd = fd;
+	if (data->str == NULL)
+		if ((ret_gnl = get_next_line(data->fd, &(data->str))) <= 0)
+			return (end_gnl(ret_gnl, data->i, data->row, data));
+	pass_space_com(&(data->i), data->str);
+	token = get_token(&(data->str), &(data->i), &(data->row), data);
+	if (token == NULL)
+	{
+		ft_strdel(&(data->str));
+		ft_dprintf(2, "Lexical error at [%d:%d]\n", data->row, data->i + 1);
 		err_exit(data);
 	}
 	return (token);
