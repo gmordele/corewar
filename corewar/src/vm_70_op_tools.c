@@ -22,7 +22,7 @@
 **		value[n] is set with the arg[n]
 **	if decoded[n] is a T_IND
 **		value is set with 4 bytes from arena
-**		the address is set with %IDX_MOD except for lldi
+**		the address is set with %IDX_MOD
 */
 
 int		vm_get_values(t_all *all, t_process *pro)
@@ -45,8 +45,7 @@ int		vm_get_values(t_all *all, t_process *pro)
 		}
 		else if (pro->decoded[n] & T_IND)
 		{
-			if (pro->op != 14)
-				pro->arg[n] %= IDX_MOD;
+			pro->arg[n] %= IDX_MOD;
 			pro->value[n] = vm_get_mem(all, pro->pc + pro->arg[n], 4);
 		}
 		n++;
