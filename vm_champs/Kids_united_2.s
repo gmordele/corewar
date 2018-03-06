@@ -3,7 +3,7 @@
 
 	st		r1, 6
 	live	%0
-	ld		%200,	r10
+	ld		%480,	r10
 	fork	%:two
 	fork	%:four
 one:
@@ -31,4 +31,4 @@ four:
 jump:
 	live	%0
 	sti		r5, r10, r11
-	zjmp	%197
+	zjmp	%477

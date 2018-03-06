@@ -34,7 +34,7 @@ void	vm_live(t_all *all, t_process *process)
 			if (process->value[0] == all->champ[n].nb)
 			{
 				all->last_live = n;
-				visu_print(all, " from %08x", process->value[0]);
+				visu_print(all, " from %s", all->champ[n].header.prog_name);
 			}
 		visu_print(all, "\n");
 	}

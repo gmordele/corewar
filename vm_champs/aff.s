@@ -2,7 +2,7 @@
 .comment "Test aff"
 
 	live	%0
-	ld		%0, r1
+	ld		%33, r1
 	ld		%1, r2
 while:
 	st		r1, 128
