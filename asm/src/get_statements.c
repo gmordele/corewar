@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/13 22:28:14 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/16 04:54:25 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/03/06 16:56:03 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,14 @@ static void	get_parameters(t_instruction *stat_instruc, int fd, t_data *data)
 	free_token(token);
 	while (i < stat_instruc->op_instruc->n_args)
 	{
-		if ((token = get_next_token_no_exit(fd, data)) == NULL)
-		{
-			free_parameters(i, stat_instruc);
-			err_exit(data);
-		}
+		token = get_parameter_token(stat_instruc, fd, i, data);
 		if (token->type != TOK_SEPARATOR)
 		{
 			free_parameters(i, stat_instruc);
 			syntax_error(token, data);
 		}
 		free_token(token);
-		token = get_next_token(fd, data);
+		token = get_parameter_token(stat_instruc, fd, i, data);
 		get_parameter(token, stat_instruc, i, data);
 		free_token(token);
 		++i;

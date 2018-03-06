@@ -6,7 +6,7 @@
 /*   By: gmordele <gmordele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/10 01:19:23 by gmordele          #+#    #+#             */
-/*   Updated: 2018/02/17 02:14:45 by gmordele         ###   ########.fr       */
+/*   Updated: 2018/03/06 16:55:27 by gmordele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,7 @@ short			reverse_endian_short(short n);
 void			write_buf_dir_indir(int *i, int j, t_instruction instruction);
 void			write_buf(int fd, t_data *data);
 t_token			*get_next_token_no_exit(int fd, t_data *data);
+t_token			*get_parameter_token(t_instruction *stat_instruc, int fd, int i,
+									t_data *data);
 
 #endif
